@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ReLaunchHer - Empowering Women to Restart Careers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #7F56D9;
+            --primary-dark: #6941C6;
+            --primary-light: #F4EBFF;
+            --secondary: #F9A8D4;
+            --accent: #38BDF8;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --text-light: #9CA3AF;
+            --border: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --border-radius: 24px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 12px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .nav-logo i {
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Buttons */
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 4px 15px rgba(127, 86, 217, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(127, 86, 217, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 2rem 4rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            gap: 4rem;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .hero-image {
+            flex: 1;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Auth Container */
+        .auth-container {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-md);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            margin-top: 1rem;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 0.75rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: -2px;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .feature-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 2rem;
+            background: var(--primary-light);
+            max-width: 1280px;
+            margin: 0 auto;
+            border-radius: var(--border-radius);
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 2rem;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .step-item:hover {
+            transform: translateX(10px);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+
+        .step-content h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: var(--text-secondary);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 5rem 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .testimonials-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .share-story-btn {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .share-story-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .testimonials-slider {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-info h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .testimonial-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .testimonial-rating {
+            color: #FFB800;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-content {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .testimonial-date {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 1rem;
+        }
+
+        .delete-story {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .delete-story:hover {
+            color: var(--error);
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: var(--border-radius);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Wellness Section */
+        .wellness {
+            padding: 5rem 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .wellness-card {
+            background: linear-gradient(135deg, var(--primary-light), #FFFFFF);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.2;
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+        }
+
+        .quote-text {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .quote-author {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .refresh-quote {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--card-bg);
+            padding: 4rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-content.large {
+            max-width: 700px;
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--primary);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .rating-star {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .rating-star:hover, .rating-star.active {
+            color: #FFB800;
+        }
+
+        /* Choice Cards */
+        .choice-container {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .choice-card {
+            flex: 1;
+            min-width: 200px;
+            background: var(--background);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .choice-card.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .choice-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .choice-icon i {
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .choice-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .choice-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 8rem;
+            }
+
+            .hero-buttons, .hero-stats {
+                justify-content: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .step-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .step-number {
+                margin: 0 auto;
+            }
+            
+            .quote-text {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-slider {
+                grid-template-columns: 1fr;
+            }
+
+            .choice-container {
+                flex-direction: column;
+            }
+        }
+
+        /* Notification */
+        #notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-rocket"></i>
+                    <span>ReLaunchHer</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#testimonials">Success Stories</a>
+                    <a href="#wellness">Wellness</a>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-secondary" id="login-btn">Login</button>
+                    <button class="btn-primary" id="signup-btn">Join Free</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Your <span class="gradient-text">Second Innings</span><br>
+                    Starts Here
+                </h1>
+                <p class="hero-subtitle">
+                    ReLaunchHer helps women restart their careers and create successful micro-businesses from home. 
+                    Powered by AI, we provide personalized guidance every step of the way.
+                </p>
+                
+                <!-- Login/Signup Container -->
+                <div class="auth-container">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" data-tab="login">Login</button>
+                        <button class="auth-tab" data-tab="signup">Sign Up</button>
+                    </div>
+                    
+                    <form id="login-form" class="auth-form active">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="login-email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="login-password" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn-primary btn-full">Login</button>
+                    </form>
+                    
+                    <form id="signup-form" class="auth-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input type="text" id="signup-firstname" placeholder="First name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" id="signup-lastname" placeholder="Last name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="signup-email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="signup-password" placeholder="Create a password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" id="signup-confirm" placeholder="Confirm your password" required>
+                        </div>
+                        <button type="submit" class="btn-primary btn-full">Create Account</button>
+                    </form>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Women Empowered</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">85%</span>
+                        <span class="stat-label">Success Rate</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Businesses Launched</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Happy woman working from home">
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <div class="section-header">
+                <h2>Everything You Need to <span class="gradient-text">ReLaunch</span></h2>
+                <p>AI-powered tools designed specifically for women restarting their careers</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card" onclick="window.location.href='career-restart.html'">
+                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>AI Career Restart</h3>
+                    <p>Upload your resume and get AI-powered skill analysis and personalized career roadmap.</p>
+                </div>
+                <div class="feature-card" onclick="window.location.href='business-generator.html'">
+                    <div class="feature-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h3>AI Business Generator</h3>
+                    <p>Get personalized micro-business ideas generated by AI based on your skills.</p>
+                </div>
+                <div class="feature-card" onclick="window.location.href='roadmap.html'">
+                    <div class="feature-icon"><i class="fas fa-road"></i></div>
+                    <h3>AI Learning Roadmap</h3>
+                    <p>Follow a personalized learning path created by AI to acquire new skills.</p>
+                </div>
+                <div class="feature-card" onclick="window.location.href='community.html'">
+                    <div class="feature-icon"><i class="fas fa-users"></i></div>
+                    <h3>Community Support</h3>
+                    <p>Connect with other women, share experiences, and get mentorship.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section id="how-it-works" class="how-it-works">
+            <div class="section-header">
+                <h2>Your Journey in <span class="gradient-text">4 Simple Steps</span></h2>
+                <p>AI-powered guidance every step of the way</p>
+            </div>
+            <div class="steps-container">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Share Your Story</h3>
+                        <p>Upload your resume - AI analyzes your skills and experience</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>AI Career Analysis</h3>
+                        <p>Get AI-powered career recommendations and skill gap analysis</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Personalized Learning</h3>
+                        <p>Follow AI-generated roadmap to learn new skills</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Launch & Succeed</h3>
+                        <p>Start your career or business with confidence</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wellness Section -->
+        <section id="wellness" class="wellness">
+            <div class="section-header">
+                <h2>Daily <span class="gradient-text">Motivation</span></h2>
+                <p>Stay inspired on your journey</p>
+            </div>
+            <div class="wellness-card">
+                <i class="fas fa-quote-left quote-icon"></i>
+                <div class="quote-text" id="daily-quote">"The future belongs to those who believe in the beauty of their dreams."</div>
+                <div class="quote-author" id="quote-author">- Eleanor Roosevelt</div>
+                <button class="refresh-quote" id="refresh-quote"><i class="fas fa-sync-alt"></i> New Quote</button>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="testimonials" class="testimonials">
+            <div class="testimonials-header">
+                <div class="section-header" style="margin-bottom: 0;">
+                    <h2>Success Stories from <span class="gradient-text">Our Community</span></h2>
+                    <p>Real women, real transformations powered by AI</p>
+                </div>
+                <button class="share-story-btn" id="share-story-btn">
+                    <i class="fas fa-plus-circle"></i> Share Your Story
+                </button>
+            </div>
+            <div class="testimonials-slider" id="testimonials-container">
+                <!-- Testimonials loaded via JS -->
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta">
+            <div class="cta-content">
+                <h2>Ready to Write Your Success Story?</h2>
+                <p>Join thousands of women who've found their path to financial independence</p>
+                <button class="btn-primary btn-large" id="cta-start-btn">Start Free Today</button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-rocket"></i>
+                        <span>ReLaunchHer</span>
+                    </div>
+                    <p>Empowering women to restart careers and create successful businesses from home.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="career-restart.html">Career Restart</a>
+                    <a href="business-generator.html">Business Generator</a>
+                    <a href="roadmap.html">Learning Roadmap</a>
+                    <a href="#wellness">Wellness</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <a href="career-restart.html">Career Restart</a>
+                    <a href="business-generator.html">Business Ideas</a>
+                    <a href="roadmap.html">Learning Roadmap</a>
+                    <a href="community.html">Community</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> hello@relaunchher.com</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ReLaunchHer. All rights reserved. Empowering women everywhere.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Share Story Modal -->
+    <div id="share-story-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Share Your Success Story</h2>
+            <p>Inspire other women by sharing your journey</p>
+            <form id="share-story-form">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="story-name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Role/Achievement</label>
+                    <input type="text" id="story-role" placeholder="e.g., Restarted as Software Developer" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Story</label>
+                    <textarea id="story-content" rows="4" placeholder="Share your experience..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Rating</label>
+                    <div class="rating-stars" id="rating-stars">
+                        <i class="fas fa-star rating-star" data-rating="1"></i>
+                        <i class="fas fa-star rating-star" data-rating="2"></i>
+                        <i class="fas fa-star rating-star" data-rating="3"></i>
+                        <i class="fas fa-star rating-star" data-rating="4"></i>
+                        <i class="fas fa-star rating-star" data-rating="5"></i>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Share Story</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Path Selection Modal -->
+    <div id="path-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="onboarding-header">
+                <h2>Welcome! Let's Get Started</h2>
+                <p>Choose your path to begin your journey</p>
+            </div>
+            <div class="choice-container">
+                <div class="choice-card" data-path="career">
+                    <div class="choice-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Career Restart</h3>
+                    <p>I want to restart my career and get back to work</p>
+                </div>
+                <div class="choice-card" data-path="business">
+                    <div class="choice-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Start a Business</h3>
+                    <p>I want to start my own micro-business from home</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Details Modal -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content large">
+            <span class="close">&times;</span>
+            <h2>Tell Us About Your Professional Background</h2>
+            <form id="profile-form">
+                <div class="form-group">
+                    <label>Previous Company</label>
+                    <input type="text" id="prev-company" placeholder="e.g., Google, TCS, Infosys">
+                </div>
+                <div class="form-group">
+                    <label>Previous Role</label>
+                    <input type="text" id="prev-role" placeholder="e.g., Software Developer, Marketing Manager">
+                </div>
+                <div class="form-group">
+                    <label>Previous Salary (Annual in INR)</label>
+                    <input type="text" id="prev-salary" placeholder="e.g., 800000">
+                </div>
+                <div class="form-group">
+                    <label>Years of Experience</label>
+                    <input type="number" id="prev-experience" placeholder="Years of experience">
+                </div>
+                <div class="form-group">
+                    <label>Career Break Duration (months)</label>
+                    <input type="number" id="break-duration" placeholder="e.g., 24">
+                </div>
+                <button type="submit" class="btn-primary btn-full">Continue</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Main Application JavaScript
+        console.log("Main app loaded");
+
+        // Quotes Database
+        const quotes = [
+            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+            { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+            { text: "Your time is limited, don't waste it living someone else's life.", author: "Steve Jobs" },
+            { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+            { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+            { text: "The only limit to our realization of tomorrow is our doubts of today.", author: "Franklin D. Roosevelt" },
+            { text: "Everything you've ever wanted is on the other side of fear.", author: "George Addair" },
+            { text: "Start where you are. Use what you have. Do what you can.", author: "Arthur Ashe" },
+            { text: "The comeback is always stronger than the setback.", author: "Unknown" },
+            { text: "Your career break doesn't define you; your comeback does.", author: "Unknown" },
+            { text: "Every expert was once a beginner.", author: "Unknown" },
+            { text: "Small steps every day lead to big results.", author: "Unknown" },
+            { text: "You are capable of more than you know.", author: "Unknown" }
+        ];
+
+        // Load and display random quote
+        function displayRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const quote = quotes[randomIndex];
+            document.getElementById('daily-quote').textContent = `"${quote.text}"`;
+            document.getElementById('quote-author').textContent = `- ${quote.author}`;
+        }
+
+        // Refresh quote button
+        document.getElementById('refresh-quote')?.addEventListener('click', displayRandomQuote);
+
+        // Load initial quote
+        displayRandomQuote();
+
+        // Auth variables
+        let selectedPath = null;
+        let currentUser = null;
+
+        // Load testimonials from localStorage
+        function loadTestimonials() {
+            const container = document.getElementById('testimonials-container');
+            if (!container) return;
+            
+            const savedStories = JSON.parse(localStorage.getItem('userStories') || '[]');
+            
+            const defaultStories = [
+                {
+                    id: 1,
+                    name: "Priya Sharma",
+                    role: "Restarted as Software Developer",
+                    avatar: "PS",
+                    rating: 5,
+                    content: "ReLaunchHer gave me the confidence to restart my career after a 5-year break. The AI-powered skill gap analysis and roadmap were incredibly helpful!",
+                    date: "2024-01-15",
+                    userId: "system"
+                },
+                {
+                    id: 2,
+                    name: "Anita Desai",
+                    role: "Started Home Bakery",
+                    avatar: "AD",
+                    rating: 5,
+                    content: "The AI business generator helped me turn my baking hobby into a profitable home business. Now I have a steady income!",
+                    date: "2024-01-20",
+                    userId: "system"
+                },
+                {
+                    id: 3,
+                    name: "Meera Reddy",
+                    role: "Freelance Writer",
+                    avatar: "MR",
+                    rating: 5,
+                    content: "From zero confidence to a thriving freelance career. The AI-powered recommendations and community support are amazing!",
+                    date: "2024-01-25",
+                    userId: "system"
+                }
+            ];
+            
+            const allStories = [...defaultStories, ...savedStories];
+            const currentUserId = localStorage.getItem('userId') || 'guest';
+            
+            container.innerHTML = allStories.map(story => `
+                <div class="testimonial-card">
+                    ${story.userId === currentUserId ? `<button class="delete-story" data-id="${story.id}"><i class="fas fa-trash"></i></button>` : ''}
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">${story.avatar || story.name.charAt(0) + story.name.split(' ')[1]?.charAt(0) || story.name.charAt(0)}</div>
+                        <div class="testimonial-info">
+                            <h4>${story.name}</h4>
+                            <p>${story.role}</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        ${'★'.repeat(story.rating)}${'☆'.repeat(5-story.rating)}
+                    </div>
+                    <p class="testimonial-content">"${story.content}"</p>
+                    <div class="testimonial-date">${new Date(story.date).toLocaleDateString()}</div>
+                </div>
+            `).join('');
+            
+            // Add delete event listeners
+            document.querySelectorAll('.delete-story').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.dataset.id);
+                    deleteStory(id);
+                });
+            });
+        }
+        
+        function deleteStory(id) {
+            let savedStories = JSON.parse(localStorage.getItem('userStories') || '[]');
+            savedStories = savedStories.filter(s => s.id !== id);
+            localStorage.setItem('userStories', JSON.stringify(savedStories));
+            loadTestimonials();
+            showNotification('Story deleted successfully', 'success');
+        }
+        
+        function addStory(name, role, content, rating) {
+            const savedStories = JSON.parse(localStorage.getItem('userStories') || '[]');
+            const newStory = {
+                id: Date.now(),
+                name: name,
+                role: role,
+                avatar: name.charAt(0) + (name.split(' ')[1]?.charAt(0) || ''),
+                rating: rating,
+                content: content,
+                date: new Date().toISOString(),
+                userId: localStorage.getItem('userId') || 'user_' + Date.now()
+            };
+            savedStories.push(newStory);
+            localStorage.setItem('userStories', JSON.stringify(savedStories));
+            
+            // Also save userId if not exists
+            if (!localStorage.getItem('userId')) {
+                localStorage.setItem('userId', newStory.userId);
+            }
+            
+            loadTestimonials();
+            showNotification('Your story has been shared! 🎉', 'success');
+        }
+        
+        // Share story modal
+        const shareModal = document.getElementById('share-story-modal');
+        const shareBtn = document.getElementById('share-story-btn');
+        let selectedRating = 5;
+        
+        shareBtn?.addEventListener('click', () => {
+            if (!localStorage.getItem('token')) {
+                showNotification('Please login to share your story', 'error');
+                document.getElementById('login-modal')?.classList.add('active');
+                return;
+            }
+            shareModal.classList.add('active');
+        });
+        
+        // Rating stars
+        document.querySelectorAll('.rating-star').forEach(star => {
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.dataset.rating);
+                document.querySelectorAll('.rating-star').forEach(s => {
+                    if (parseInt(s.dataset.rating) <= selectedRating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+            // Set default
+            if (parseInt(star.dataset.rating) === 5) star.classList.add('active');
+        });
+        
+        // Share story form
+        const shareForm = document.getElementById('share-story-form');
+        shareForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('story-name').value;
+            const role = document.getElementById('story-role').value;
+            const content = document.getElementById('story-content').value;
+            
+            if (!name || !role || !content) {
+                showNotification('Please fill all fields', 'error');
+                return;
+            }
+            
+            addStory(name, role, content, selectedRating);
+            shareModal.classList.remove('active');
+            shareForm.reset();
+            document.querySelectorAll('.rating-star').forEach(s => s.classList.remove('active'));
+            document.querySelector('.rating-star[data-rating="5"]')?.classList.add('active');
+            selectedRating = 5;
+        });
+        
+        // Close modal buttons
+        document.querySelectorAll('.close').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.modal').classList.remove('active');
+            });
+        });
+        
+        // Auth tabs
+        const authTabs = document.querySelectorAll('.auth-tab');
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                authTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+                document.getElementById(`${tabName}-form`).classList.add('active');
+            });
+        });
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            let container = document.getElementById('notification-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'notification-container';
+                document.body.appendChild(container);
+            }
+            
+            const colors = { success: '#10B981', error: '#EF4444', info: '#38BDF8' };
+            const icons = { success: '✓', error: '✗', info: 'ℹ' };
+            
+            const notif = document.createElement('div');
+            notif.style.cssText = `background:white;padding:12px 20px;border-radius:50px;box-shadow:0 5px 15px rgba(0,0,0,0.2);margin-bottom:10px;display:flex;align-items:center;gap:10px;border-left:4px solid ${colors[type]};animation:slideIn 0.3s ease`;
+            notif.innerHTML = `<span style="color:${colors[type]};font-weight:bold">${icons[type]}</span><span>${message}</span>`;
+            container.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+        
+        // Login handler
+        const loginForm = document.getElementById('login-form');
+        loginForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                showNotification('Please fill all fields', 'error');
+                return;
+            }
+            
+            const user = {
+                firstName: email.split('@')[0],
+                lastName: 'User',
+                email: email
+            };
+            
+            localStorage.setItem('token', 'demo-token');
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('userId', 'user_' + Date.now());
+            currentUser = user;
+            
+            showNotification('Login successful!', 'success');
+            document.getElementById('login-modal')?.classList.remove('active');
+            document.getElementById('signup-modal')?.classList.remove('active');
+            document.getElementById('path-modal').classList.add('active');
+        });
+        
+        // Signup handler
+        const signupForm = document.getElementById('signup-form');
+        signupForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const firstName = document.getElementById('signup-firstname').value;
+            const lastName = document.getElementById('signup-lastname').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirm = document.getElementById('signup-confirm').value;
+            
+            if (!firstName || !lastName || !email || !password) {
+                showNotification('Please fill all fields', 'error');
+                return;
+            }
+            
+            if (password !== confirm) {
+                showNotification('Passwords do not match', 'error');
+                return;
+            }
+            
+            const user = { firstName, lastName, email };
+            localStorage.setItem('token', 'demo-token');
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('userId', 'user_' + Date.now());
+            currentUser = user;
+            
+            showNotification('Account created successfully!', 'success');
+            document.getElementById('signup-modal')?.classList.remove('active');
+            document.getElementById('login-modal')?.classList.remove('active');
+            document.getElementById('path-modal').classList.add('active');
+        });
+        
+        // Path selection
+        document.querySelectorAll('.choice-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selectedPath = card.dataset.path;
+                document.getElementById('path-modal').classList.remove('active');
+                document.getElementById('profile-modal').classList.add('active');
+            });
+        });
+        
+        // Profile form
+        const profileForm = document.getElementById('profile-form');
+        profileForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const profile = {
+                prevCompany: document.getElementById('prev-company').value,
+                prevRole: document.getElementById('prev-role').value,
+                prevSalary: document.getElementById('prev-salary').value,
+                prevExperience: document.getElementById('prev-experience').value,
+                breakDuration: document.getElementById('break-duration').value
+            };
+            
+            localStorage.setItem('userProfile', JSON.stringify(profile));
+            localStorage.setItem('onboarding_completed', 'true');
+            
+            document.getElementById('profile-modal').classList.remove('active');
+            
+            if (selectedPath === 'career') {
+                window.location.href = 'career-restart.html';
+            } else if (selectedPath === 'business') {
+                window.location.href = 'business-generator.html';
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        });
+        
+        // Button click handlers
+        document.getElementById('login-btn')?.addEventListener('click', () => {
+            document.getElementById('login-modal')?.classList.add('active');
+        });
+        document.getElementById('signup-btn')?.addEventListener('click', () => {
+            document.getElementById('signup-modal')?.classList.add('active');
+        });
+        document.getElementById('cta-start-btn')?.addEventListener('click', () => {
+            document.getElementById('signup-modal')?.classList.add('active');
+        });
+        
+        // Create modals if they don't exist
+        if (!document.getElementById('login-modal')) {
+            const loginModal = document.createElement('div');
+            loginModal.id = 'login-modal';
+            loginModal.className = 'modal';
+            loginModal.innerHTML = `<div class="modal-content"><span class="close">&times;</span><h2>Login</h2><p>Please login from the form above</p></div>`;
+            document.body.appendChild(loginModal);
+        }
+        
+        if (!document.getElementById('signup-modal')) {
+            const signupModal = document.createElement('div');
+            signupModal.id = 'signup-modal';
+            signupModal.className = 'modal';
+            signupModal.innerHTML = `<div class="modal-content"><span class="close">&times;</span><h2>Sign Up</h2><p>Please sign up from the form above</p></div>`;
+            document.body.appendChild(signupModal);
+        }
+        
+        // Load testimonials on page load
+        loadTestimonials();
+        
+        // Add slide-in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

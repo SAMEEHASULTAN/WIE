@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Schemes & NGOs - ReLaunchHer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #7F56D9;
+            --primary-dark: #6941C6;
+            --primary-light: #F4EBFF;
+            --secondary: #F9A8D4;
+            --accent: #38BDF8;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --border-radius: 20px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 12px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .dashboard-sidebar {
+            width: 280px;
+            background: var(--card-bg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--border-radius-sm);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .dashboard-main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            width: 300px;
+            border: 1px solid var(--border);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+        }
+
+        .profile-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-lg);
+            min-width: 200px;
+            display: none;
+            z-index: 100;
+        }
+
+        .profile-dropdown .dropdown-item {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+        }
+
+        /* Tabs */
+        .tabs-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .scheme-card, .ngo-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .scheme-card:hover, .ngo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .badge-central {
+            background: rgba(56, 189, 248, 0.1);
+            color: #38BDF8;
+        }
+
+        .badge-state {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+
+        .badge-ngo {
+            background: rgba(127, 86, 217, 0.1);
+            color: var(--primary);
+        }
+
+        .scheme-title, .ngo-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .scheme-description, .ngo-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .scheme-details {
+            margin: 1rem 0;
+            padding: 0.75rem;
+            background: var(--background);
+            border-radius: var(--border-radius-sm);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .detail-value {
+            color: var(--text-secondary);
+        }
+
+        .apply-btn, .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .apply-btn:hover, .contact-btn:hover {
+            transform: scale(1.05);
+            background: var(--primary-dark);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+        }
+
+        .loading i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .filter-section {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            background: var(--card-bg);
+            cursor: pointer;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+            .dashboard-sidebar.active {
+                transform: translateX(0);
+            }
+            .dashboard-main {
+                margin-left: 0;
+            }
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-main {
+                padding: 1rem;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="dashboard-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-rocket"></i>
+                <span>ReLaunchHer</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="career-restart.html"><i class="fas fa-briefcase"></i> Career Restart</a>
+                <a href="business-generator.html"><i class="fas fa-lightbulb"></i> Business Generator</a>
+                <a href="roadmap.html"><i class="fas fa-road"></i> Learning Roadmap</a>
+                <a href="skills.html"><i class="fas fa-code"></i> Skills</a>
+                <a href="community.html"><i class="fas fa-users"></i> Community</a>
+                <a href="schemes-ngos.html" class="active"><i class="fas fa-hand-holding-heart"></i> Schemes & NGOs</a>
+                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search schemes or NGOs...">
+                </div>
+                <div class="profile-menu" id="profile-menu">
+                    <div class="profile-avatar" id="profile-avatar">U</div>
+                    <i class="fas fa-chevron-down"></i>
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <div class="dropdown-item" id="profile-name"><i class="fas fa-user"></i> <span id="user-fullname">Guest</span></div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item" id="dropdown-logout"><i class="fas fa-sign-out-alt"></i> Logout</div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-header">
+                <h1><i class="fas fa-hand-holding-heart"></i> Government Schemes & NGOs</h1>
+                <p>Discover financial assistance, skill development programs, and NGO support for women entrepreneurs and professionals</p>
+            </div>
+
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="schemes">📋 Government Schemes</button>
+                <button class="tab-btn" data-tab="ngos">🤝 NGOs & Support Organizations</button>
+            </div>
+
+            <div class="filter-section" id="filter-section">
+                <select id="category-filter" class="filter-select">
+                    <option value="all">All Categories</option>
+                    <option value="Entrepreneurship">Entrepreneurship</option>
+                    <option value="Education">Education & Skill Development</option>
+                    <option value="Financial">Financial Assistance</option>
+                    <option value="Health">Health & Welfare</option>
+                    <option value="Employment">Employment Support</option>
+                </select>
+                <select id="type-filter" class="filter-select" style="display: none;">
+                    <option value="all">All Types</option>
+                    <option value="Central">Central Government</option>
+                    <option value="State">State Government</option>
+                </select>
+            </div>
+
+            <!-- Schemes Tab -->
+            <div id="schemes-tab" class="tab-content active">
+                <div id="schemes-container" class="cards-grid">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading government schemes...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NGOs Tab -->
+            <div id="ngos-tab" class="tab-content">
+                <div id="ngos-container" class="cards-grid">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading NGOs and support organizations...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Schemes & NGOs Page - Complete with Government Schemes and NGO Data
+        console.log("Schemes & NGOs page loaded");
+
+        let currentTab = "schemes";
+        let currentCategory = "all";
+        let currentType = "all";
+        let searchTerm = "";
+
+        // Comprehensive Government Schemes for Women
+        const governmentSchemes = [
+            {
+                id: 1,
+                name: "Mudra Yojana (PMMY)",
+                description: "Provides loans up to ₹10 lakh to non-corporate, non-farm small/micro enterprises. Women entrepreneurs get special focus and lower interest rates.",
+                category: "Entrepreneurship",
+                type: "Central",
+                benefits: "Loans up to ₹10 lakh for business",
+                eligibility: "Women entrepreneurs with business plan",
+                howToApply: "Visit any bank branch or online via PMMY portal",
+                website: "https://www.mudra.org.in",
+                icon: "fas fa-rupee-sign"
+            },
+            {
+                id: 2,
+                name: "Stand-Up India Scheme",
+                description: "Facilitates bank loans between ₹10 lakh and ₹1 crore to at least one SC/ST and one woman borrower per bank branch for setting up greenfield enterprises.",
+                category: "Entrepreneurship",
+                type: "Central",
+                benefits: "Loans ₹10 lakh - ₹1 crore for women entrepreneurs",
+                eligibility: "Women entrepreneurs above 18 years",
+                howToApply: "Apply at any scheduled commercial bank",
+                website: "https://www.standupmitra.in",
+                icon: "fas fa-chart-line"
+            },
+            {
+                id: 3,
+                name: "Women Entrepreneurship Platform (WEP)",
+                description: "NITI Aayog initiative providing ecosystem support for women entrepreneurs including funding, mentorship, and market access.",
+                category: "Entrepreneurship",
+                type: "Central",
+                benefits: "Mentorship, funding support, networking",
+                eligibility: "Women entrepreneurs and startups",
+                howToApply: "Register on WEP portal online",
+                website: "https://wep.gov.in",
+                icon: "fas fa-female"
+            },
+            {
+                id: 4,
+                name: "Pradhan Mantri Matru Vandana Yojana (PMMVY)",
+                description: "Maternity benefit program providing cash incentives to pregnant and lactating women for better health and nutrition.",
+                category: "Health",
+                type: "Central",
+                benefits: "₹6,000 cash incentive",
+                eligibility: "Pregnant women (first live birth)",
+                howToApply: "Register at Anganwadi centers",
+                website: "https://wcd.nic.in",
+                icon: "fas fa-baby"
+            },
+            {
+                id: 5,
+                name: "Skill India Mission - Women Training",
+                description: "Free skill development and vocational training programs specifically designed for women across various sectors.",
+                category: "Education",
+                type: "Central",
+                benefits: "Free skill training, certification",
+                eligibility: "Women aged 15-45 years",
+                howToApply: "Register at nearest Skill Development Center",
+                website: "https://skillindia.gov.in",
+                icon: "fas fa-graduation-cap"
+            },
+            {
+                id: 6,
+                name: "Mahila Shakti Kendra (MSK)",
+                description: "Community-based program empowering rural women through skill development, digital literacy, and awareness programs.",
+                category: "Education",
+                type: "Central",
+                benefits: "Skill development, digital literacy",
+                eligibility: "Rural women",
+                howToApply: "Contact nearest MSK center",
+                website: "https://wcd.nic.in",
+                icon: "fas fa-hand-peace"
+            },
+            {
+                id: 7,
+                name: "Annapurna Scheme",
+                description: "Food caterers scheme offering loans up to ₹50,000 for women entrepreneurs in food catering business.",
+                category: "Entrepreneurship",
+                type: "Central",
+                benefits: "Business loans up to ₹50,000",
+                eligibility: "Women with catering experience",
+                howToApply: "Apply at designated banks",
+                website: "https://www.bankofindia.co.in",
+                icon: "fas fa-utensils"
+            },
+            {
+                id: 8,
+                name: "Stree Shakti Package",
+                description: "Special loan package for women entrepreneurs with concessional interest rates and relaxed collateral requirements.",
+                category: "Financial",
+                type: "Central",
+                benefits: "Concessional loans for business",
+                eligibility: "Women entrepreneurs",
+                howToApply: "Contact public sector banks",
+                icon: "fas fa-coins"
+            },
+            {
+                id: 9,
+                name: "Nari Shakti Puraskar",
+                description: "National award recognizing exceptional contribution of women and institutions working for women empowerment.",
+                category: "Employment",
+                type: "Central",
+                benefits: "Recognition and cash award",
+                eligibility: "Women with outstanding achievements",
+                howToApply: "Nomination through government portals",
+                website: "https://wcd.nic.in",
+                icon: "fas fa-trophy"
+            },
+            {
+                id: 10,
+                name: "Support to Training and Employment Programme (STEP)",
+                description: "Provides skills training and employment opportunities for women across various sectors including agriculture, handicrafts, and services.",
+                category: "Employment",
+                type: "Central",
+                benefits: "Skill training and placement support",
+                eligibility: "Women above 16 years",
+                howToApply: "Apply through implementing agencies",
+                website: "https://wcd.nic.in",
+                icon: "fas fa-briefcase"
+            },
+            {
+                id: 11,
+                name: "Mahila Coir Yojana",
+                description: "Skill development program for women in coir industry, providing training and employment opportunities.",
+                category: "Employment",
+                type: "Central",
+                benefits: "Skill training in coir industry",
+                eligibility: "Women in rural areas",
+                howToApply: "Contact Coir Board regional office",
+                website: "https://coirboard.gov.in",
+                icon: "fas fa-industry"
+            },
+            {
+                id: 12,
+                name: "Udyogini Scheme",
+                description: "Loan scheme for women entrepreneurs to start small businesses with subsidized interest rates.",
+                category: "Entrepreneurship",
+                type: "State",
+                benefits: "Subsidized business loans",
+                eligibility: "Women with income below poverty line",
+                howToApply: "Apply at Women Development Corporation",
+                icon: "fas fa-chart-simple"
+            }
+        ];
+
+        // NGOs and Support Organizations
+        const ngos = [
+            {
+                id: 1,
+                name: "SEWA (Self Employed Women's Association)",
+                description: "India's largest organization of informal sector women workers providing support for livelihood, healthcare, and social security.",
+                focus: "Women workers, entrepreneurship",
+                services: ["Skill training", "Microfinance", "Healthcare", "Legal aid"],
+                locations: ["Gujarat", "Multiple States"],
+                contact: "contact@sewa.org",
+                website: "https://www.sewa.org",
+                icon: "fas fa-hands-helping"
+            },
+            {
+                id: 2,
+                name: "Mann Deshi Foundation",
+                description: "Empowers rural women through business schools, financial literacy programs, and community banking initiatives.",
+                focus: "Rural women, financial literacy",
+                services: ["Mann Deshi Mahila Bank", "Business School", "Mentorship"],
+                locations: ["Maharashtra", "Karnataka", "Rajasthan"],
+                contact: "info@manndeshifoundation.org",
+                website: "https://www.manndeshifoundation.org",
+                icon: "fas fa-graduation-cap"
+            },
+            {
+                id: 3,
+                name: "Nanhi Kali",
+                description: "Supports education for underprivileged girls across India through academic support, material support, and mentorship.",
+                focus: "Girl child education",
+                services: ["Academic support", "Material support", "Mentorship"],
+                locations: ["Multiple States"],
+                contact: "info@nanhikali.org",
+                website: "https://www.nanhikali.org",
+                icon: "fas fa-book"
+            },
+            {
+                id: 4,
+                name: "Pratham",
+                description: "Works to improve quality of education and skill development for women and children across India.",
+                focus: "Education, skill development",
+                services: ["Vocational training", "Literacy programs", "Women empowerment"],
+                locations: ["Pan India"],
+                contact: "contact@pratham.org",
+                website: "https://www.pratham.org",
+                icon: "fas fa-school"
+            },
+            {
+                id: 5,
+                name: "CARE India",
+                description: "Works on women's economic empowerment, health, nutrition, and education programs across India.",
+                focus: "Women empowerment, health",
+                services: ["Livelihood programs", "Health initiatives", "Education"],
+                locations: ["Multiple States"],
+                contact: "info@careindia.org",
+                website: "https://www.careindia.org",
+                icon: "fas fa-heart"
+            },
+            {
+                id: 6,
+                name: "Rang De",
+                description: "Peer-to-peer lending platform enabling individuals to invest in low-income women entrepreneurs.",
+                focus: "Microfinance, entrepreneurship",
+                services: ["Low-interest loans", "Business support"],
+                locations: ["Online", "Multiple States"],
+                contact: "support@rangde.org",
+                website: "https://www.rangde.org",
+                icon: "fas fa-hand-holding-usd"
+            },
+            {
+                id: 7,
+                name: "Goonj",
+                description: "Works on disaster relief, urban poverty, and empowering women through skill development and livelihood programs.",
+                focus: "Livelihood, disaster relief",
+                services: ["Skill training", "Cloth for work", "Urban development"],
+                locations: ["Multiple States"],
+                contact: "mail@goonj.org",
+                website: "https://www.goonj.org",
+                icon: "fas fa-hand-sparkles"
+            },
+            {
+                id: 8,
+                name: "Sulabh International",
+                description: "Social service organization working on sanitation, women empowerment, and vocational training.",
+                focus: "Sanitation, women empowerment",
+                services: ["Vocational training", "Health awareness", "Livelihood"],
+                locations: ["Pan India"],
+                contact: "info@sulabhinternational.org",
+                website: "https://www.sulabhinternational.org",
+                icon: "fas fa-toilet"
+            },
+            {
+                id: 9,
+                name: "Women's Indian Chamber of Commerce & Industry (WICCI)",
+                description: "National business chamber promoting women entrepreneurship and leadership across industries.",
+                focus: "Entrepreneurship, networking",
+                services: ["Mentorship", "Networking events", "Policy advocacy"],
+                locations: ["Pan India"],
+                contact: "info@wicci.in",
+                website: "https://www.wicci.in",
+                icon: "fas fa-chalkboard-user"
+            },
+            {
+                id: 10,
+                name: "FICCI Ladies Organisation (FLO)",
+                description: "Apex body of women entrepreneurs and professionals promoting business leadership.",
+                focus: "Business leadership, networking",
+                services: ["Mentorship programs", "Skill workshops", "Networking events"],
+                locations: ["Multiple Cities"],
+                contact: "flo@ficci.com",
+                website: "https://www.ficciflo.com",
+                icon: "fas fa-users"
+            }
+        ];
+
+        // Render Schemes
+        function renderSchemes() {
+            const container = document.getElementById('schemes-container');
+            let filtered = governmentSchemes;
+            
+            // Apply category filter
+            if (currentCategory !== "all") {
+                filtered = filtered.filter(scheme => scheme.category === currentCategory);
+            }
+            
+            // Apply type filter
+            if (currentType !== "all") {
+                filtered = filtered.filter(scheme => scheme.type === currentType);
+            }
+            
+            // Apply search
+            if (searchTerm) {
+                filtered = filtered.filter(scheme => 
+                    scheme.name.toLowerCase().includes(searchTerm) ||
+                    scheme.description.toLowerCase().includes(searchTerm) ||
+                    scheme.category.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-search"></i>
+                        <p>No schemes found matching your criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filtered.map(scheme => `
+                <div class="scheme-card">
+                    <span class="card-badge ${scheme.type === 'Central' ? 'badge-central' : 'badge-state'}">${scheme.type} Government</span>
+                    <div class="scheme-title">
+                        <i class="${scheme.icon}" style="margin-right: 0.5rem;"></i>
+                        ${escapeHtml(scheme.name)}
+                    </div>
+                    <p class="scheme-description">${escapeHtml(scheme.description)}</p>
+                    <div class="scheme-details">
+                        <div class="detail-row">
+                            <span class="detail-label">📌 Category:</span>
+                            <span class="detail-value">${scheme.category}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">💰 Benefits:</span>
+                            <span class="detail-value">${escapeHtml(scheme.benefits)}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">✅ Eligibility:</span>
+                            <span class="detail-value">${escapeHtml(scheme.eligibility)}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">📝 How to Apply:</span>
+                            <span class="detail-value">${escapeHtml(scheme.howToApply)}</span>
+                        </div>
+                    </div>
+                    <a href="${scheme.website}" target="_blank" class="apply-btn">
+                        <i class="fas fa-external-link-alt"></i> Apply / Learn More
+                    </a>
+                </div>
+            `).join('');
+        }
+        
+        // Render NGOs
+        function renderNGOs() {
+            const container = document.getElementById('ngos-container');
+            let filtered = ngos;
+            
+            // Apply search
+            if (searchTerm) {
+                filtered = filtered.filter(ngo => 
+                    ngo.name.toLowerCase().includes(searchTerm) ||
+                    ngo.description.toLowerCase().includes(searchTerm) ||
+                    ngo.focus.toLowerCase().includes(searchTerm) ||
+                    ngo.services.some(s => s.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-search"></i>
+                        <p>No NGOs found matching your criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filtered.map(ngo => `
+                <div class="ngo-card">
+                    <span class="card-badge badge-ngo">NGO / Support Organization</span>
+                    <div class="ngo-title">
+                        <i class="${ngo.icon}" style="margin-right: 0.5rem;"></i>
+                        ${escapeHtml(ngo.name)}
+                    </div>
+                    <p class="ngo-description">${escapeHtml(ngo.description)}</p>
+                    <div class="scheme-details">
+                        <div class="detail-row">
+                            <span class="detail-label">🎯 Focus Area:</span>
+                            <span class="detail-value">${ngo.focus}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">🤝 Services:</span>
+                            <span class="detail-value">${ngo.services.join(', ')}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">📍 Locations:</span>
+                            <span class="detail-value">${ngo.locations.join(', ')}</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                        <a href="${ngo.website}" target="_blank" class="apply-btn">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                        <button class="contact-btn" onclick="showContactInfo('${ngo.name}', '${ngo.contact}')">
+                            <i class="fas fa-envelope"></i> Contact
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function showContactInfo(name, email) {
+            alert(`📧 Contact ${name}\n\nEmail: ${email}\n\nFor more details, please visit their website.`);
+        }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function showNotification(message, type) {
+            let container = document.getElementById('notification-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'notification-container';
+                container.style.cssText = 'position:fixed;top:20px;right:20px;z-index:10000';
+                document.body.appendChild(container);
+            }
+            
+            const colors = { success: '#10B981', error: '#EF4444', info: '#38BDF8' };
+            const notif = document.createElement('div');
+            notif.style.cssText = `background:white;padding:12px 20px;border-radius:50px;box-shadow:0 5px 15px rgba(0,0,0,0.2);margin-bottom:10px;display:flex;align-items:center;gap:10px;border-left:4px solid ${colors[type]};animation:slideIn 0.3s ease`;
+            notif.innerHTML = `<span style="color:${colors[type]}">${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ'}</span><span>${message}</span>`;
+            container.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+        
+        // Event Listeners
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                currentTab = btn.dataset.tab;
+                document.getElementById(`${currentTab}-tab`).classList.add('active');
+                
+                // Show/hide type filter based on tab
+                const typeFilter = document.getElementById('type-filter');
+                if (currentTab === 'schemes') {
+                    typeFilter.style.display = 'block';
+                } else {
+                    typeFilter.style.display = 'none';
+                }
+                
+                renderSchemes();
+                renderNGOs();
+            });
+        });
+        
+        document.getElementById('category-filter')?.addEventListener('change', (e) => {
+            currentCategory = e.target.value;
+            renderSchemes();
+        });
+        
+        document.getElementById('type-filter')?.addEventListener('change', (e) => {
+            currentType = e.target.value;
+            renderSchemes();
+        });
+        
+        document.getElementById('search-input')?.addEventListener('input', (e) => {
+            searchTerm = e.target.value.toLowerCase();
+            renderSchemes();
+            renderNGOs();
+        });
+        
+        // Sidebar toggle
+        document.getElementById('menu-toggle')?.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+        
+        // Logout
+        document.getElementById('logout-btn')?.addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        });
+        
+        // Profile dropdown
+        const profileMenu = document.getElementById('profile-menu');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        if (profileMenu && profileDropdown) {
+            profileMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+            document.addEventListener('click', () => { profileDropdown.style.display = 'none'; });
+        }
+        
+        // User info
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.firstName) {
+            const avatar = document.getElementById('profile-avatar');
+            const userFullname = document.getElementById('user-fullname');
+            if (avatar) avatar.textContent = (user.firstName[0] + (user.lastName?.[0] || '')).toUpperCase();
+            if (userFullname) userFullname.textContent = `${user.firstName} ${user.lastName || ''}`.trim();
+        }
+        
+        // Initial render
+        renderSchemes();
+        renderNGOs();
+        
+        window.showContactInfo = showContactInfo;
+    </script>
+</body>
+</html>

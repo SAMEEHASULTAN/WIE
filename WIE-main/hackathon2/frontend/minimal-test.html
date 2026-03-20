@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minimal Test</title>
+    <link rel="stylesheet" href="css/test.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>?? Minimal Test Page</h1>
+    
+    <div class="test-box">
+        If you see this with purple background, CSS is working!
+    </div>
+    
+    <button onclick="testFunction()" style="margin: 20px; padding: 10px;">
+        Click to test JavaScript
+    </button>
+    
+    <div id="test-output" style="margin: 20px; padding: 10px; border: 1px solid #ccc;"></div>
+    
+    <h2>File Status:</h2>
+    <ul id="file-status"></ul>
+    
+    <script src="js/test.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    
+    <script>
+        // Test if files loaded
+        console.log('? Minimal test page loaded');
+        
+        // Check if main.js loaded
+        if (typeof auth !== 'undefined') {
+            document.getElementById('file-status').innerHTML += '<li>? auth.js loaded</li>';
+        } else {
+            document.getElementById('file-status').innerHTML += '<li>? auth.js not loaded</li>';
+        }
+        
+        // Test CSS
+        fetch('css/style.css', { method: 'HEAD' })
+            .then(r => r.ok ? 
+                document.getElementById('file-status').innerHTML += '<li>? style.css loaded</li>' :
+                document.getElementById('file-status').innerHTML += '<li>? style.css not found</li>'
+            );
+    </script>
+    <script src="js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>AI Career Restart - ReLaunchHer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #7F56D9;
+            --primary-dark: #6941C6;
+            --primary-light: #F4EBFF;
+            --secondary: #F9A8D4;
+            --accent: #38BDF8;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --border-radius: 20px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 12px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .dashboard-sidebar {
+            width: 280px;
+            background: var(--card-bg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--border-radius-sm);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .dashboard-main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            width: 300px;
+            border: 1px solid var(--border);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+        }
+
+        .profile-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-lg);
+            min-width: 200px;
+            display: none;
+            z-index: 100;
+        }
+
+        .profile-dropdown .dropdown-item {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .profile-dropdown .dropdown-item:hover {
+            background: var(--background);
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+        }
+
+        /* Cards */
+        .upload-card, .analysis-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .upload-area:hover {
+            background: var(--primary-light);
+        }
+
+        .upload-area i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin: 0 0.5rem;
+        }
+
+        .uploaded-file-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--background);
+            border-radius: var(--border-radius-sm);
+            margin-top: 1rem;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .skills-detected {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .skill-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            background: var(--background);
+        }
+
+        .skill-badge.technical { background: rgba(56, 189, 248, 0.1); color: #38BDF8; }
+        .skill-badge.soft { background: rgba(16, 185, 129, 0.1); color: #10B981; }
+        .skill-badge.creative { background: rgba(249, 168, 212, 0.1); color: #F9A8D4; }
+        .skill-badge.business { background: rgba(245, 158, 11, 0.1); color: #F59E0B; }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(127, 86, 217, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-light);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-small:hover {
+            transform: scale(1.05);
+        }
+
+        .match-highlight {
+            background: var(--primary-light);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .time-selector {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .time-option {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            background: var(--background);
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .time-option.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .time-option h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .roadmap-milestone {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .roadmap-milestone:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .milestone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .milestone-number {
+            background: var(--primary);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .milestone-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+        }
+
+        .milestone-status.completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .milestone-status.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        details {
+            margin-top: 1rem;
+        }
+
+        summary {
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        details ul {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        /* Mentors Section */
+        .mentors-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            background: var(--background);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .mentor-card {
+            background: var(--background);
+            border-radius: var(--border-radius-sm);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .mentor-card:hover {
+            transform: translateX(5px);
+        }
+
+        .mentor-institution {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .mentor-courses {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .course-badge {
+            background: var(--card-bg);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+        }
+
+        .contact-btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+            
+            .dashboard-sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .dashboard-main {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-main {
+                padding: 1rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .time-selector {
+                flex-direction: column;
+            }
+            
+            .filter-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="dashboard-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-rocket"></i>
+                <span>ReLaunchHer</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="career-restart.html" class="active"><i class="fas fa-briefcase"></i> Career Restart</a>
+                <a href="business-generator.html"><i class="fas fa-lightbulb"></i> Business Generator</a>
+                <a href="roadmap.html"><i class="fas fa-road"></i> Learning Roadmap</a>
+                <a href="skills.html"><i class="fas fa-code"></i> Skills</a>
+                <a href="community.html"><i class="fas fa-users"></i> Community</a>
+<a href="http://localhost:8000/schemes-ngos.html"><i class="fas fa-hand-holding-heart"></i> Schemes & NGOs</a>
+                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="profile-menu" id="profile-menu">
+                    <div class="profile-avatar" id="profile-avatar">U</div>
+                    <i class="fas fa-chevron-down"></i>
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <div class="dropdown-item" id="profile-name"><i class="fas fa-user"></i> <span id="user-fullname">Guest</span></div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item" id="dropdown-logout"><i class="fas fa-sign-out-alt"></i> Logout</div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-header">
+                <h1>AI Career Restart</h1>
+                <p>Upload your resume and let AI analyze your skills and create a personalized career roadmap</p>
+            </div>
+
+            <!-- Resume Upload -->
+            <div class="upload-card">
+                <h2><i class="fas fa-cloud-upload-alt"></i> Upload Your Resume</h2>
+                <div class="upload-area" id="upload-area">
+                    <i class="fas fa-file-pdf"></i>
+                    <i class="fas fa-file-word"></i>
+                    <i class="fas fa-file-alt"></i>
+                    <p>Drag & drop your resume here or click to browse</p>
+                    <p class="file-hint">Supports: PDF, DOC, DOCX, TXT</p>
+                    <input type="file" id="resume-file" accept=".pdf,.doc,.docx,.txt" style="display: none;">
+                    <button class="btn-secondary" id="browse-resume">Browse Files</button>
+                </div>
+                <div class="uploaded-file-info" id="uploaded-info" style="display: none;">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="file-name"></span>
+                    <button class="btn-icon" id="remove-file"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+
+            <!-- Analysis Results -->
+            <div id="analysis-results" style="display: none;"></div>
+
+            <!-- Desired Position -->
+            <div id="desired-section" style="display: none;">
+                <div class="analysis-card">
+                    <h2>Your Career Goals</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Desired Position</label>
+                            <input type="text" id="desired-position" placeholder="e.g., Senior Software Engineer">
+                        </div>
+                        <div class="form-group">
+                            <label>Expected Salary (Annual INR)</label>
+                            <input type="text" id="expected-salary" placeholder="e.g., 15,00,000">
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="analyze-match">Analyze Match</button>
+                </div>
+            </div>
+
+            <!-- Match Results -->
+            <div id="match-results" style="display: none;"></div>
+
+            <!-- Missing Skills -->
+            <div id="missing-skills-section" style="display: none;">
+                <div class="analysis-card">
+                    <h2>Skills to Develop</h2>
+                    <div id="missing-skills-list"></div>
+                    <div class="time-selector" id="time-selector">
+                        <div class="time-option" data-months="3"><h4>3</h4><p>months</p></div>
+                        <div class="time-option" data-months="6"><h4>6</h4><p>months</p></div>
+                        <div class="time-option" data-months="9"><h4>9</h4><p>months</p></div>
+                        <div class="time-option" data-months="12"><h4>12</h4><p>months</p></div>
+                    </div>
+                    <button class="btn-primary" id="generate-roadmap">Generate Roadmap</button>
+                </div>
+            </div>
+
+            <!-- Roadmap -->
+            <div id="roadmap-results" style="display: none;"></div>
+
+            <!-- Mentors -->
+            <div class="mentors-section">
+                <h2>Find Mentors & Training Institutions</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-type="all">All</button>
+                    <button class="filter-btn" data-type="online">Online</button>
+                    <button class="filter-btn" data-type="offline">Offline</button>
+                </div>
+                <div id="mentors-list"></div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Career Restart JavaScript - Complete Version
+        console.log("Career Restart loaded");
+        
+        let resumeData = null;
+        let selectedMonths = 6;
+        let currentMatch = null;
+        
+        // Expanded Mentors Data
+        const mentors = [
+            { name: "NIIT", type: "institute", mode: "offline", location: "Multiple Cities", courses: ["Full Stack", "Data Science", "Cloud", "AI/ML"], contact: "1800-3000-6448", website: "niit.com" },
+            { name: "Aptech", type: "institute", mode: "offline", location: "Multiple Cities", courses: ["Software Engineering", "Digital Marketing", "Animation", "Data Analytics"], contact: "1800-102-0000", website: "aptech.ac.in" },
+            { name: "CSC Academy", type: "institute", mode: "both", location: "Pan India", courses: ["IT Training", "Digital Literacy", "Skill Development", "Cyber Security"], contact: "1800-123-4567", website: "cscacademy.org" },
+            { name: "UpGrad", type: "institute", mode: "online", location: "Online", courses: ["Data Science", "Machine Learning", "MBA", "Software Development", "AI"], contact: "1800-210-2020", website: "upgrad.com" },
+            { name: "Great Learning", type: "institute", mode: "online", location: "Online", courses: ["Data Science", "AI", "Cloud Computing", "Digital Marketing"], contact: "1800-120-3440", website: "greatlearning.in" },
+            { name: "Simplilearn", type: "institute", mode: "online", location: "Online", courses: ["PMP", "DevOps", "Data Science", "Cybersecurity", "Cloud"], contact: "1800-212-7688", website: "simplilearn.com" },
+            { name: "Coursera", type: "institute", mode: "online", location: "Online", courses: ["Professional Certificates", "Specializations", "Degree Programs"], contact: "support@coursera.org", website: "coursera.org" },
+            { name: "edX", type: "institute", mode: "online", location: "Online", courses: ["MicroMasters", "Professional Certificates", "University Programs"], contact: "info@edx.org", website: "edx.org" },
+            { name: "Tata STRIVE", type: "institute", mode: "both", location: "Multiple Cities", courses: ["Skill Development", "Employment Training", "Entrepreneurship"], contact: "1800-209-9111", website: "tatastrive.com" },
+            { name: "Microsoft Learn", type: "institute", mode: "online", location: "Online", courses: ["Azure", "AI", "Developer Tools", "Data Science"], contact: "learn@microsoft.com", website: "learn.microsoft.com" },
+            { name: "AWS Training", type: "institute", mode: "online", location: "Online", courses: ["Cloud Practitioner", "Solutions Architect", "DevOps", "Machine Learning"], contact: "aws-training@amazon.com", website: "aws.amazon.com/training" },
+            { name: "Google Career Certificates", type: "institute", mode: "online", location: "Online", courses: ["Data Analytics", "IT Support", "Project Management", "UX Design"], contact: "support@google.com", website: "grow.google/certificates" },
+            { name: "JobsForHer", type: "institute", mode: "online", location: "Online", courses: ["Career Re-start", "Upskilling", "Resume Writing", "Interview Prep"], contact: "support@jobsforher.com", website: "jobsforher.com" },
+            { name: "Women Who Code", type: "institute", mode: "online", location: "Global", courses: ["Technical Mentorship", "Coding Workshops", "Career Development"], contact: "info@womenwhocode.com", website: "womenwhocode.com" },
+            { name: "Masai School", type: "institute", mode: "online", location: "Online", courses: ["Full Stack Web Development", "Data Science", "Pay After Placement"], contact: "admissions@masaischool.com", website: "masaischool.com" },
+            { name: "Scaler Academy", type: "institute", mode: "online", location: "Online", courses: ["Software Development", "Data Science", "System Design"], contact: "hello@scaler.com", website: "scaler.com" },
+            { name: "Coding Ninjas", type: "institute", mode: "online", location: "Online", courses: ["Web Development", "Data Science", "Machine Learning"], contact: "support@codingninjas.com", website: "codingninjas.com" },
+            { name: "IIHT", type: "institute", mode: "offline", location: "Multiple Cities", courses: ["Full Stack", "Data Science", "Cloud Computing", "DevOps"], contact: "1800-120-3070", website: "iiht.com" },
+            { name: "Jetking", type: "institute", mode: "offline", location: "Multiple Cities", courses: ["Hardware Networking", "Cloud Computing", "Cybersecurity"], contact: "1800-102-6388", website: "jetking.com" },
+            { name: "C-DAC", type: "institute", mode: "offline", location: "Multiple Cities", courses: ["Advanced Computing", "Big Data", "AI/ML", "Cyber Security"], contact: "info@cdac.in", website: "cdac.in" }
+        ];
+        
+        // Show notification function
+        function showNotification(message, type = 'success') {
+            let container = document.getElementById('notification-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'notification-container';
+                container.style.cssText = 'position:fixed;top:20px;right:20px;z-index:10000';
+                document.body.appendChild(container);
+            }
+            
+            const colors = { success: '#10B981', error: '#EF4444', info: '#38BDF8' };
+            const icons = { success: '✓', error: '✗', info: 'ℹ' };
+            
+            const notif = document.createElement('div');
+            notif.style.cssText = `background:white;padding:12px 20px;border-radius:50px;box-shadow:0 5px 15px rgba(0,0,0,0.2);margin-bottom:10px;display:flex;align-items:center;gap:10px;border-left:4px solid ${colors[type]};animation:slideIn 0.3s ease`;
+            notif.innerHTML = `<span style="color:${colors[type]};font-weight:bold">${icons[type]}</span><span>${message}</span>`;
+            container.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+        
+        // Save roadmap to localStorage for Learning Roadmap page
+        function saveRoadmapToLocalStorage(roadmapHtml, months, missingSkills, targetRole) {
+            const roadmapData = {
+                generatedAt: new Date().toISOString(),
+                months: months,
+                targetRole: targetRole,
+                missingSkills: missingSkills,
+                roadmapHtml: roadmapHtml
+            };
+            localStorage.setItem('savedRoadmap', JSON.stringify(roadmapData));
+            showNotification(`✅ Roadmap saved! View it in Learning Roadmap section (${months} months plan)`, 'success');
+        }
+        
+        // DOM Elements
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('resume-file');
+        const browseBtn = document.getElementById('browse-resume');
+        const removeFile = document.getElementById('remove-file');
+        const uploadedInfo = document.getElementById('uploaded-info');
+        const fileName = document.getElementById('file-name');
+        
+        // Upload handlers
+        uploadArea?.addEventListener('click', () => fileInput?.click());
+        
+        browseBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fileInput?.click();
+        });
+        
+        fileInput?.addEventListener('change', (e) => {
+            if (e.target.files[0]) handleFileUpload(e.target.files[0]);
+        });
+        
+        removeFile?.addEventListener('click', resetUpload);
+        
+        function handleFileUpload(file) {
+            fileName.textContent = file.name;
+            uploadArea.style.display = 'none';
+            uploadedInfo.style.display = 'flex';
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const text = e.target.result;
+                analyzeResume(text);
+            };
+            reader.readAsText(file);
+        }
+        
+        function analyzeResume(text) {
+            const lowerText = text.toLowerCase();
+            
+            // Extract skills with categories
+            const technicalSkills = ['python', 'java', 'javascript', 'sql', 'aws', 'react', 'node.js', 'docker', 'kubernetes', 'html', 'css', 'mongodb', 'postgresql', 'git', 'linux', 'devops', 'machine learning', 'data science', 'tableau', 'power bi', 'excel'];
+            const softSkills = ['communication', 'leadership', 'teamwork', 'problem solving', 'critical thinking', 'time management', 'adaptability', 'creativity', 'emotional intelligence', 'conflict resolution', 'negotiation', 'presentation', 'public speaking', 'writing', 'collaboration', 'organization'];
+            const creativeSkills = ['design', 'graphic design', 'ui/ux', 'photography', 'video editing', 'illustration', 'animation', 'content creation', 'writing', 'copywriting', 'storytelling', 'art', 'crafting'];
+            const businessSkills = ['marketing', 'sales', 'project management', 'agile', 'scrum', 'product management', 'business development', 'strategy', 'analytics', 'finance', 'accounting', 'hr', 'operations'];
+            
+            const skills = {
+                technical: technicalSkills.filter(s => lowerText.includes(s)),
+                soft: softSkills.filter(s => lowerText.includes(s)),
+                creative: creativeSkills.filter(s => lowerText.includes(s)),
+                business: businessSkills.filter(s => lowerText.includes(s))
+            };
+            
+            // Extract experience
+            let experience = 3;
+            const expMatch = lowerText.match(/(\d+)\s*(?:years?|yrs?)/i);
+            if (expMatch) experience = parseInt(expMatch[1]);
+            
+            // Extract name
+            let name = "Candidate";
+            const lines = text.split('\n');
+            for (let line of lines) {
+                line = line.trim();
+                if (line && line.length < 50 && !line.includes('@') && !line.includes('http') && !line.includes('resume')) {
+                    name = line;
+                    break;
+                }
+            }
+            
+            // Suggest role based on skills
+            let suggestedRole = "Software Developer";
+            if (skills.business.length > skills.technical.length && skills.business.includes('marketing')) suggestedRole = "Digital Marketing Manager";
+            else if (skills.business.length > skills.technical.length) suggestedRole = "Project Manager";
+            else if (skills.technical.includes('sql') && skills.technical.includes('database')) suggestedRole = "Database Administrator";
+            else if (skills.technical.includes('data') || skills.technical.includes('analytics')) suggestedRole = "Data Analyst";
+            else if (skills.creative.length > 0) suggestedRole = "Creative Designer";
+            
+            resumeData = { 
+                name: name,
+                skills, 
+                experience, 
+                suggestedRole, 
+                allSkills: [...skills.technical, ...skills.soft, ...skills.creative, ...skills.business] 
+            };
+            
+            // Display results
+            const resultsDiv = document.getElementById('analysis-results');
+            let skillsHtml = '';
+            if (skills.technical.length) skillsHtml += `<div><strong>💻 Technical Skills (${skills.technical.length}):</strong> <div class="skills-detected">${skills.technical.map(s => `<span class="skill-badge technical">${s}</span>`).join('')}</div></div>`;
+            if (skills.soft.length) skillsHtml += `<div><strong>🤝 Soft Skills (${skills.soft.length}):</strong> <div class="skills-detected">${skills.soft.map(s => `<span class="skill-badge soft">${s}</span>`).join('')}</div></div>`;
+            if (skills.creative.length) skillsHtml += `<div><strong>🎨 Creative Skills (${skills.creative.length}):</strong> <div class="skills-detected">${skills.creative.map(s => `<span class="skill-badge creative">${s}</span>`).join('')}</div></div>`;
+            if (skills.business.length) skillsHtml += `<div><strong>📊 Business Skills (${skills.business.length}):</strong> <div class="skills-detected">${skills.business.map(s => `<span class="skill-badge business">${s}</span>`).join('')}</div></div>`;
+            
+            resultsDiv.innerHTML = `
+                <div class="analysis-card">
+                    <h2>🤖 AI Resume Analysis</h2>
+                    <div class="match-highlight">
+                        <p><strong>👤 Name:</strong> ${name}</p>
+                        <p><strong>📅 Experience:</strong> ${experience} years</p>
+                        <p><strong>🎯 AI-Suggested Role:</strong> <span style="color: var(--primary); font-weight: bold;">${suggestedRole}</span></p>
+                        <p><strong>📚 Education:</strong> ${extractEducation(text)}</p>
+                    </div>
+                    ${skillsHtml}
+                    <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
+                        <i class="fas fa-robot"></i> AI-powered analysis based on resume content
+                    </div>
+                </div>
+            `;
+            resultsDiv.style.display = 'block';
+            
+            // Show desired position section
+            document.getElementById('desired-section').style.display = 'block';
+            document.getElementById('desired-position').value = suggestedRole;
+            
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function extractEducation(text) {
+            const lowerText = text.toLowerCase();
+            if (lowerText.includes('b.tech') || lowerText.includes('b.e')) return "Bachelor's in Engineering";
+            if (lowerText.includes('mca')) return "MCA";
+            if (lowerText.includes('mba')) return "MBA";
+            if (lowerText.includes('b.sc')) return "Bachelor's in Science";
+            if (lowerText.includes('m.sc')) return "Master's in Science";
+            if (lowerText.includes('phd')) return "PhD";
+            return "Bachelor's Degree";
+        }
+        
+        function resetUpload() {
+            resumeData = null;
+            uploadArea.style.display = 'block';
+            uploadedInfo.style.display = 'none';
+            document.getElementById('analysis-results').style.display = 'none';
+            document.getElementById('desired-section').style.display = 'none';
+            document.getElementById('match-results').style.display = 'none';
+            document.getElementById('missing-skills-section').style.display = 'none';
+            document.getElementById('roadmap-results').style.display = 'none';
+            fileInput.value = '';
+            showNotification('Resume cleared', 'info');
+        }
+        
+        // Analyze match
+        document.getElementById('analyze-match')?.addEventListener('click', () => {
+            if (!resumeData) {
+                showNotification('Please upload your resume first', 'error');
+                return;
+            }
+            
+            const desiredRole = document.getElementById('desired-position').value;
+            if (!desiredRole) {
+                showNotification('Please enter your desired position', 'error');
+                return;
+            }
+            
+            showNotification('Analyzing match...', 'info');
+            
+            // Define role requirements
+            const requirements = {
+                "software developer": ["Python", "JavaScript", "SQL", "Git", "Problem Solving", "Communication"],
+                "senior software engineer": ["Python", "JavaScript", "System Design", "Leadership", "AWS", "Communication"],
+                "data scientist": ["Python", "Machine Learning", "SQL", "Statistics", "Data Visualization", "Communication"],
+                "data analyst": ["SQL", "Excel", "Python", "Data Visualization", "Statistics", "Communication"],
+                "project manager": ["Project Management", "Agile", "Communication", "Leadership", "Risk Management", "JIRA"],
+                "digital marketing manager": ["SEO", "Google Analytics", "Social Media", "Content Strategy", "Email Marketing", "Communication"],
+                "product manager": ["Product Strategy", "User Research", "Agile", "Data Analysis", "Communication", "Leadership"],
+                "database administrator": ["SQL", "Database Design", "Backup Recovery", "Performance Tuning", "Oracle/MySQL", "Communication"],
+                "creative designer": ["Design", "Adobe Suite", "Creativity", "Communication", "Typography", "UI/UX"]
+            };
+            
+            let required = requirements[desiredRole.toLowerCase()];
+            if (!required) {
+                // Dynamic requirements based on role
+                required = ["Communication", "Problem Solving", "Teamwork", "Leadership", "Time Management", "Adaptability"];
+                if (desiredRole.toLowerCase().includes('developer')) required.push("Programming", "Git", "SQL");
+                if (desiredRole.toLowerCase().includes('data')) required.push("Excel", "SQL", "Analytics");
+                if (desiredRole.toLowerCase().includes('marketing')) required.push("SEO", "Social Media", "Content");
+                if (desiredRole.toLowerCase().includes('manager')) required.push("Project Management", "Leadership", "Strategy");
+            }
+            
+            const currentSkills = resumeData.allSkills.map(s => s.toLowerCase());
+            const matched = required.filter(skill => currentSkills.some(cs => cs.includes(skill.toLowerCase())));
+            const missing = required.filter(skill => !currentSkills.some(cs => cs.includes(skill.toLowerCase())));
+            const matchPercent = Math.round((matched.length / required.length) * 100);
+            
+            currentMatch = { role: desiredRole, missing, matchPercent, required };
+            
+            document.getElementById('match-results').innerHTML = `
+                <div class="analysis-card">
+                    <h2>📊 Match Analysis</h2>
+                    <div class="match-highlight">
+                        <div style="font-size: 3rem; font-weight: 700; color: ${matchPercent >= 70 ? '#10B981' : matchPercent >= 40 ? '#F59E0B' : '#EF4444'}">${matchPercent}%</div>
+                        <p>Match Score for ${desiredRole}</p>
+                    </div>
+                    <div><strong>✅ Skills You Have (${matched.length}/${required.length}):</strong><div class="skills-detected">${matched.map(s => `<span class="skill-badge">${s}</span>`).join('')}</div></div>
+                    <div><strong>📚 Skills to Develop (${missing.length}):</strong><div class="skills-detected">${missing.map(s => `<span class="skill-badge" style="background: rgba(239,68,68,0.1);">${s}</span>`).join('')}</div></div>
+                    <div style="margin-top: 1rem; padding: 1rem; background: var(--background); border-radius: 12px;">
+                        <strong>💡 AI Recommendation:</strong><br>
+                        ${matchPercent >= 70 ? 'Great match! You\'re well-prepared. Focus on interview preparation.' : 
+                          matchPercent >= 40 ? `Focus on learning ${missing.slice(0, 3).join(', ')} to improve your chances.` : 
+                          `Consider starting with ${missing[0] || 'foundational courses'} to build core skills.`}
+                    </div>
+                </div>
+            `;
+            document.getElementById('match-results').style.display = 'block';
+            
+            // Show missing skills section
+            document.getElementById('missing-skills-list').innerHTML = `
+                <div class="skills-detected" style="margin-bottom: 1rem;">
+                    ${missing.map(s => `<span class="skill-badge" style="background: var(--warning); color: white;">${s}</span>`).join('')}
+                </div>
+                <p>Focus on developing these ${missing.length} skills to improve your chances for ${desiredRole} positions.</p>
+            `;
+            document.getElementById('missing-skills-section').style.display = 'block';
+            
+            // Scroll to results
+            document.getElementById('match-results').scrollIntoView({ behavior: 'smooth' });
+            showNotification('Match analysis complete!', 'success');
+        });
+        
+        // Time selector
+        document.querySelectorAll('.time-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('.time-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                selectedMonths = parseInt(opt.dataset.months);
+                showNotification(`${selectedMonths} months selected for roadmap`, 'info');
+            });
+            // Set default selected
+            if (opt.dataset.months === '6') opt.classList.add('selected');
+        });
+        
+        // Generate roadmap with saving functionality
+        document.getElementById('generate-roadmap')?.addEventListener('click', () => {
+            if (!currentMatch || !currentMatch.missing) {
+                showNotification('Please analyze match first', 'error');
+                return;
+            }
+            
+            if (currentMatch.missing.length === 0) {
+                showNotification('You already have all required skills! You\'re ready to apply! 🎉', 'success');
+                return;
+            }
+            
+            showNotification(`Generating ${selectedMonths}-month personalized roadmap...`, 'info');
+            
+            const missing = currentMatch.missing;
+            const months = selectedMonths;
+            const skillsPerMonth = Math.ceil(missing.length / months);
+            
+            let roadmapHtml = `
+                <div class="analysis-card">
+                    <h2>🗺️ Your ${months}-Month Learning Roadmap</h2>
+                    <div class="match-highlight">
+                        <p><strong>🎯 Target Role:</strong> ${currentMatch.role}</p>
+                        <p><strong>📅 Duration:</strong> ${months} months</p>
+                        <p><strong>📚 Skills to Learn:</strong> ${missing.length} skills</p>
+                    </div>
+                    <div class="roadmap-timeline">
+            `;
+            
+            let skillIndex = 0;
+            for (let i = 1; i <= months; i++) {
+                const monthSkills = [];
+                for (let j = 0; j < skillsPerMonth && skillIndex < missing.length; j++) {
+                    monthSkills.push(missing[skillIndex]);
+                    skillIndex++;
+                }
+                
+                const displaySkills = monthSkills.length > 0 ? monthSkills : ['Review and Practice', 'Project Work'];
+                roadmapHtml += `
+                    <div class="roadmap-milestone" data-month="${i}">
+                        <div class="milestone-header">
+                            <div class="milestone-number">${i}</div>
+                            <div class="milestone-status pending">${monthSkills.length > 0 ? 'Upcoming' : 'Review'}</div>
+                        </div>
+                        <h3>Month ${i}: ${displaySkills.join(' + ')}</h3>
+                        <p><i class="far fa-clock"></i> 4 weeks</p>
+                        <details>
+                            <summary><i class="fas fa-book"></i> Learning Resources</summary>
+                            <ul>
+                                ${displaySkills.map(skill => getResourcesForSkill(skill)).map(r => `<li>${r}</li>`).join('')}
+                            </ul>
+                        </details>
+                        <details>
+                            <summary><i class="fas fa-laptop-code"></i> Practice Tasks</summary>
+                            <ul>
+                                ${displaySkills.map(skill => getPracticeTask(skill)).map(t => `<li>${t}</li>`).join('')}
+                            </ul>
+                        </details>
+                        ${monthSkills.length > 0 ? `
+                        <details>
+                            <summary><i class="fas fa-certificate"></i> Certification</summary>
+                            <p>${getCertificationForSkill(monthSkills[0])}</p>
+                        </details>
+                        ` : ''}
+                        <button class="btn-small complete-milestone" data-month="${i}">
+                            <i class="far fa-check-circle"></i> Mark Complete
+                        </button>
+                    </div>
+                `;
+            }
+            
+            roadmapHtml += `
+                    </div>
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: var(--primary-light); border-radius: 12px; text-align: center;">
+                        <i class="fas fa-rocket"></i> Complete this ${months}-month roadmap and you'll be ready for ${currentMatch.role} positions!
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('roadmap-results').innerHTML = roadmapHtml;
+            document.getElementById('roadmap-results').style.display = 'block';
+            
+            // Add event listeners to complete buttons
+            document.querySelectorAll('.complete-milestone').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const month = parseInt(btn.dataset.month);
+                    const milestone = btn.closest('.roadmap-milestone');
+                    if (milestone) {
+                        const statusSpan = milestone.querySelector('.milestone-status');
+                        if (statusSpan) {
+                            statusSpan.textContent = 'Completed ✓';
+                            statusSpan.classList.remove('pending');
+                            statusSpan.classList.add('completed');
+                        }
+                        btn.disabled = true;
+                        btn.innerHTML = '<i class="fas fa-check"></i> Completed';
+                        showNotification(`🎉 Month ${month} completed! Keep going!`, 'success');
+                        
+                        // Update progress in localStorage
+                        let progress = JSON.parse(localStorage.getItem('roadmapProgress') || '{}');
+                        progress[month] = true;
+                        localStorage.setItem('roadmapProgress', JSON.stringify(progress));
+                    }
+                });
+            });
+            
+            // SAVE TO LOCALSTORAGE FOR LEARNING ROADMAP PAGE
+            saveRoadmapToLocalStorage(roadmapHtml, months, currentMatch.missing, currentMatch.role);
+            
+            // Scroll to results
+            document.getElementById('roadmap-results').scrollIntoView({ behavior: 'smooth' });
+            showNotification(`✅ ${months}-month roadmap generated and saved! Check Learning Roadmap page.`, 'success');
+        });
+        
+        // Helper functions for resources
+        function getResourcesForSkill(skill) {
+            const skillLower = skill.toLowerCase();
+            if (skillLower.includes('python')) return '🐍 Python for Everybody - Coursera';
+            if (skillLower.includes('javascript')) return '📘 JavaScript: The Odin Project';
+            if (skillLower.includes('sql')) return '🗄️ SQL Tutorial - W3Schools';
+            if (skillLower.includes('react')) return '⚛️ React Official Tutorial';
+            if (skillLower.includes('aws')) return '☁️ AWS Training & Certification';
+            if (skillLower.includes('data')) return '📊 Google Data Analytics Certificate';
+            if (skillLower.includes('marketing')) return '📢 Google Digital Marketing Course';
+            if (skillLower.includes('project')) return '📋 Google Project Management Certificate';
+            if (skillLower.includes('leadership')) return '👥 Leadership Course - LinkedIn Learning';
+            if (skillLower.includes('communication')) return '💬 Communication Skills - Coursera';
+            return `📚 Online courses and tutorials for ${skill}`;
+        }
+        
+        function getPracticeTask(skill) {
+            const skillLower = skill.toLowerCase();
+            if (skillLower.includes('python')) return 'Build a data analysis project with Python';
+            if (skillLower.includes('javascript')) return 'Create an interactive web application';
+            if (skillLower.includes('sql')) return 'Design and optimize database queries';
+            if (skillLower.includes('react')) return 'Build a component-based React application';
+            if (skillLower.includes('data')) return 'Analyze a dataset and create visualizations';
+            if (skillLower.includes('marketing')) return 'Create a complete social media campaign';
+            if (skillLower.includes('project')) return 'Manage a mock project using Agile methodology';
+            return `Complete a hands-on project using ${skill}`;
+        }
+        
+        function getCertificationForSkill(skill) {
+            const skillLower = skill.toLowerCase();
+            if (skillLower.includes('python')) return 'PCAP - Certified Python Programmer';
+            if (skillLower.includes('javascript')) return 'JavaScript Developer Certificate';
+            if (skillLower.includes('sql')) return 'Oracle SQL Certification';
+            if (skillLower.includes('react')) return 'Meta Front-End Developer Certificate';
+            if (skillLower.includes('aws')) return 'AWS Certified Cloud Practitioner';
+            if (skillLower.includes('data')) return 'Google Data Analytics Certificate';
+            if (skillLower.includes('marketing')) return 'Google Digital Marketing Certificate';
+            if (skillLower.includes('project')) return 'PMP Certification';
+            if (skillLower.includes('leadership')) return 'Leadership Certification';
+            return `${skill} Professional Certificate`;
+        }
+        
+        // Display mentors
+        function displayMentors(type) {
+            let filtered = mentors;
+            if (type === 'online') {
+                filtered = mentors.filter(m => m.mode === 'online');
+            } else if (type === 'offline') {
+                filtered = mentors.filter(m => m.mode === 'offline');
+            }
+            
+            const container = document.getElementById('mentors-list');
+            container.innerHTML = filtered.map(m => `
+                <div class="mentor-card">
+                    <div class="mentor-institution">${m.name}</div>
+                    <div><i class="fas ${m.mode === 'online' ? 'fa-wifi' : 'fa-building'}"></i> ${m.mode === 'online' ? 'Online Coaching' : m.mode === 'offline' ? 'Offline Training' : 'Both Available'}</div>
+                    <div><i class="fas fa-map-marker-alt"></i> ${m.location}</div>
+                    <div class="mentor-courses">${m.courses.map(c => `<span class="course-badge">${c}</span>`).join('')}</div>
+                    <div style="margin-top: 1rem;">
+                        <button class="contact-btn" onclick="window.open('https://${m.website}', '_blank')">Visit Website</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        displayMentors('all');
+        
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                displayMentors(btn.dataset.type);
+            });
+        });
+        
+        // Sidebar toggle
+        document.getElementById('menu-toggle')?.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+        
+        // Logout
+        document.getElementById('logout-btn')?.addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        });
+        
+        // Profile dropdown
+        const profileMenu = document.getElementById('profile-menu');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        if (profileMenu && profileDropdown) {
+            profileMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+            document.addEventListener('click', () => { profileDropdown.style.display = 'none'; });
+        }
+        
+        // Update user info
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.firstName) {
+            const avatar = document.getElementById('profile-avatar');
+            const userFullname = document.getElementById('user-fullname');
+            if (avatar) avatar.textContent = (user.firstName[0] + (user.lastName?.[0] || '')).toUpperCase();
+            if (userFullname) userFullname.textContent = `${user.firstName} ${user.lastName || ''}`;
+        }
+    </script>
+</body>
+</html>

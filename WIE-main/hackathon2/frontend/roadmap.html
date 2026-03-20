@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>AI Learning Roadmap - ReLaunchHer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #7F56D9;
+            --primary-dark: #6941C6;
+            --primary-light: #F4EBFF;
+            --secondary: #F9A8D4;
+            --accent: #38BDF8;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --border-radius: 20px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 12px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .dashboard-sidebar {
+            width: 280px;
+            background: var(--card-bg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--border-radius-sm);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .dashboard-main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            width: 300px;
+            border: 1px solid var(--border);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+        }
+
+        .profile-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-lg);
+            min-width: 200px;
+            display: none;
+            z-index: 100;
+        }
+
+        .profile-dropdown .dropdown-item {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .profile-dropdown .dropdown-item:hover {
+            background: var(--background);
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+        }
+
+        /* Progress Cards */
+        .roadmap-progress {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-card, .stats-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+
+        .circular-progress {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+        }
+
+        .circular-progress svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .progress-bg {
+            fill: none;
+            stroke: var(--border);
+            stroke-width: 8;
+        }
+
+        .progress-bar {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Roadmap Milestones */
+        .roadmap-milestone {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .roadmap-milestone:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .milestone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .milestone-number {
+            background: var(--primary);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .milestone-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+        }
+
+        .milestone-status.completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .milestone-status.in-progress {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .milestone-status.pending {
+            background: rgba(107, 114, 128, 0.1);
+            color: var(--text-secondary);
+        }
+
+        details {
+            margin-top: 1rem;
+        }
+
+        summary {
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        details ul {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-small:hover {
+            transform: scale(1.05);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+            .dashboard-sidebar.active {
+                transform: translateX(0);
+            }
+            .dashboard-main {
+                margin-left: 0;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .roadmap-progress {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-main {
+                padding: 1rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="dashboard-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-rocket"></i>
+                <span>ReLaunchHer</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="career-restart.html"><i class="fas fa-briefcase"></i> Career Restart</a>
+                <a href="business-generator.html"><i class="fas fa-lightbulb"></i> Business Generator</a>
+                <a href="roadmap.html" class="active"><i class="fas fa-road"></i> Learning Roadmap</a>
+                <a href="skills.html"><i class="fas fa-code"></i> Skills</a>
+                <a href="community.html"><i class="fas fa-users"></i> Community</a>
+<a href="http://localhost:8000/schemes-ngos.html"><i class="fas fa-hand-holding-heart"></i> Schemes & NGOs</a>
+                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search roadmap...">
+                </div>
+                <div class="profile-menu" id="profile-menu">
+                    <div class="profile-avatar" id="profile-avatar">U</div>
+                    <i class="fas fa-chevron-down"></i>
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <div class="dropdown-item" id="profile-name"><i class="fas fa-user"></i> <span id="user-fullname">Guest</span></div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item" id="dropdown-logout"><i class="fas fa-sign-out-alt"></i> Logout</div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-header">
+                <h1>📚 AI Learning Roadmap</h1>
+                <p>Your personalized learning path created by AI based on your career goals</p>
+            </div>
+
+            <div class="roadmap-progress">
+                <div class="progress-card">
+                    <h3>Overall Progress</h3>
+                    <div class="circular-progress">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="progress-bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="progress-bar" cx="50" cy="50" r="45" id="progress-circle"></circle>
+                        </svg>
+                        <span class="progress-text" id="progress-percent">0%</span>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <h3>Learning Stats</h3>
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <span class="stat-value" id="completed-count">0</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="in-progress-count">0</span>
+                            <span class="stat-label">In Progress</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="total-steps">0</span>
+                            <span class="stat-label">Total Steps</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="roadmap-container">
+                <!-- Roadmap will be loaded here -->
+            </div>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <button class="btn-secondary" id="clear-roadmap" style="display: none;">
+                    <i class="fas fa-trash"></i> Clear Roadmap
+                </button>
+                <a href="career-restart.html" class="btn-primary" id="generate-new">
+                    <i class="fas fa-magic"></i> Generate New Roadmap
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Learning Roadmap - Complete with Progress Tracking
+        
+        let currentRoadmap = null;
+        let completedMilestones = {};
+        
+        // Load saved roadmap from localStorage
+        function loadRoadmap() {
+            const savedRoadmap = localStorage.getItem('savedRoadmap');
+            const container = document.getElementById('roadmap-container');
+            const clearBtn = document.getElementById('clear-roadmap');
+            
+            if (savedRoadmap) {
+                try {
+                    const data = JSON.parse(savedRoadmap);
+                    currentRoadmap = data;
+                    
+                    // Load saved progress
+                    const savedProgress = localStorage.getItem('roadmapProgress');
+                    if (savedProgress) {
+                        completedMilestones = JSON.parse(savedProgress);
+                    } else {
+                        completedMilestones = {};
+                    }
+                    
+                    displayRoadmap(data);
+                    clearBtn.style.display = 'inline-flex';
+                    updateProgressStats();
+                } catch (e) {
+                    console.error('Error loading roadmap:', e);
+                    showEmptyState();
+                }
+            } else {
+                showEmptyState();
+            }
+        }
+        
+        function displayRoadmap(data) {
+            const container = document.getElementById('roadmap-container');
+            
+            // Extract roadmap HTML from saved data
+            let roadmapHtml = data.roadmapHtml || '';
+            
+            // If no HTML stored, generate from data
+            if (!roadmapHtml && data.months && data.missingSkills) {
+                roadmapHtml = generateRoadmapFromData(data);
+            }
+            
+            // Add header info
+            const headerHtml = `
+                <div class="roadmap-header" style="margin-bottom: 1.5rem;">
+                    <div style="background: var(--primary-light); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1rem;">
+                        <h3>🎯 ${data.targetRole || 'Career Development'} Roadmap</h3>
+                        <p><strong>Duration:</strong> ${data.months || 6} months</p>
+                        <p><strong>Skills to Learn:</strong> ${(data.missingSkills || []).join(', ') || 'Personalized skills'}</p>
+                        <p><strong>Generated:</strong> ${new Date(data.generatedAt).toLocaleDateString()}</p>
+                    </div>
+                </div>
+            `;
+            
+            // Process roadmap HTML to add completion status
+            let processedHtml = roadmapHtml;
+            
+            // Add milestone completion buttons with proper status
+            if (data.months) {
+                let milestonesHtml = '';
+                for (let i = 1; i <= data.months; i++) {
+                    const isCompleted = completedMilestones[i] === true;
+                    const status = isCompleted ? 'completed' : 'pending';
+                    const statusText = isCompleted ? 'Completed ✓' : 'In Progress';
+                    
+                    milestonesHtml += `
+                        <div class="roadmap-milestone" data-month="${i}">
+                            <div class="milestone-header">
+                                <div class="milestone-number">${i}</div>
+                                <div class="milestone-status ${status}">${statusText}</div>
+                            </div>
+                            <h3>Month ${i}: ${getSkillsForMonth(i, data.missingSkills, data.months)}</h3>
+                            <p><i class="far fa-clock"></i> 4 weeks</p>
+                            <details>
+                                <summary><i class="fas fa-book"></i> Learning Resources</summary>
+                                <ul>
+                                    ${getResourcesForMonth(i, data.missingSkills, data.months).map(r => `<li>${r}</li>`).join('')}
+                                </ul>
+                            </details>
+                            <details>
+                                <summary><i class="fas fa-laptop-code"></i> Practice Tasks</summary>
+                                <ul>
+                                    ${getTasksForMonth(i, data.missingSkills, data.months).map(t => `<li>${t}</li>`).join('')}
+                                </ul>
+                            </details>
+                            ${!isCompleted ? `
+                            <button class="btn-small" onclick="markMilestoneComplete(${i})" style="margin-top: 1rem;">
+                                <i class="far fa-check-circle"></i> Mark Complete
+                            </button>
+                            ` : `
+                            <button class="btn-small" disabled style="margin-top: 1rem; background: var(--success);">
+                                <i class="fas fa-check"></i> Completed
+                            </button>
+                            `}
+                        </div>
+                    `;
+                }
+                processedHtml = headerHtml + milestonesHtml;
+            } else {
+                processedHtml = headerHtml + roadmapHtml;
+                // Add completion buttons to existing milestones
+                setTimeout(() => {
+                    document.querySelectorAll('.roadmap-milestone').forEach((milestone, index) => {
+                        const month = index + 1;
+                        const isCompleted = completedMilestones[month] === true;
+                        if (isCompleted) {
+                            const statusSpan = milestone.querySelector('.milestone-status');
+                            if (statusSpan) {
+                                statusSpan.textContent = 'Completed ✓';
+                                statusSpan.classList.add('completed');
+                                statusSpan.classList.remove('pending');
+                            }
+                            const btn = milestone.querySelector('button');
+                            if (btn) {
+                                btn.disabled = true;
+                                btn.innerHTML = '<i class="fas fa-check"></i> Completed';
+                            }
+                        }
+                    });
+                }, 100);
+            }
+            
+            container.innerHTML = processedHtml;
+        }
+        
+        function getSkillsForMonth(month, missingSkills, totalMonths) {
+            if (!missingSkills || missingSkills.length === 0) {
+                return `Skill Development Month ${month}`;
+            }
+            const skillsPerMonth = Math.ceil(missingSkills.length / totalMonths);
+            const start = (month - 1) * skillsPerMonth;
+            const end = start + skillsPerMonth;
+            const monthSkills = missingSkills.slice(start, end);
+            return monthSkills.length > 0 ? monthSkills.join(' + ') : `Review & Project Work`;
+        }
+        
+        function getResourcesForMonth(month, missingSkills, totalMonths) {
+            const skills = getSkillsForMonth(month, missingSkills, totalMonths).split(' + ');
+            return skills.map(skill => getResourceForSkill(skill));
+        }
+        
+        function getTasksForMonth(month, missingSkills, totalMonths) {
+            const skills = getSkillsForMonth(month, missingSkills, totalMonths).split(' + ');
+            return skills.map(skill => getPracticeTaskForSkill(skill));
+        }
+        
+        function getResourceForSkill(skill) {
+            const s = skill.toLowerCase();
+            if (s.includes('python')) return '🐍 Python for Everybody - Coursera';
+            if (s.includes('javascript')) return '📘 JavaScript: The Odin Project';
+            if (s.includes('sql')) return '🗄️ SQL Tutorial - W3Schools';
+            if (s.includes('react')) return '⚛️ React Official Tutorial';
+            if (s.includes('aws')) return '☁️ AWS Training & Certification';
+            if (s.includes('data')) return '📊 Google Data Analytics Certificate';
+            if (s.includes('marketing')) return '📢 Google Digital Marketing Course';
+            if (s.includes('project')) return '📋 Google Project Management Certificate';
+            if (s.includes('leadership')) return '👥 Leadership Course - LinkedIn Learning';
+            if (s.includes('communication')) return '💬 Communication Skills - Coursera';
+            return `📚 Online courses and tutorials for ${skill}`;
+        }
+        
+        function getPracticeTaskForSkill(skill) {
+            const s = skill.toLowerCase();
+            if (s.includes('python')) return 'Build a data analysis project with Python';
+            if (s.includes('javascript')) return 'Create an interactive web application';
+            if (s.includes('sql')) return 'Design and optimize database queries';
+            if (s.includes('react')) return 'Build a component-based React application';
+            if (s.includes('data')) return 'Analyze a dataset and create visualizations';
+            if (s.includes('marketing')) return 'Create a complete social media campaign';
+            if (s.includes('project')) return 'Manage a mock project using Agile methodology';
+            return `Complete a hands-on project using ${skill}`;
+        }
+        
+        function generateRoadmapFromData(data) {
+            // Fallback generation
+            let html = '';
+            for (let i = 1; i <= (data.months || 6); i++) {
+                html += `
+                    <div class="roadmap-milestone">
+                        <div class="milestone-header">
+                            <div class="milestone-number">${i}</div>
+                            <div class="milestone-status pending">Pending</div>
+                        </div>
+                        <h3>Month ${i}: ${getSkillsForMonth(i, data.missingSkills || [], data.months || 6)}</h3>
+                        <p><i class="far fa-clock"></i> 4 weeks</p>
+                    </div>
+                `;
+            }
+            return html;
+        }
+        
+        function showEmptyState() {
+            const container = document.getElementById('roadmap-container');
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-road"></i>
+                    <h3>No Roadmap Found</h3>
+                    <p>You haven't generated a learning roadmap yet.</p>
+                    <p>Go to Career Restart page, upload your resume, and generate a personalized roadmap.</p>
+                    <a href="career-restart.html" class="btn-primary" style="margin-top: 1rem; display: inline-block;">
+                        <i class="fas fa-magic"></i> Generate Your Roadmap
+                    </a>
+                </div>
+            `;
+            document.getElementById('clear-roadmap').style.display = 'none';
+        }
+        
+        function markMilestoneComplete(month) {
+            if (!completedMilestones[month]) {
+                completedMilestones[month] = true;
+                localStorage.setItem('roadmapProgress', JSON.stringify(completedMilestones));
+                
+                // Update UI
+                const milestone = document.querySelector(`.roadmap-milestone[data-month="${month}"]`);
+                if (milestone) {
+                    const statusSpan = milestone.querySelector('.milestone-status');
+                    if (statusSpan) {
+                        statusSpan.textContent = 'Completed ✓';
+                        statusSpan.classList.remove('pending');
+                        statusSpan.classList.add('completed');
+                    }
+                    const btn = milestone.querySelector('button');
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.innerHTML = '<i class="fas fa-check"></i> Completed';
+                    }
+                }
+                
+                updateProgressStats();
+                showNotification(`🎉 Month ${month} completed! Keep going!`, 'success');
+            }
+        }
+        
+        function updateProgressStats() {
+            if (!currentRoadmap) return;
+            
+            const totalMonths = currentRoadmap.months || 6;
+            const completedCount = Object.keys(completedMilestones).filter(m => completedMilestones[m] === true).length;
+            const inProgressCount = totalMonths - completedCount;
+            const percentage = totalMonths > 0 ? Math.round((completedCount / totalMonths) * 100) : 0;
+            
+            document.getElementById('completed-count').textContent = completedCount;
+            document.getElementById('in-progress-count').textContent = inProgressCount;
+            document.getElementById('total-steps').textContent = totalMonths;
+            document.getElementById('progress-percent').textContent = `${percentage}%`;
+            
+            // Update circle progress
+            const circle = document.getElementById('progress-circle');
+            if (circle) {
+                const circumference = 2 * Math.PI * 45;
+                const offset = circumference - (percentage / 100) * circumference;
+                circle.style.strokeDasharray = `${circumference} ${circumference}`;
+                circle.style.strokeDashoffset = offset;
+            }
+        }
+        
+        function clearRoadmap() {
+            if (confirm('Are you sure you want to clear your roadmap? This action cannot be undone.')) {
+                localStorage.removeItem('savedRoadmap');
+                localStorage.removeItem('roadmapProgress');
+                currentRoadmap = null;
+                completedMilestones = {};
+                showEmptyState();
+                updateProgressStats();
+                showNotification('Roadmap cleared successfully', 'info');
+            }
+        }
+        
+        function showNotification(message, type) {
+            let container = document.getElementById('notification-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'notification-container';
+                container.style.cssText = 'position:fixed;top:20px;right:20px;z-index:10000';
+                document.body.appendChild(container);
+            }
+            
+            const colors = { success: '#10B981', error: '#EF4444', info: '#38BDF8' };
+            const notif = document.createElement('div');
+            notif.style.cssText = `background:white;padding:12px 20px;border-radius:50px;box-shadow:0 5px 15px rgba(0,0,0,0.2);margin-bottom:10px;display:flex;align-items:center;gap:10px;border-left:4px solid ${colors[type]};animation:slideIn 0.3s ease`;
+            notif.innerHTML = `<span style="color:${colors[type]}">${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ'}</span><span>${message}</span>`;
+            container.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+        
+        // Event Listeners
+        document.getElementById('clear-roadmap')?.addEventListener('click', clearRoadmap);
+        document.getElementById('logout-btn')?.addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        });
+        document.getElementById('menu-toggle')?.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+        
+        // Profile dropdown
+        const profileMenu = document.getElementById('profile-menu');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        if (profileMenu && profileDropdown) {
+            profileMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+            document.addEventListener('click', () => { profileDropdown.style.display = 'none'; });
+        }
+        
+        // Update user info
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.firstName) {
+            const avatar = document.getElementById('profile-avatar');
+            const userFullname = document.getElementById('user-fullname');
+            if (avatar) avatar.textContent = (user.firstName[0] + (user.lastName?.[0] || '')).toUpperCase();
+            if (userFullname) userFullname.textContent = `${user.firstName} ${user.lastName || ''}`;
+        }
+        
+        // Animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Load roadmap on page load
+        loadRoadmap();
+        
+        // Make function global
+        window.markMilestoneComplete = markMilestoneComplete;
+    </script>
+</body>
+</html>

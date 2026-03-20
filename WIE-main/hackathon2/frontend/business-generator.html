@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>AI Business Generator - ReLaunchHer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #7F56D9;
+            --primary-dark: #6941C6;
+            --primary-light: #F4EBFF;
+            --secondary: #F9A8D4;
+            --accent: #38BDF8;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --border-radius: 20px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 12px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .dashboard-sidebar {
+            width: 280px;
+            background: var(--card-bg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--border-radius-sm);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .dashboard-main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            width: 300px;
+            border: 1px solid var(--border);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+        }
+
+        .profile-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-lg);
+            min-width: 200px;
+            display: none;
+            z-index: 100;
+        }
+
+        .profile-dropdown .dropdown-item {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .profile-dropdown .dropdown-item:hover {
+            background: var(--background);
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+        }
+
+        .input-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .skills-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .skills-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-chip {
+            padding: 0.6rem 1.2rem;
+            background: var(--background);
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .skill-chip:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .skill-chip.selected {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .custom-skill-input {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .custom-skill-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: var(--border-radius-sm);
+        }
+
+        .btn-primary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(127, 86, 217, 0.3);
+        }
+
+        .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-small {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .business-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .business-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .best-match-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--success), var(--accent));
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .business-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .business-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .business-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--background);
+            border-radius: var(--border-radius-sm);
+        }
+
+        .business-meta-item {
+            text-align: center;
+        }
+
+        .business-meta-item .label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: block;
+        }
+
+        .business-meta-item .value {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .match-score {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary-light);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .detail-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .detail-section summary {
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: 500;
+            padding: 0.5rem 0;
+        }
+
+        .detail-section ul {
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .save-btn {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+        }
+
+        .loading i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .saved-ideas-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+            .dashboard-sidebar.active {
+                transform: translateX(0);
+            }
+            .dashboard-main {
+                margin-left: 0;
+            }
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-main {
+                padding: 1rem;
+            }
+            .form-row {
+                flex-direction: column;
+            }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="dashboard-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-rocket"></i>
+                <span>ReLaunchHer</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="career-restart.html"><i class="fas fa-briefcase"></i> Career Restart</a>
+                <a href="business-generator.html" class="active"><i class="fas fa-lightbulb"></i> Business Generator</a>
+                <a href="roadmap.html"><i class="fas fa-road"></i> Learning Roadmap</a>
+                <a href="skills.html"><i class="fas fa-code"></i> Skills</a>
+                <a href="community.html"><i class="fas fa-users"></i> Community</a>
+<a href="http://localhost:8000/schemes-ngos.html"><i class="fas fa-hand-holding-heart"></i> Schemes & NGOs</a>
+                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search business ideas...">
+                </div>
+                <div class="profile-menu" id="profile-menu">
+                    <div class="profile-avatar" id="profile-avatar">U</div>
+                    <i class="fas fa-chevron-down"></i>
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <div class="dropdown-item" id="profile-name"><i class="fas fa-user"></i> <span id="user-fullname">Guest</span></div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item" id="dropdown-logout"><i class="fas fa-sign-out-alt"></i> Logout</div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-header">
+                <h1><i class="fas fa-lightbulb"></i> AI Micro-Business Generator</h1>
+                <p>Select your skills and let AI generate personalized business ideas for you</p>
+            </div>
+
+            <div class="input-card">
+                <h2>Tell Us About Yourself</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Select your skills and preferences</p>
+
+                <div class="skills-section">
+                    <div class="skills-title"><i class="fas fa-star"></i> Select Your Skills</div>
+                    <div class="skills-grid" id="skills-grid"></div>
+                    <div class="custom-skill-input">
+                        <input type="text" id="custom-skill" placeholder="Add your own skill">
+                        <button class="btn-secondary" id="add-custom-skill"><i class="fas fa-plus"></i> Add</button>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-rupee-sign"></i> Initial Budget</label>
+                        <select id="budget">
+                            <option value="Low">Low (Under ₹10,000)</option>
+                            <option value="Medium" selected>Medium (₹10,000 - ₹50,000)</option>
+                            <option value="High">High (Above ₹50,000)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-clock"></i> Time Availability</label>
+                        <select id="time-availability">
+                            <option value="Part-time">Part-time (10-20 hrs/week)</option>
+                            <option value="Full-time" selected>Full-time (30-40 hrs/week)</option>
+                            <option value="Flexible">Flexible hours</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i> Location Type</label>
+                        <select id="location">
+                            <option value="Urban">Urban City</option>
+                            <option value="Semi-Urban" selected>Semi-Urban</option>
+                            <option value="Rural">Rural / Village</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="generate-btn" style="width: 100%; justify-content: center;">
+                    <i class="fas fa-magic"></i> Generate AI-Powered Business Ideas
+                </button>
+            </div>
+
+            <div id="results-section" style="display: none;">
+                <div id="business-results"></div>
+            </div>
+
+            <div id="saved-ideas-section" class="saved-ideas-section" style="display: none;">
+                <h3><i class="fas fa-bookmark"></i> Your Saved Business Ideas</h3>
+                <div id="saved-ideas-list"></div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Business Generator - Fixed Version
+        console.log("Business Generator loaded");
+        
+        let selectedSkills = new Set();
+        
+        // Predefined skills list
+        const predefinedSkills = [
+            "Communication", "Leadership", "Marketing", "Writing", "Design", 
+            "Cooking", "Teaching", "Social Media", "Photography", "Crafting",
+            "Data Analysis", "Programming", "Public Speaking", "Event Planning",
+            "Fitness", "Art", "Video Editing", "Consulting", "Sales",
+            "Digital Marketing", "SEO", "Graphic Design", "Web Development"
+        ];
+        
+        // Business ideas database (fallback)
+        const businessDatabase = [
+            {
+                title: "Virtual Assistant Services",
+                description: "Provide administrative, creative, and technical support to businesses remotely. Help entrepreneurs manage their daily tasks efficiently.",
+                startup_cost: "₹5,000 - ₹15,000",
+                expected_profit: "₹15,000 - ₹40,000/month",
+                time_to_start: "1-2 weeks",
+                target_customers: "Small business owners, entrepreneurs, busy professionals",
+                execution_plan: ["Set up professional home office", "Create service packages", "Build website and LinkedIn profile", "Network with potential clients"],
+                required_tools: ["Computer", "High-speed internet", "Smartphone", "Project management tools"],
+                marketing_strategy: ["LinkedIn networking", "Facebook groups", "Referral program"],
+                match_keywords: ["communication", "organization", "writing", "computer", "customer service"]
+            },
+            {
+                title: "Social Media Manager",
+                description: "Help businesses grow their online presence by creating engaging content and managing social media accounts across platforms.",
+                startup_cost: "₹10,000 - ₹20,000",
+                expected_profit: "₹20,000 - ₹50,000/month",
+                time_to_start: "2-3 weeks",
+                target_customers: "Small businesses, startups, local shops",
+                execution_plan: ["Build your social media portfolio", "Create sample content", "Learn social media tools", "Reach out to local businesses"],
+                required_tools: ["Smartphone", "Canva", "Scheduling tools", "Analytics tools"],
+                marketing_strategy: ["Showcase your growth", "Free social media audit", "Create case studies"],
+                match_keywords: ["social media", "marketing", "content", "writing", "design", "instagram"]
+            },
+            {
+                title: "Online Tutoring",
+                description: "Share your expertise by teaching students or coaching professionals in subjects you're passionate about.",
+                startup_cost: "₹2,000 - ₹8,000",
+                expected_profit: "₹10,000 - ₹50,000/month",
+                time_to_start: "1-2 weeks",
+                target_customers: "Students, professionals, exam aspirants",
+                execution_plan: ["Choose teaching subjects", "Create lesson plans", "Set up online teaching space", "Register on tutoring platforms"],
+                required_tools: ["Computer", "Webcam", "Digital whiteboard", "Headset"],
+                marketing_strategy: ["YouTube content", "Partner with schools", "Free demo sessions"],
+                match_keywords: ["teaching", "training", "education", "communication", "coaching"]
+            },
+            {
+                title: "Handmade Crafts Business",
+                description: "Create and sell unique handmade products like jewelry, candles, home decor, and personalized gifts.",
+                startup_cost: "₹3,000 - ₹10,000",
+                expected_profit: "₹5,000 - ₹30,000/month",
+                time_to_start: "1-3 weeks",
+                target_customers: "Gift shoppers, home decor enthusiasts",
+                execution_plan: ["Choose product niche", "Source materials", "Create sample products", "Set up Instagram shop"],
+                required_tools: ["Craft supplies", "Camera", "Packaging materials"],
+                marketing_strategy: ["Instagram Reels", "Craft fairs", "Custom orders"],
+                match_keywords: ["craft", "design", "art", "creative", "handmade", "painting"]
+            },
+            {
+                title: "Content Writing Services",
+                description: "Create engaging, SEO-optimized content for blogs, websites, social media, and marketing materials.",
+                startup_cost: "₹2,000 - ₹10,000",
+                expected_profit: "₹10,000 - ₹40,000/month",
+                time_to_start: "1-2 weeks",
+                target_customers: "Bloggers, businesses, marketing agencies",
+                execution_plan: ["Create writing portfolio", "Choose your niche", "Set up freelance profiles", "Create professional website"],
+                required_tools: ["Computer", "Grammarly", "SEO tools"],
+                marketing_strategy: ["LinkedIn tips", "Guest posts", "Free content audit"],
+                match_keywords: ["writing", "content", "blog", "copywriting", "editing", "seo"]
+            },
+            {
+                title: "Digital Marketing Consultant",
+                description: "Help businesses attract customers through SEO, Google Ads, email marketing, and digital strategies.",
+                startup_cost: "₹15,000 - ₹30,000",
+                expected_profit: "₹25,000 - ₹60,000/month",
+                time_to_start: "3-4 weeks",
+                target_customers: "Small to medium businesses",
+                execution_plan: ["Get certified", "Build case studies", "Create service packages", "Network with business owners"],
+                required_tools: ["Google Analytics", "SEO tools", "Email marketing platform"],
+                marketing_strategy: ["Free website audits", "Partner with web developers", "Business workshops"],
+                match_keywords: ["marketing", "digital", "seo", "analytics", "strategy", "advertising"]
+            },
+            {
+                title: "Graphic Design Services",
+                description: "Design logos, branding materials, social media graphics, and marketing collateral for businesses.",
+                startup_cost: "₹8,000 - ₹15,000",
+                expected_profit: "₹15,000 - ₹45,000/month",
+                time_to_start: "2-3 weeks",
+                target_customers: "Startups, small businesses",
+                execution_plan: ["Build portfolio", "Create design packages", "Set up profiles", "Network with agencies"],
+                required_tools: ["Adobe Creative Suite", "Canva", "Drawing tablet"],
+                marketing_strategy: ["Behance portfolio", "Instagram showcase", "Free consultations"],
+                match_keywords: ["design", "graphic", "adobe", "creative", "art", "illustrator"]
+            },
+            {
+                title: "Event Planning Services",
+                description: "Plan and coordinate memorable events including weddings, corporate events, and birthday parties.",
+                startup_cost: "₹10,000 - ₹25,000",
+                expected_profit: "₹15,000 - ₹60,000/month",
+                time_to_start: "3-4 weeks",
+                target_customers: "Families, businesses, organizations",
+                execution_plan: ["Create packages", "Build vendor network", "Create portfolio", "Get certified"],
+                required_tools: ["Event software", "Vendor database", "Checklist templates"],
+                marketing_strategy: ["Social media showcases", "Wedding fairs", "Referral program"],
+                match_keywords: ["event", "planning", "organization", "coordination", "management"]
+            }
+        ];
+        
+        // Load skills grid
+        function loadSkillsGrid() {
+            const container = document.getElementById('skills-grid');
+            if (!container) return;
+            
+            container.innerHTML = predefinedSkills.map(skill => `
+                <div class="skill-chip" data-skill="${skill}">${skill}</div>
+            `).join('');
+            
+            document.querySelectorAll('.skill-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const skill = chip.dataset.skill;
+                    if (selectedSkills.has(skill)) {
+                        selectedSkills.delete(skill);
+                        chip.classList.remove('selected');
+                    } else {
+                        selectedSkills.add(skill);
+                        chip.classList.add('selected');
+                    }
+                });
+            });
+        }
+        
+        // Add custom skill
+        document.getElementById('add-custom-skill')?.addEventListener('click', () => {
+            const input = document.getElementById('custom-skill');
+            const skill = input.value.trim();
+            if (skill && !selectedSkills.has(skill)) {
+                selectedSkills.add(skill);
+                const container = document.getElementById('skills-grid');
+                const chip = document.createElement('div');
+                chip.className = 'skill-chip selected';
+                chip.dataset.skill = skill;
+                chip.textContent = skill;
+                chip.addEventListener('click', () => {
+                    selectedSkills.delete(skill);
+                    chip.remove();
+                });
+                container.appendChild(chip);
+                input.value = '';
+            }
+        });
+        
+        // Calculate match score
+        function calculateMatchScore(idea) {
+            let score = 50;
+            selectedSkills.forEach(skill => {
+                if (idea.match_keywords.some(k => skill.toLowerCase().includes(k))) {
+                    score += 15;
+                }
+            });
+            return Math.min(score, 100);
+        }
+        
+        // Generate business ideas
+        function generateBusinessIdeas() {
+            if (selectedSkills.size === 0) {
+                showNotification('Please select at least one skill first', 'error');
+                return;
+            }
+            
+            const resultsDiv = document.getElementById('business-results');
+            const sectionDiv = document.getElementById('results-section');
+            
+            resultsDiv.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>🤖 Generating personalized business ideas...</p>
+                    <p style="font-size: 0.85rem;">Based on: ${Array.from(selectedSkills).join(', ')}</p>
+                </div>
+            `;
+            sectionDiv.style.display = 'block';
+            
+            // Calculate scores and sort
+            const scoredIdeas = businessDatabase.map(idea => ({
+                ...idea,
+                match_score: calculateMatchScore(idea)
+            })).sort((a, b) => b.match_score - a.match_score).slice(0, 6);
+            
+            displayBusinessIdeas(scoredIdeas);
+            showNotification(`Generated ${scoredIdeas.length} personalized business ideas!`, 'success');
+        }
+        
+        // Display business ideas
+        function displayBusinessIdeas(ideas) {
+            const container = document.getElementById('business-results');
+            
+            if (!ideas || ideas.length === 0) {
+                container.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>No ideas generated. Please try again with different skills.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = `
+                <h2 style="margin-bottom: 1rem;">✨ Your Personalized Business Ideas</h2>
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Based on your skills: <strong>${Array.from(selectedSkills).join(', ')}</strong></p>
+                ${ideas.map((idea, index) => `
+                    <div class="business-card">
+                        ${index === 0 && idea.match_score >= 70 ? '<div class="best-match-badge">🏆 Best Match for You</div>' : ''}
+                        <div class="business-title">${escapeHtml(idea.title)}</div>
+                        <div class="match-score">🎯 Match Score: ${idea.match_score}%</div>
+                        <p class="business-description">${escapeHtml(idea.description)}</p>
+                        
+                        <div class="business-meta">
+                            <div class="business-meta-item">
+                                <span class="label">💰 Startup Cost</span>
+                                <span class="value">${idea.startup_cost}</span>
+                            </div>
+                            <div class="business-meta-item">
+                                <span class="label">📈 Expected Profit</span>
+                                <span class="value">${idea.expected_profit}</span>
+                            </div>
+                            <div class="business-meta-item">
+                                <span class="label">⏱️ Time to Start</span>
+                                <span class="value">${idea.time_to_start}</span>
+                            </div>
+                            <div class="business-meta-item">
+                                <span class="label">🎯 Target Customers</span>
+                                <span class="value">${escapeHtml(idea.target_customers)}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <details>
+                                <summary><i class="fas fa-list-check"></i> Execution Plan</summary>
+                                <ul>
+                                    ${idea.execution_plan.map(step => `<li>${escapeHtml(step)}</li>`).join('')}
+                                </ul>
+                            </details>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <details>
+                                <summary><i class="fas fa-tools"></i> Required Tools</summary>
+                                <ul>
+                                    ${idea.required_tools.map(tool => `<li>${escapeHtml(tool)}</li>`).join('')}
+                                </ul>
+                            </details>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <details>
+                                <summary><i class="fas fa-chart-line"></i> Marketing Strategy</summary>
+                                <ul>
+                                    ${idea.marketing_strategy.map(strategy => `<li>${escapeHtml(strategy)}</li>`).join('')}
+                                </ul>
+                            </details>
+                        </div>
+                        
+                        <button class="save-btn" onclick="saveIdea('${idea.title}')">
+                            <i class="far fa-bookmark"></i> Save This Idea
+                        </button>
+                    </div>
+                `).join('')}
+            `;
+        }
+        
+        // Save idea
+        function saveIdea(title) {
+            const idea = businessDatabase.find(i => i.title === title);
+            if (!idea) return;
+            
+            let saved = JSON.parse(localStorage.getItem('savedBusinessIdeas') || '[]');
+            if (!saved.some(i => i.title === title)) {
+                saved.push({ ...idea, savedAt: new Date().toISOString() });
+                localStorage.setItem('savedBusinessIdeas', JSON.stringify(saved));
+                displaySavedIdeas();
+                showNotification('Business idea saved!', 'success');
+            } else {
+                showNotification('Idea already saved!', 'info');
+            }
+        }
+        
+        // Display saved ideas
+        function displaySavedIdeas() {
+            const saved = JSON.parse(localStorage.getItem('savedBusinessIdeas') || '[]');
+            const container = document.getElementById('saved-ideas-section');
+            const listContainer = document.getElementById('saved-ideas-list');
+            
+            if (saved.length > 0) {
+                container.style.display = 'block';
+                listContainer.innerHTML = saved.map(idea => `
+                    <div class="business-card" style="margin-bottom: 1rem;">
+                        <div class="business-title">${escapeHtml(idea.title)}</div>
+                        <p>${escapeHtml(idea.description)}</p>
+                        <div class="business-meta">
+                            <div><strong>Cost:</strong> ${idea.startup_cost}</div>
+                            <div><strong>Profit:</strong> ${idea.expected_profit}</div>
+                        </div>
+                        <button class="btn-small" onclick="removeIdea('${idea.title}')">
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </div>
+                `).join('');
+            } else {
+                container.style.display = 'none';
+            }
+        }
+        
+        function removeIdea(title) {
+            let saved = JSON.parse(localStorage.getItem('savedBusinessIdeas') || '[]');
+            saved = saved.filter(i => i.title !== title);
+            localStorage.setItem('savedBusinessIdeas', JSON.stringify(saved));
+            displaySavedIdeas();
+            showNotification('Idea removed', 'info');
+        }
+        
+        function showNotification(message, type) {
+            let container = document.getElementById('notification-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'notification-container';
+                container.style.cssText = 'position:fixed;top:20px;right:20px;z-index:10000';
+                document.body.appendChild(container);
+            }
+            
+            const colors = { success: '#10B981', error: '#EF4444', info: '#38BDF8' };
+            const notif = document.createElement('div');
+            notif.style.cssText = `background:white;padding:12px 20px;border-radius:50px;box-shadow:0 5px 15px rgba(0,0,0,0.2);margin-bottom:10px;display:flex;align-items:center;gap:10px;border-left:4px solid ${colors[type]};animation:slideIn 0.3s ease`;
+            notif.innerHTML = `<span style="color:${colors[type]}">${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ'}</span><span>${message}</span>`;
+            container.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Event listeners
+        document.getElementById('generate-btn')?.addEventListener('click', generateBusinessIdeas);
+        document.getElementById('logout-btn')?.addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        });
+        document.getElementById('menu-toggle')?.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+        
+        // Profile dropdown
+        const profileMenu = document.getElementById('profile-menu');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        if (profileMenu && profileDropdown) {
+            profileMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+            document.addEventListener('click', () => { profileDropdown.style.display = 'none'; });
+        }
+        
+        // User info
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.firstName) {
+            const avatar = document.getElementById('profile-avatar');
+            const userFullname = document.getElementById('user-fullname');
+            if (avatar) avatar.textContent = (user.firstName[0] + (user.lastName?.[0] || '')).toUpperCase();
+            if (userFullname) userFullname.textContent = `${user.firstName} ${user.lastName || ''}`;
+        }
+        
+        // Initialize
+        loadSkillsGrid();
+        displaySavedIdeas();
+        
+        // Make functions global
+        window.saveIdea = saveIdea;
+        window.removeIdea = removeIdea;
+    </script>
+</body>
+</html>

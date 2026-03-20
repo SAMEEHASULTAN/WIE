@@ -1,0 +1,12 @@
+:root {
+    --primary: #7F56D9;
+    --secondary: #F9A8D4;
+    --background: #F8FAFC;
+}
+body { font-family: Arial; padding: 20px; }
+.test-box { 
+    background: var(--primary); 
+    color: white; 
+    padding: 20px; 
+    border-radius: 10px;
+}

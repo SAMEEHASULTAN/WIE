@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Community - ReLaunchHer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #7F56D9;
+            --primary-dark: #6941C6;
+            --primary-light: #F4EBFF;
+            --secondary: #F9A8D4;
+            --accent: #38BDF8;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --border-radius: 20px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 12px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .dashboard-sidebar {
+            width: 280px;
+            background: var(--card-bg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--border-radius-sm);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .dashboard-main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            width: 300px;
+            border: 1px solid var(--border);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+        }
+
+        .profile-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-lg);
+            min-width: 200px;
+            display: none;
+            z-index: 100;
+        }
+
+        .profile-dropdown .dropdown-item {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .profile-dropdown .dropdown-item:hover {
+            background: var(--background);
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+        }
+
+        .community-container {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2rem;
+        }
+
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .post-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .post-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .post-info h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .post-category {
+            background: var(--primary-light);
+            padding: 0.2rem 0.5rem;
+            border-radius: 50px;
+            color: var(--primary);
+        }
+
+        .post-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .post-content {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .post-footer {
+            display: flex;
+            gap: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .post-footer span {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .post-footer span:hover {
+            color: var(--primary);
+        }
+
+        .post-footer i {
+            margin-right: 0.3rem;
+        }
+
+        .community-sidebar {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(127, 86, 217, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .sidebar-section {
+            margin-top: 1.5rem;
+        }
+
+        .sidebar-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .categories-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .category {
+            padding: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--border-radius-sm);
+            transition: all 0.3s ease;
+        }
+
+        .category:hover, .category.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .tags-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--background);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .guidelines {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .guidelines li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .guidelines li:last-child {
+            border-bottom: none;
+        }
+
+        .guidelines li:before {
+            content: "✓";
+            color: var(--success);
+            margin-right: 0.5rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+            .dashboard-sidebar.active {
+                transform: translateX(0);
+            }
+            .dashboard-main {
+                margin-left: 0;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .community-container {
+                grid-template-columns: 1fr;
+            }
+            .community-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-main {
+                padding: 1rem;
+            }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="dashboard-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-rocket"></i>
+                <span>ReLaunchHer</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="career-restart.html"><i class="fas fa-briefcase"></i> Career Restart</a>
+                <a href="business-generator.html"><i class="fas fa-lightbulb"></i> Business Generator</a>
+                <a href="roadmap.html"><i class="fas fa-road"></i> Learning Roadmap</a>
+                <a href="skills.html"><i class="fas fa-code"></i> Skills</a>
+                <a href="community.html" class="active"><i class="fas fa-users"></i> Community</a>
+<a href="http://localhost:8000/schemes-ngos.html"><i class="fas fa-hand-holding-heart"></i> Schemes & NGOs</a>
+                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search community posts...">
+                </div>
+                <div class="profile-menu" id="profile-menu">
+                    <div class="profile-avatar" id="profile-avatar">U</div>
+                    <i class="fas fa-chevron-down"></i>
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <div class="dropdown-item" id="profile-name"><i class="fas fa-user"></i> <span id="user-fullname">Guest</span></div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item" id="dropdown-logout"><i class="fas fa-sign-out-alt"></i> Logout</div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-header">
+                <h1>Community</h1>
+                <p>Connect, share, and grow with other women on their journey</p>
+            </div>
+
+            <div class="community-container">
+                <div class="posts-list" id="posts-list">
+                    <!-- Posts will be loaded here -->
+                </div>
+
+                <div class="community-sidebar">
+                    <button class="btn-primary btn-full" id="create-post-btn">
+                        <i class="fas fa-plus"></i> Create New Post
+                    </button>
+                    
+                    <div class="sidebar-section">
+                        <h3>Categories</h3>
+                        <div class="categories-list">
+                            <a href="#" class="category active" data-category="all">All Posts</a>
+                            <a href="#" class="category" data-category="Career Advice">Career Advice</a>
+                            <a href="#" class="category" data-category="Business Ideas">Business Ideas</a>
+                            <a href="#" class="category" data-category="Success Stories">Success Stories</a>
+                            <a href="#" class="category" data-category="AI Insights">AI Insights</a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3>Popular Tags</h3>
+                        <div class="tags-cloud">
+                            <span class="tag">#AI</span>
+                            <span class="tag">#CareerRestart</span>
+                            <span class="tag">#Business</span>
+                            <span class="tag">#Learning</span>
+                            <span class="tag">#Success</span>
+                            <span class="tag">#Motivation</span>
+                            <span class="tag">#WomenInTech</span>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3>Community Guidelines</h3>
+                        <ul class="guidelines">
+                            <li>Be respectful and supportive</li>
+                            <li>Share authentic experiences</li>
+                            <li>No self-promotion spam</li>
+                            <li>Maintain privacy</li>
+                            <li>Encourage others</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create Post Modal -->
+    <div id="create-post-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2>Create New Post</h2>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Share your thoughts, experiences, or questions with the community</p>
+            </div>
+            <form id="create-post-form">
+                <div class="form-group">
+                    <label><i class="fas fa-heading"></i> Title</label>
+                    <input type="text" id="post-title" placeholder="Enter a descriptive title" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Category</label>
+                    <select id="post-category" required>
+                        <option value="General">General Discussion</option>
+                        <option value="Career Advice">Career Advice</option>
+                        <option value="Business Ideas">Business Ideas</option>
+                        <option value="Success Stories">Success Stories</option>
+                        <option value="AI Insights">AI Insights</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-pen"></i> Content</label>
+                    <textarea id="post-content" rows="6" placeholder="Write your post here... Share your experience, ask a question, or offer advice" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-hashtag"></i> Tags (comma separated)</label>
+                    <input type="text" id="post-tags" placeholder="e.g., AI, career, restart">
+                </div>
+                <button type="submit" class="btn-primary btn-full">Publish Post</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Community Page - Complete Working Version
+        console.log("Community page loaded");
+
+        let currentUser = null;
+        let currentCategory = "all";
+        let posts = [];
+        
+        // Load user from localStorage
+        function loadUser() {
+            const userData = localStorage.getItem('user');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                updateProfileDisplay();
+            } else {
+                currentUser = { firstName: "Guest", lastName: "", email: "guest@example.com" };
+            }
+        }
+        
+        function updateProfileDisplay() {
+            const avatar = document.getElementById('profile-avatar');
+            const userFullname = document.getElementById('user-fullname');
+            if (currentUser && currentUser.firstName) {
+                if (avatar) avatar.textContent = (currentUser.firstName[0] + (currentUser.lastName?.[0] || '')).toUpperCase();
+                if (userFullname) userFullname.textContent = `${currentUser.firstName} ${currentUser.lastName || ''}`.trim();
+            }
+        }
+        
+        // Load posts from localStorage
+        function loadPosts() {
+            const savedPosts = localStorage.getItem('communityPosts');
+            if (savedPosts) {
+                posts = JSON.parse(savedPosts);
+            } else {
+                // Default posts
+                posts = [
+                    {
+                        id: 1,
+                        title: "How I restarted my career after 5 years",
+                        content: "With AI-powered guidance from ReLaunchHer, I identified skill gaps and created a learning path. Today, I'm working as a Software Developer! The journey was challenging but rewarding. Happy to answer any questions!",
+                        category: "Success Stories",
+                        tags: ["career", "success", "restart"],
+                        author: "Priya Sharma",
+                        authorInitials: "PS",
+                        date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+                        likes: 24,
+                        comments: 8
+                    },
+                    {
+                        id: 2,
+                        title: "AI-generated business idea changed my life",
+                        content: "The AI business generator suggested a home bakery business based on my cooking skills. Now I have 20+ regular customers and I'm earning ₹25,000/month! Never thought this was possible.",
+                        category: "Business Ideas",
+                        tags: ["business", "success", "ai"],
+                        author: "Anita Desai",
+                        authorInitials: "AD",
+                        date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+                        likes: 42,
+                        comments: 15
+                    },
+                    {
+                        id: 3,
+                        title: "Tips for learning Python as a beginner",
+                        content: "I started learning Python 3 months ago and now I'm comfortable with the basics. Here are my tips: start with Python for Everybody on Coursera, practice daily for 30 mins, build small projects, join coding communities, and don't be afraid to ask questions!",
+                        category: "Career Advice",
+                        tags: ["python", "learning", "coding"],
+                        author: "Meera Reddy",
+                        authorInitials: "MR",
+                        date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+                        likes: 56,
+                        comments: 23
+                    },
+                    {
+                        id: 4,
+                        title: "How I'm using AI to improve my resume",
+                        content: "The AI resume analysis feature helped me identify missing keywords and skills. I updated my resume and got 3 interview calls in 2 weeks! Highly recommend using AI tools for job search.",
+                        category: "AI Insights",
+                        tags: ["ai", "resume", "jobs"],
+                        author: "Sneha Patel",
+                        authorInitials: "SP",
+                        date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+                        likes: 38,
+                        comments: 12
+                    }
+                ];
+                savePosts();
+            }
+            renderPosts();
+        }
+        
+        // Save posts to localStorage
+        function savePosts() {
+            localStorage.setItem('communityPosts', JSON.stringify(posts));
+        }
+        
+        // Add new post
+        function addPost(title, content, category, tags) {
+            if (!currentUser || currentUser.firstName === "Guest") {
+                showNotification('Please login to create a post', 'error');
+                return false;
+            }
+            
+            const newPost = {
+                id: Date.now(),
+                title: title.trim(),
+                content: content.trim(),
+                category: category,
+                tags: tags.split(',').map(t => t.trim()).filter(t => t),
+                author: `${currentUser.firstName} ${currentUser.lastName || ''}`.trim(),
+                authorInitials: (currentUser.firstName[0] + (currentUser.lastName?.[0] || '')).toUpperCase(),
+                date: new Date().toISOString(),
+                likes: 0,
+                comments: 0
+            };
+            
+            posts.unshift(newPost);
+            savePosts();
+            renderPosts();
+            return true;
+        }
+        
+        // Like a post
+        function likePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.likes++;
+                savePosts();
+                renderPosts();
+            }
+        }
+        
+        // Delete post (only if author)
+        function deletePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post && currentUser && `${currentUser.firstName} ${currentUser.lastName || ''}`.trim() === post.author) {
+                if (confirm('Are you sure you want to delete this post?')) {
+                    posts = posts.filter(p => p.id !== postId);
+                    savePosts();
+                    renderPosts();
+                    showNotification('Post deleted successfully', 'success');
+                }
+            } else {
+                showNotification('You can only delete your own posts', 'error');
+            }
+        }
+        
+        // Render posts with filters
+        function renderPosts() {
+            const container = document.getElementById('posts-list');
+            if (!container) return;
+            
+            let filteredPosts = posts;
+            
+            // Filter by category
+            if (currentCategory !== "all") {
+                filteredPosts = filteredPosts.filter(p => p.category === currentCategory);
+            }
+            
+            // Filter by search
+            const searchTerm = document.getElementById('search-input')?.value.toLowerCase();
+            if (searchTerm) {
+                filteredPosts = filteredPosts.filter(p => 
+                    p.title.toLowerCase().includes(searchTerm) || 
+                    p.content.toLowerCase().includes(searchTerm) ||
+                    p.tags.some(t => t.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            if (filteredPosts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-comments"></i>
+                        <h3>No posts yet</h3>
+                        <p>Be the first to share your story or ask a question!</p>
+                        <button class="btn-primary" id="empty-create-btn" style="margin-top: 1rem;">
+                            <i class="fas fa-plus"></i> Create Your First Post
+                        </button>
+                    </div>
+                `;
+                const emptyBtn = document.getElementById('empty-create-btn');
+                if (emptyBtn) {
+                    emptyBtn.addEventListener('click', () => openCreatePostModal());
+                }
+                return;
+            }
+            
+            container.innerHTML = filteredPosts.map(post => `
+                <div class="post-card" data-post-id="${post.id}">
+                    <div class="post-header">
+                        <div class="post-avatar">${post.authorInitials}</div>
+                        <div class="post-info">
+                            <h4>${escapeHtml(post.author)}</h4>
+                            <div class="post-meta">
+                                <span><i class="far fa-calendar-alt"></i> ${formatDate(post.date)}</span>
+                                <span class="post-category">${post.category}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="post-title">${escapeHtml(post.title)}</h3>
+                    <p class="post-content">${escapeHtml(post.content.length > 200 ? post.content.substring(0, 200) + '...' : post.content)}</p>
+                    <div class="post-footer">
+                        <span class="like-btn" onclick="likePost(${post.id})">
+                            <i class="far fa-heart"></i> ${post.likes}
+                        </span>
+                        <span onclick="viewPost(${post.id})">
+                            <i class="far fa-comment"></i> ${post.comments}
+                        </span>
+                        ${currentUser && `${currentUser.firstName} ${currentUser.lastName || ''}`.trim() === post.author ? `
+                            <span onclick="deletePost(${post.id})" style="color: var(--error);">
+                                <i class="far fa-trash-alt"></i> Delete
+                            </span>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // View full post
+        function viewPost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                alert(`📝 ${post.title}\n\n${post.content}\n\n👤 By: ${post.author}\n📅 ${formatDate(post.date)}\n❤️ ${post.likes} likes`);
+            }
+        }
+        
+        // Open create post modal
+        function openCreatePostModal() {
+            if (!currentUser || currentUser.firstName === "Guest") {
+                showNotification('Please login to create a post', 'error');
+                return;
+            }
+            document.getElementById('create-post-modal').classList.add('active');
+        }
+        
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            return date.toLocaleDateString();
+        }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function showNotification(message, type) {
+            let container = document.getElementById('notification-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'notification-container';
+                container.style.cssText = 'position:fixed;top:20px;right:20px;z-index:10000';
+                document.body.appendChild(container);
+            }
+            
+            const colors = { success: '#10B981', error: '#EF4444', info: '#38BDF8' };
+            const notif = document.createElement('div');
+            notif.style.cssText = `background:white;padding:12px 20px;border-radius:50px;box-shadow:0 5px 15px rgba(0,0,0,0.2);margin-bottom:10px;display:flex;align-items:center;gap:10px;border-left:4px solid ${colors[type]};animation:slideIn 0.3s ease`;
+            notif.innerHTML = `<span style="color:${colors[type]}">${type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ'}</span><span>${message}</span>`;
+            container.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+        
+        // Event listeners
+        document.getElementById('create-post-btn')?.addEventListener('click', openCreatePostModal);
+        
+        document.getElementById('create-post-form')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('post-title').value;
+            const category = document.getElementById('post-category').value;
+            const content = document.getElementById('post-content').value;
+            const tags = document.getElementById('post-tags').value;
+            
+            if (!title || !content) {
+                showNotification('Please fill in title and content', 'error');
+                return;
+            }
+            
+            if (addPost(title, content, category, tags)) {
+                document.getElementById('create-post-form').reset();
+                document.getElementById('create-post-modal').classList.remove('active');
+                showNotification('Post published successfully! 🎉', 'success');
+            }
+        });
+        
+        // Category filters
+        document.querySelectorAll('.category').forEach(cat => {
+            cat.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+                cat.classList.add('active');
+                currentCategory = cat.dataset.category;
+                renderPosts();
+            });
+        });
+        
+        // Search functionality
+        document.getElementById('search-input')?.addEventListener('input', () => {
+            renderPosts();
+        });
+        
+        // Tag clicks
+        document.querySelectorAll('.tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) {
+                    searchInput.value = tag.textContent;
+                    renderPosts();
+                }
+            });
+        });
+        
+        // Modal close
+        document.querySelectorAll('.close').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.closest('.modal').classList.remove('active');
+            });
+        });
+        
+        // Click outside modal to close
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        });
+        
+        // Sidebar toggle
+        document.getElementById('menu-toggle')?.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+        
+        // Logout
+        document.getElementById('logout-btn')?.addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        });
+        
+        // Profile dropdown
+        const profileMenu = document.getElementById('profile-menu');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        if (profileMenu && profileDropdown) {
+            profileMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+            document.addEventListener('click', () => { profileDropdown.style.display = 'none'; });
+        }
+        
+        // Make functions global for onclick handlers
+        window.likePost = likePost;
+        window.deletePost = deletePost;
+        window.viewPost = viewPost;
+        
+        // Initialize
+        loadUser();
+        loadPosts();
+    </script>
+</body>
+</html>
