@@ -16,95 +16,66 @@ class Auth {
     
     init() {
         console.log("✅ Auth init called");
-        
-        // Check if user is logged in
-        if (this.token && this.user && window.location.pathname === '/') {
-            // Only redirect if on landing page
-            // this.redirectToDashboard(); // Uncomment to enable auto-redirect
-        }
-        
         this.setupEventListeners();
     }
     
     setupEventListeners() {
         console.log("✅ Setting up event listeners");
         
-        // Get all possible buttons with different selectors
-        const loginBtn = document.querySelector('.btn-secondary') || 
-                        document.querySelector('button:contains("Login")') ||
-                        document.getElementById('login-btn');
-        
-        const signupBtn = document.querySelector('.btn-primary') || 
-                         document.querySelector('button:contains("Join Free")') ||
-                         document.getElementById('signup-btn');
-        
-        const startBtn = document.querySelector('.btn-large') || 
-                        document.querySelector('button:contains("Start Your Journey")');
-        
-        const watchBtn = document.querySelectorAll('.btn-large')[1] || 
-                        document.querySelector('button:contains("Watch Stories")');
+        // Get buttons by ID first (most reliable)
+        const loginBtn = document.getElementById('login-btn') || document.querySelector('.btn-secondary');
+        const signupBtn = document.getElementById('signup-btn') || document.querySelector('.btn-primary');
+        const startBtn = document.getElementById('start-journey-btn') || document.querySelector('.btn-large');
+        const watchBtn = document.getElementById('watch-stories-btn') || document.querySelectorAll('.btn-large')[1];
+        const ctaBtn = document.getElementById('cta-start-btn');
         
         console.log("Login button found:", !!loginBtn);
         console.log("Signup button found:", !!signupBtn);
         console.log("Start button found:", !!startBtn);
         console.log("Watch button found:", !!watchBtn);
+        console.log("CTA button found:", !!ctaBtn);
         
-        // Add click listeners with both addEventListener and onclick fallback
+        // Add click listeners
         if (loginBtn) {
-            // Remove any existing listeners by cloning
-            const newLoginBtn = loginBtn.cloneNode(true);
-            loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
-            
-            newLoginBtn.addEventListener('click', (e) => {
+            loginBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 console.log("Login clicked");
                 this.showModal('login-modal');
             });
-            
-            // Fallback onclick
-            newLoginBtn.onclick = (e) => {
-                e.preventDefault();
-                this.showModal('login-modal');
-                return false;
-            };
         }
         
         if (signupBtn) {
-            const newSignupBtn = signupBtn.cloneNode(true);
-            signupBtn.parentNode.replaceChild(newSignupBtn, signupBtn);
-            
-            newSignupBtn.addEventListener('click', (e) => {
+            signupBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 console.log("Signup clicked");
                 this.showModal('signup-modal');
             });
-            
-            newSignupBtn.onclick = (e) => {
-                e.preventDefault();
-                this.showModal('signup-modal');
-                return false;
-            };
         }
         
         if (startBtn) {
-            const newStartBtn = startBtn.cloneNode(true);
-            startBtn.parentNode.replaceChild(newStartBtn, startBtn);
-            
-            newStartBtn.addEventListener('click', (e) => {
+            startBtn.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 console.log("Start clicked");
                 this.showModal('signup-modal');
             });
         }
         
-        if (watchBtn) {
-            const newWatchBtn = watchBtn.cloneNode(true);
-            watchBtn.parentNode.replaceChild(newWatchBtn, watchBtn);
-            
-            newWatchBtn.addEventListener('click', (e) => {
+        if (ctaBtn) {
+            ctaBtn.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
+                console.log("CTA clicked");
+                this.showModal('signup-modal');
+            });
+        }
+        
+        if (watchBtn) {
+            watchBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 console.log("Watch clicked");
                 this.showTestimonials();
             });
@@ -112,10 +83,13 @@ class Auth {
         
         // Setup close buttons for modals
         document.querySelectorAll('.close').forEach(btn => {
-            btn.addEventListener('click', () => {
-                this.hideModal('login-modal');
-                this.hideModal('signup-modal');
-                this.hideModal('onboarding-modal');
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const modal = btn.closest('.modal');
+                if (modal) {
+                    modal.classList.remove('active');
+                }
+                document.body.style.overflow = '';
             });
         });
         
@@ -123,6 +97,7 @@ class Auth {
         window.addEventListener('click', (e) => {
             if (e.target.classList.contains('modal')) {
                 e.target.classList.remove('active');
+                document.body.style.overflow = '';
             }
         });
         
@@ -163,9 +138,6 @@ class Auth {
                 this.showModal('signup-modal');
             });
         }
-        
-        // Setup onboarding navigation
-        this.setupOnboarding();
     }
     
     showModal(modalId) {
@@ -176,10 +148,7 @@ class Auth {
             document.body.style.overflow = 'hidden'; // Prevent scrolling
         } else {
             console.error("Modal not found:", modalId);
-            alert(`Opening ${modalId.replace('-', ' ')}...`);
-            
-            // Fallback - create simple modal
-            this.createFallbackModal(modalId);
+            alert(`Opening ${modalId.replace('-modal', '')}...`);
         }
     }
     
@@ -189,55 +158,6 @@ class Auth {
             modal.classList.remove('active');
             document.body.style.overflow = ''; // Restore scrolling
         }
-    }
-    
-    createFallbackModal(type) {
-        const modal = document.createElement('div');
-        modal.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            z-index: 10000;
-            max-width: 400px;
-            width: 90%;
-        `;
-        
-        if (type === 'login-modal') {
-            modal.innerHTML = `
-                <h2 style="margin-bottom: 20px;">Login</h2>
-                <input type="email" placeholder="Email" style="width:100%; padding:10px; margin-bottom:10px; border:2px solid #e5e7eb; border-radius:8px;">
-                <input type="password" placeholder="Password" style="width:100%; padding:10px; margin-bottom:20px; border:2px solid #e5e7eb; border-radius:8px;">
-                <button onclick="this.parentElement.remove()" style="padding:10px 20px; background:#7F56D9; color:white; border:none; border-radius:8px; margin-right:10px; cursor:pointer;">Login</button>
-                <button onclick="this.parentElement.remove()" style="padding:10px 20px; background:#f0f0f0; border:none; border-radius:8px; cursor:pointer;">Close</button>
-            `;
-        } else {
-            modal.innerHTML = `
-                <h2 style="margin-bottom: 20px;">Sign Up</h2>
-                <input type="text" placeholder="First Name" style="width:100%; padding:10px; margin-bottom:10px; border:2px solid #e5e7eb; border-radius:8px;">
-                <input type="text" placeholder="Last Name" style="width:100%; padding:10px; margin-bottom:10px; border:2px solid #e5e7eb; border-radius:8px;">
-                <input type="email" placeholder="Email" style="width:100%; padding:10px; margin-bottom:10px; border:2px solid #e5e7eb; border-radius:8px;">
-                <input type="password" placeholder="Password" style="width:100%; padding:10px; margin-bottom:20px; border:2px solid #e5e7eb; border-radius:8px;">
-                <button onclick="this.parentElement.remove()" style="padding:10px 20px; background:#7F56D9; color:white; border:none; border-radius:8px; margin-right:10px; cursor:pointer;">Sign Up</button>
-                <button onclick="this.parentElement.remove()" style="padding:10px 20px; background:#f0f0f0; border:none; border-radius:8px; cursor:pointer;">Close</button>
-            `;
-        }
-        
-        document.body.appendChild(modal);
-        
-        // Click outside to close
-        setTimeout(() => {
-            window.addEventListener('click', function closeModal(e) {
-                if (e.target === modal) {
-                    modal.remove();
-                    window.removeEventListener('click', closeModal);
-                }
-            });
-        }, 100);
     }
     
     showTestimonials() {
@@ -334,7 +254,18 @@ class Auth {
         }
     }
     
+    // FIXED: Added the missing setupOnboarding function
+    setupOnboarding() {
+        console.log("Setting up onboarding");
+        // This function is called but we're using initOnboarding directly
+        // Keeping for compatibility
+        if (document.getElementById('onboarding-modal')) {
+            this.initOnboarding();
+        }
+    }
+    
     initOnboarding() {
+        console.log("Initializing onboarding");
         let currentStep = 1;
         const totalSteps = 4;
         const selectedSkills = new Set();
@@ -541,5 +472,18 @@ class Auth {
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     console.log("✅ DOM ready, creating Auth instance");
-    window.auth = new Auth();
+    // Check if auth already exists to avoid duplicates
+    if (!window.auth) {
+        window.auth = new Auth();
+    }
 });
+
+// Also initialize if DOM is already loaded
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(() => {
+        if (!window.auth) {
+            console.log("DOM already ready, creating Auth now");
+            window.auth = new Auth();
+        }
+    }, 100);
+}

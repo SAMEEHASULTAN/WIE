@@ -52,7 +52,7 @@
 
         <!-- Main Content -->
         <main class="dashboard-main">
-            <!-- Header -->
+            <!-- Header with Profile Dropdown -->
             <header class="dashboard-header">
                 <button class="menu-toggle" id="menu-toggle">
                     <i class="fas fa-bars"></i>
@@ -62,8 +62,27 @@
                     <input type="text" placeholder="Search learning resources...">
                 </div>
                 <div class="profile-menu" id="profile-menu">
-                    <div class="profile-avatar" id="profile-avatar">JD</div>
+                    <div class="profile-avatar" id="profile-avatar">U</div>
                     <i class="fas fa-chevron-down"></i>
+                    <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
+                        <div class="dropdown-item" id="profile-name">
+                            <i class="fas fa-user"></i>
+                            <span id="user-fullname">Guest User</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item" id="dropdown-login">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </div>
+                        <div class="dropdown-item" id="dropdown-signup">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Sign Up</span>
+                        </div>
+                        <div class="dropdown-item" id="dropdown-logout" style="display: none;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </div>
+                    </div>
                 </div>
             </header>
 
@@ -107,7 +126,6 @@
 
             <!-- Timeline -->
             <div class="timeline" id="timeline">
-                <!-- Timeline items -->
                 <div class="timeline-item">
                     <div class="timeline-marker">1</div>
                     <div class="timeline-content">
@@ -192,7 +210,10 @@
         </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/profile-menu.js"></script>
     <script src="js/roadmap.js"></script>
     <script src="js/roadmap-fix.js"></script>
 </body>

@@ -26,6 +26,9 @@
                     <a href="#about">About</a>
                 </div>
                 <div class="nav-buttons">
+                    <div class="theme-toggle">
+                        <i class="fas fa-moon" id="theme-icon"></i>
+                    </div>
                     <button class="btn-secondary" id="login-btn">Login</button>
                     <button class="btn-primary" id="signup-btn">Join Free</button>
                 </div>
@@ -154,7 +157,6 @@
                 <p>Real women, real transformations</p>
             </div>
             <div class="testimonials-slider" id="testimonials-container">
-                <!-- Testimonials will be loaded dynamically -->
                 <div class="testimonial-card">
                     <div class="testimonial-header">
                         <div class="testimonial-avatar">PS</div>
@@ -258,7 +260,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 ReLaunchHer. All rights reserved. Empowering women everywhere.</p>
+                <p>&copy; <span id="current-year"></span> ReLaunchHer. All rights reserved. Empowering women everywhere.</p>
             </div>
         </footer>
     </div>
@@ -495,9 +497,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/main.js"></script>
     <script src="js/auth.js"></script>
-    
-    <!-- Direct fallback script -->
+    <script src="js/theme.js"></script>
+    <script src="js/profile-menu.js"></script>
     <script>
+        // Auto update copyright year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
         // Emergency direct handlers
         document.addEventListener('DOMContentLoaded', function() {
             console.log("🔧 Emergency fallback running");

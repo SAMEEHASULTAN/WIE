@@ -52,7 +52,7 @@
 
         <!-- Main Content -->
         <main class="dashboard-main">
-            <!-- Header -->
+            <!-- Header with Profile Dropdown -->
             <header class="dashboard-header">
                 <button class="menu-toggle" id="menu-toggle">
                     <i class="fas fa-bars"></i>
@@ -62,8 +62,27 @@
                     <input type="text" placeholder="Search skills...">
                 </div>
                 <div class="profile-menu" id="profile-menu">
-                    <div class="profile-avatar" id="profile-avatar">JD</div>
+                    <div class="profile-avatar" id="profile-avatar">U</div>
                     <i class="fas fa-chevron-down"></i>
+                    <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
+                        <div class="dropdown-item" id="profile-name">
+                            <i class="fas fa-user"></i>
+                            <span id="user-fullname">Guest User</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item" id="dropdown-login">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </div>
+                        <div class="dropdown-item" id="dropdown-signup">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Sign Up</span>
+                        </div>
+                        <div class="dropdown-item" id="dropdown-logout" style="display: none;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </div>
+                    </div>
                 </div>
             </header>
 
@@ -121,7 +140,6 @@
             <div class="skills-section">
                 <h2>Your Skills</h2>
                 <div class="skills-grid" id="skills-grid">
-                    <!-- Sample skills -->
                     <div class="skill-card">
                         <div class="skill-header">
                             <h3>Python</h3>
@@ -208,56 +226,13 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Edit Skill Modal -->
-            <div id="edit-skill-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h2>Edit Skill</h2>
-                    <form id="edit-skill-form">
-                        <input type="hidden" id="edit-skill-id">
-                        <div class="form-group">
-                            <label>Skill Name</label>
-                            <input type="text" id="edit-skill-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Category</label>
-                            <select id="edit-skill-category">
-                                <option value="Technical">Technical</option>
-                                <option value="Soft Skills">Soft Skills</option>
-                                <option value="Creative">Creative</option>
-                                <option value="Business">Business</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Proficiency Level</label>
-                            <div class="level-selector">
-                                <label class="level-option">
-                                    <input type="radio" name="edit-skill-level" value="Beginner">
-                                    <span>Beginner</span>
-                                </label>
-                                <label class="level-option">
-                                    <input type="radio" name="edit-skill-level" value="Intermediate">
-                                    <span>Intermediate</span>
-                                </label>
-                                <label class="level-option">
-                                    <input type="radio" name="edit-skill-level" value="Advanced">
-                                    <span>Advanced</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary">Update Skill</button>
-                            <button type="button" class="btn-secondary" id="delete-skill">Delete</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/profile-menu.js"></script>
     <script src="js/skills.js"></script>
     <script src="js/skills-fix.js"></script>
 </body>

@@ -52,7 +52,7 @@
 
         <!-- Main Content -->
         <main class="dashboard-main">
-            <!-- Header -->
+            <!-- Header with Profile Dropdown -->
             <header class="dashboard-header">
                 <button class="menu-toggle" id="menu-toggle">
                     <i class="fas fa-bars"></i>
@@ -62,8 +62,27 @@
                     <input type="text" placeholder="Search resources, skills...">
                 </div>
                 <div class="profile-menu" id="profile-menu">
-                    <div class="profile-avatar" id="profile-avatar">JD</div>
+                    <div class="profile-avatar" id="profile-avatar">U</div>
                     <i class="fas fa-chevron-down"></i>
+                    <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
+                        <div class="dropdown-item" id="profile-name">
+                            <i class="fas fa-user"></i>
+                            <span id="user-fullname">Guest User</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item" id="dropdown-login">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </div>
+                        <div class="dropdown-item" id="dropdown-signup">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Sign Up</span>
+                        </div>
+                        <div class="dropdown-item" id="dropdown-logout" style="display: none;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </div>
+                    </div>
                 </div>
             </header>
 
@@ -131,28 +150,28 @@
 
                 <!-- Action Cards -->
                 <div class="action-cards">
-                    <div class="action-card">
+                    <div class="action-card" onclick="window.location.href='career-restart.html'">
                         <div class="action-icon">
                             <i class="fas fa-briefcase"></i>
                         </div>
                         <h3>Restart Career</h3>
                         <p>Find your path back to work</p>
                     </div>
-                    <div class="action-card">
+                    <div class="action-card" onclick="window.location.href='business-generator.html'">
                         <div class="action-icon">
                             <i class="fas fa-store"></i>
                         </div>
                         <h3>Start Business</h3>
                         <p>Launch your micro-business</p>
                     </div>
-                    <div class="action-card">
+                    <div class="action-card" onclick="window.location.href='roadmap.html'">
                         <div class="action-icon">
                             <i class="fas fa-graduation-cap"></i>
                         </div>
                         <h3>Learn New Skills</h3>
                         <p>Upskill with personalized roadmap</p>
                     </div>
-                    <div class="action-card">
+                    <div class="action-card" onclick="window.location.href='community.html'">
                         <div class="action-icon">
                             <i class="fas fa-comments"></i>
                         </div>
@@ -166,6 +185,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/profile-menu.js"></script>
     <script src="js/dashboard.js"></script>
     <script src="js/dashboard-fix.js"></script>
     <script>
@@ -214,6 +235,13 @@
                         }]
                     }
                 });
+            }
+
+            // Update user name from localStorage
+            const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || '{}');
+            const userNameSpan = document.getElementById('user-name');
+            if (userNameSpan && user.firstName) {
+                userNameSpan.textContent = user.firstName;
             }
         });
     </script>
