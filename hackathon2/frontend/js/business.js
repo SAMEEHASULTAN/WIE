@@ -1,329 +1,202 @@
-// Business Generator JavaScript
-class BusinessGenerator {
-    constructor() {
-        this.baseURL = 'http://localhost:5000/api';
-        this.token = localStorage.getItem('token') || sessionStorage.getItem('token');
-        this.user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user'));
-        this.selectedSkills = new Set();
-        
-        if (!this.token || !this.user) {
-            window.location.href = '/';
-            return;
-        }
-        
-        this.init();
-    }
-    
-    init() {
-        this.updateUserInfo();
-        this.setupEventListeners();
-        this.loadUserSkills();
-    }
-    
-    updateUserInfo() {
-        const avatar = document.getElementById('profile-avatar');
-        if (avatar && this.user) {
-            const initials = (this.user.firstName?.[0] || '') + (this.user.lastName?.[0] || '');
-            avatar.textContent = initials || 'U';
-        }
-    }
-    
-    setupEventListeners() {
-        // Logout
-        document.getElementById('logout-btn')?.addEventListener('click', (e) => {
+// business-fix.js
+console.log("✅ business-fix.js loaded");
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Sidebar navigation
+    document.querySelectorAll('.sidebar-nav a').forEach(link => {
+        link.addEventListener('click', function(e) {
             e.preventDefault();
-            auth.logout();
-        });
-        
-        // Mobile menu toggle
-        document.getElementById('menu-toggle')?.addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('active');
-        });
-        
-        // Skills chips
-        document.querySelectorAll('#business-skills .chip').forEach(chip => {
-            chip.addEventListener('click', () => {
-                const skill = chip.dataset.skill;
-                if (this.selectedSkills.has(skill)) {
-                    this.selectedSkills.delete(skill);
-                    chip.classList.remove('selected');
-                } else {
-                    this.selectedSkills.add(skill);
-                    chip.classList.add('selected');
-                }
-            });
-        });
-        
-        // Generate ideas
-        document.getElementById('generate-ideas')?.addEventListener('click', () => {
-            this.generateIdeas();
-        });
-        
-        // Regenerate ideas
-        document.getElementById('regenerate-ideas')?.addEventListener('click', () => {
-            this.generateIdeas();
-        });
-        
-        // Close modal
-        document.querySelectorAll('#business-modal .close').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('business-modal').classList.remove('active');
-            });
-        });
-    }
-    
-    async loadUserSkills() {
-        try {
-            const response = await fetch(`${this.baseURL}/skills`, {
-                headers: {
-                    'Authorization': `Bearer ${this.token}`
-                }
-            });
-            
-            if (response.ok) {
-                const skills = await response.json();
-                skills.forEach(skill => {
-                    this.selectedSkills.add(skill.name);
-                });
-                
-                // Update chips
-                document.querySelectorAll('#business-skills .chip').forEach(chip => {
-                    if (this.selectedSkills.has(chip.dataset.skill)) {
-                        chip.classList.add('selected');
-                    }
-                });
-            }
-        } catch (error) {
-            console.error('Error loading skills:', error);
-        }
-    }
-    
-    async generateIdeas() {
-        if (this.selectedSkills.size === 0) {
-            auth.showNotification('Please select at least one skill', 'error');
-            return;
-        }
-        
-        const budget = document.getElementById('budget').value;
-        const timeAvailability = document.getElementById('time-availability').value;
-        const location = document.querySelector('input[name="location"]:checked').value;
-        
-        try {
-            const response = await fetch(`${this.baseURL}/business-ideas/generate`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                },
-                body: JSON.stringify({
-                    skills: Array.from(this.selectedSkills),
-                    budget,
-                    timeAvailability,
-                    location
-                })
-            });
-            
-            if (response.ok) {
-                const ideas = await response.json();
-                this.displayIdeas(ideas);
+            if (this.id === 'logout-btn') {
+                handleLogout();
             } else {
-                auth.showNotification('Failed to generate ideas', 'error');
+                window.location.href = this.getAttribute('href');
             }
-        } catch (error) {
-            console.error('Error generating ideas:', error);
-            auth.showNotification('Network error', 'error');
-        }
+        });
+    });
+    
+    // Handle logout
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleLogout();
+        });
     }
     
-    displayIdeas(ideas) {
-        const resultsSection = document.getElementById('results-section');
-        const grid = document.getElementById('business-ideas-grid');
-        
-        resultsSection.style.display = 'block';
-        
-        grid.innerHTML = ideas.map(idea => `
-            <div class="business-card" data-idea='${JSON.stringify(idea)}'>
-                ${idea.best_match_score > 70 ? '<div class="best-match-badge">Best Match</div>' : ''}
-                <h3 class="business-title">${idea.title}</h3>
-                <p class="business-desc">${idea.description}</p>
-                <div class="business-meta">
-                    <div class="meta-item">
-                        <span class="meta-label">Startup Cost</span>
-                        <span class="meta-value">${idea.startup_cost}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Expected Profit</span>
-                        <span class="meta-value">${idea.expected_profit}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Time to Start</span>
-                        <span class="meta-value">${idea.time_to_start}</span>
-                    </div>
+    // Skills chips selection
+    document.querySelectorAll('#business-skills .chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+            this.classList.toggle('selected');
+        });
+    });
+    
+    // Generate ideas button
+    const generateBtn = document.getElementById('generate-ideas');
+    if (generateBtn) {
+        generateBtn.addEventListener('click', function() {
+            const selectedSkills = document.querySelectorAll('#business-skills .chip.selected').length;
+            if (selectedSkills === 0) {
+                alert('Please select at least one skill');
+                return;
+            }
+            
+            // Show results section
+            document.getElementById('results-section').style.display = 'block';
+            
+            // Generate demo ideas
+            const grid = document.getElementById('business-ideas-grid');
+            grid.innerHTML = generateDemoIdeas();
+            
+            // Scroll to results
+            document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+    
+    // Regenerate button
+    const regenerateBtn = document.getElementById('regenerate-ideas');
+    if (regenerateBtn) {
+        regenerateBtn.addEventListener('click', function() {
+            const grid = document.getElementById('business-ideas-grid');
+            grid.innerHTML = generateDemoIdeas();
+        });
+    }
+    
+    // Close modal
+    document.querySelectorAll('#business-modal .close').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.getElementById('business-modal').classList.remove('active');
+        });
+    });
+});
+
+function generateDemoIdeas() {
+    const ideas = [
+        {
+            title: "Virtual Assistant Services",
+            desc: "Provide administrative, creative, or technical support to businesses and entrepreneurs remotely.",
+            cost: "₹5,000 - ₹15,000",
+            profit: "₹15,000 - ₹40,000/month",
+            time: "1-2 weeks",
+            bestMatch: 85
+        },
+        {
+            title: "Handmade Crafts Business",
+            desc: "Create and sell handmade products like jewelry, home decor, candles, or personalized gifts.",
+            cost: "₹3,000 - ₹10,000",
+            profit: "₹5,000 - ₹30,000/month",
+            time: "1-3 weeks",
+            bestMatch: 92
+        },
+        {
+            title: "Online Tutoring",
+            desc: "Share your knowledge by teaching students online in subjects you excel at.",
+            cost: "₹2,000 - ₹8,000",
+            profit: "₹10,000 - ₹50,000/month",
+            time: "1 week",
+            bestMatch: 78
+        },
+        {
+            title: "Social Media Management",
+            desc: "Help small businesses grow their online presence by managing their social media accounts.",
+            cost: "₹10,000 - ₹25,000",
+            profit: "₹20,000 - ₹60,000/month",
+            time: "2-4 weeks",
+            bestMatch: 88
+        },
+        {
+            title: "Healthy Food Business",
+            desc: "Prepare and deliver healthy, homemade snacks and meals to health-conscious customers.",
+            cost: "₹15,000 - ₹40,000",
+            profit: "₹15,000 - ₹70,000/month",
+            time: "3-5 weeks",
+            bestMatch: 75
+        }
+    ];
+    
+    return ideas.map(idea => `
+        <div class="business-card" onclick="showBusinessDetails('${idea.title}')">
+            ${idea.bestMatch > 80 ? '<div class="best-match-badge">Best Match</div>' : ''}
+            <h3 class="business-title">${idea.title}</h3>
+            <p class="business-desc">${idea.desc}</p>
+            <div class="business-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Startup Cost</span>
+                    <span class="meta-value">${idea.cost}</span>
                 </div>
-                <div class="business-actions">
-                    <button class="btn-secondary view-details">View Details</button>
-                    <button class="btn-icon save-idea" title="Save Idea">
-                        <i class="far fa-bookmark"></i>
-                    </button>
+                <div class="meta-item">
+                    <span class="meta-label">Expected Profit</span>
+                    <span class="meta-value">${idea.profit}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Time to Start</span>
+                    <span class="meta-value">${idea.time}</span>
                 </div>
             </div>
-        `).join('');
-        
-        // Add event listeners to cards
-        grid.querySelectorAll('.business-card').forEach(card => {
-            const viewBtn = card.querySelector('.view-details');
-            viewBtn.addEventListener('click', () => {
-                const ideaData = JSON.parse(card.dataset.idea);
-                this.showIdeaDetails(ideaData);
-            });
-            
-            const saveBtn = card.querySelector('.save-idea');
-            saveBtn.addEventListener('click', () => {
-                const ideaData = JSON.parse(card.dataset.idea);
-                this.saveIdea(ideaData);
-            });
-        });
-        
-        // Scroll to results
-        resultsSection.scrollIntoView({ behavior: 'smooth' });
-    }
-    
-    showIdeaDetails(idea) {
-        const modal = document.getElementById('business-modal');
-        const details = document.getElementById('business-details');
-        
-        details.innerHTML = `
-            <div class="business-detail">
-                <h2>${idea.title}</h2>
-                <p class="description">${idea.description}</p>
-                
-                <div class="detail-section">
-                    <h3>Quick Overview</h3>
-                    <div class="overview-grid">
-                        <div class="overview-item">
-                            <strong>Startup Cost:</strong>
-                            <span>${idea.startup_cost}</span>
-                        </div>
-                        <div class="overview-item">
-                            <strong>Expected Profit:</strong>
-                            <span>${idea.expected_profit}</span>
-                        </div>
-                        <div class="overview-item">
-                            <strong>Time to Start:</strong>
-                            <span>${idea.time_to_start}</span>
-                        </div>
-                        <div class="overview-item">
-                            <strong>Target Customers:</strong>
-                            <span>${idea.target_customers}</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="detail-section">
-                    <h3>Step-by-Step Execution Plan</h3>
-                    <ol class="execution-list">
-                        ${idea.execution_plan.map(step => `<li>${step}</li>`).join('')}
-                    </ol>
-                </div>
-                
-                <div class="detail-section">
-                    <h3>Required Tools & Resources</h3>
-                    <ul class="tools-list">
-                        ${idea.required_tools.map(tool => `<li>${tool}</li>`).join('')}
-                    </ul>
-                </div>
-                
-                <div class="detail-section">
-                    <h3>Marketing Strategy</h3>
-                    <ul class="marketing-list">
-                        ${idea.marketing_strategy.map(strategy => `<li>${strategy}</li>`).join('')}
-                    </ul>
-                </div>
-                
-                <div class="detail-section">
-                    <h3>Profit Calculator</h3>
-                    <div class="profit-calculator">
-                        <div class="form-group">
-                            <label>Number of Customers per Month</label>
-                            <input type="number" id="customers" value="10" min="1">
-                        </div>
-                        <div class="form-group">
-                            <label>Average Price per Customer (₹)</label>
-                            <input type="number" id="price" value="1000" min="1">
-                        </div>
-                        <div class="result">
-                            <strong>Estimated Monthly Profit:</strong>
-                            <span id="monthly-profit">₹10,000</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="detail-actions">
-                    <button class="btn-primary save-idea-btn">Save This Idea</button>
-                    <button class="btn-secondary close-modal">Close</button>
-                </div>
+            <div class="business-actions">
+                <button class="btn-secondary view-details" onclick="event.stopPropagation(); showBusinessDetails('${idea.title}')">View Details</button>
+                <button class="btn-icon save-idea" onclick="event.stopPropagation(); alert('Idea saved!')">
+                    <i class="far fa-bookmark"></i>
+                </button>
             </div>
-        `;
-        
-        // Add calculator functionality
-        const customersInput = details.querySelector('#customers');
-        const priceInput = details.querySelector('#price');
-        const profitSpan = details.querySelector('#monthly-profit');
-        
-        const calculateProfit = () => {
-            const customers = parseInt(customersInput.value) || 0;
-            const price = parseInt(priceInput.value) || 0;
-            const profit = customers * price;
-            profitSpan.textContent = `₹${profit.toLocaleString('en-IN')}`;
-        };
-        
-        customersInput.addEventListener('input', calculateProfit);
-        priceInput.addEventListener('input', calculateProfit);
-        
-        // Save idea button
-        details.querySelector('.save-idea-btn').addEventListener('click', () => {
-            this.saveIdea(idea);
-        });
-        
-        // Close button
-        details.querySelector('.close-modal').addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
-        
-        modal.classList.add('active');
-    }
-    
-    async saveIdea(idea) {
-        try {
-            const response = await fetch(`${this.baseURL}/business-ideas/save`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                },
-                body: JSON.stringify(idea)
-            });
-            
-            if (response.ok) {
-                auth.showNotification('Idea saved successfully!', 'success');
-                
-                // Update bookmark icon
-                const saveBtn = document.querySelector(`[data-idea='${JSON.stringify(idea)}'] .save-idea i`);
-                if (saveBtn) {
-                    saveBtn.classList.remove('far');
-                    saveBtn.classList.add('fas');
-                }
-            } else {
-                auth.showNotification('Failed to save idea', 'error');
-            }
-        } catch (error) {
-            console.error('Error saving idea:', error);
-            auth.showNotification('Network error', 'error');
-        }
-    }
+        </div>
+    `).join('');
 }
 
-// Initialize business generator
-document.addEventListener('DOMContentLoaded', () => {
-    window.businessGenerator = new BusinessGenerator();
-});
+function showBusinessDetails(title) {
+    const modal = document.getElementById('business-modal');
+    const details = document.getElementById('business-details');
+    
+    details.innerHTML = `
+        <div class="business-detail">
+            <h2>${title}</h2>
+            <p class="description">Complete guide to start your ${title.toLowerCase()} business.</p>
+            
+            <div class="detail-section">
+                <h3>Step-by-Step Execution Plan</h3>
+                <ol class="execution-list">
+                    <li>Research your target market</li>
+                    <li>Create a business plan</li>
+                    <li>Register your business</li>
+                    <li>Set up your workspace</li>
+                    <li>Market your services</li>
+                    <li>Start with first clients</li>
+                </ol>
+            </div>
+            
+            <div class="detail-section">
+                <h3>Required Tools & Resources</h3>
+                <ul class="tools-list">
+                    <li>Computer/Laptop with internet</li>
+                    <li>Professional email and website</li>
+                    <li>Accounting software</li>
+                    <li>Marketing materials</li>
+                </ul>
+            </div>
+            
+            <div class="detail-section">
+                <h3>Marketing Strategy</h3>
+                <ul class="marketing-list">
+                    <li>Create social media presence</li>
+                    <li>Network with potential clients</li>
+                    <li>Offer referral discounts</li>
+                    <li>Collect and showcase testimonials</li>
+                </ul>
+            </div>
+            
+            <div class="detail-actions">
+                <button class="btn-primary" onclick="alert('Idea saved!')">Save This Idea</button>
+                <button class="btn-secondary" onclick="document.getElementById('business-modal').classList.remove('active')">Close</button>
+            </div>
+        </div>
+    `;
+    
+    modal.classList.add('active');
+}
+
+function handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
+    window.location.href = 'index.html';
+}

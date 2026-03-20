@@ -1,307 +1,121 @@
-// Community JavaScript
-class Community {
-    constructor() {
-        this.baseURL = 'http://localhost:5000/api';
-        this.token = localStorage.getItem('token') || sessionStorage.getItem('token');
-        this.user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user'));
-        
-        if (!this.token || !this.user) {
-            window.location.href = '/';
-            return;
-        }
-        
-        this.init();
-    }
-    
-    init() {
-        this.updateUserInfo();
-        this.setupEventListeners();
-        this.loadPosts();
-    }
-    
-    updateUserInfo() {
-        const avatar = document.getElementById('profile-avatar');
-        if (avatar && this.user) {
-            const initials = (this.user.firstName?.[0] || '') + (this.user.lastName?.[0] || '');
-            avatar.textContent = initials || 'U';
-        }
-    }
-    
-    setupEventListeners() {
-        // Logout
-        document.getElementById('logout-btn')?.addEventListener('click', (e) => {
+// community-fix.js
+console.log("✅ community-fix.js loaded");
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Sidebar navigation
+    document.querySelectorAll('.sidebar-nav a').forEach(link => {
+        link.addEventListener('click', function(e) {
             e.preventDefault();
-            auth.logout();
+            if (this.id === 'logout-btn') {
+                handleLogout();
+            } else {
+                window.location.href = this.getAttribute('href');
+            }
         });
-        
-        // Mobile menu toggle
-        document.getElementById('menu-toggle')?.addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('active');
+    });
+    
+    // Handle logout
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleLogout();
         });
-        
-        // Create post button
-        document.getElementById('create-post-btn')?.addEventListener('click', () => {
+    }
+    
+    // Create post button
+    const createPostBtn = document.getElementById('create-post-btn');
+    if (createPostBtn) {
+        createPostBtn.addEventListener('click', function() {
             document.getElementById('create-post-modal').classList.add('active');
         });
-        
-        // Close modals
-        document.querySelectorAll('.modal .close').forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.closest('.modal').classList.remove('active');
-            });
+    }
+    
+    // Close modals
+    document.querySelectorAll('.close').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.closest('.modal').classList.remove('active');
         });
-        
-        // Create post form
-        document.getElementById('create-post-form')?.addEventListener('submit', (e) => {
+    });
+    
+    // Create post form
+    const postForm = document.getElementById('create-post-form');
+    if (postForm) {
+        postForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            this.createPost();
-        });
-        
-        // Category filters
-        document.querySelectorAll('.category').forEach(cat => {
-            cat.addEventListener('click', (e) => {
-                e.preventDefault();
-                document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
-                cat.classList.add('active');
-                this.filterPosts(cat.textContent);
-            });
-        });
-    }
-    
-    async loadPosts() {
-        try {
-            const response = await fetch(`${this.baseURL}/community/posts`);
             
-            if (response.ok) {
-                const posts = await response.json();
-                this.displayPosts(posts);
-            }
-        } catch (error) {
-            console.error('Error loading posts:', error);
-        }
-    }
-    
-    displayPosts(posts) {
-        const container = document.getElementById('posts-list');
-        
-        if (posts.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-comments"></i>
-                    <h3>No posts yet</h3>
-                    <p>Be the first to share something with the community!</p>
-                </div>
-            `;
-            return;
-        }
-        
-        container.innerHTML = posts.map(post => `
-            <div class="post-card" data-post-id="${post.id}">
+            // Add new post to the list
+            const title = document.getElementById('post-title').value;
+            const category = document.getElementById('post-category').value;
+            const content = document.getElementById('post-content').value;
+            
+            const postsList = document.querySelector('.posts-list');
+            const newPost = document.createElement('div');
+            newPost.className = 'post-card';
+            newPost.innerHTML = `
                 <div class="post-header">
-                    <div class="post-avatar">${this.getInitials(post.user?.fullName)}</div>
+                    <div class="post-avatar">${getInitials()}</div>
                     <div class="post-info">
-                        <h4>${post.user?.fullName || 'Anonymous'}</h4>
+                        <h4>You</h4>
                         <div class="post-meta">
-                            <span>${this.formatDate(post.createdAt)}</span>
-                            <span class="post-category">${post.category}</span>
+                            <span>Just now</span>
+                            <span class="post-category">${category}</span>
                         </div>
                     </div>
                 </div>
-                <h3 class="post-title">${post.title}</h3>
-                <p class="post-content">${this.truncateText(post.content, 200)}</p>
+                <h3 class="post-title">${title}</h3>
+                <p class="post-content">${content.substring(0, 100)}${content.length > 100 ? '...' : ''}</p>
                 <div class="post-footer">
-                    <span class="post-stats">
-                        <i class="far fa-heart"></i> ${post.likes || 0}
-                    </span>
-                    <span class="post-stats">
-                        <i class="far fa-comment"></i> ${post.comments?.length || 0}
-                    </span>
-                    <button class="btn-link read-more">Read More</button>
+                    <span class="post-stats"><i class="far fa-heart"></i> 0</span>
+                    <span class="post-stats"><i class="far fa-comment"></i> 0</span>
                 </div>
-            </div>
-        `).join('');
-        
-        // Add click handlers
-        container.querySelectorAll('.read-more').forEach((btn, index) => {
-            btn.addEventListener('click', () => {
-                this.showPostDetails(posts[index]);
-            });
+            `;
+            
+            postsList.insertBefore(newPost, postsList.firstChild);
+            
+            alert('Post created successfully!');
+            this.reset();
+            document.getElementById('create-post-modal').classList.remove('active');
         });
     }
     
-    showPostDetails(post) {
-        const modal = document.getElementById('post-modal');
-        const details = document.getElementById('post-details');
-        
-        details.innerHTML = `
-            <div class="post-detail">
-                <div class="post-header">
-                    <div class="post-avatar large">${this.getInitials(post.user?.fullName)}</div>
-                    <div class="post-info">
-                        <h2>${post.title}</h2>
-                        <p>By ${post.user?.fullName || 'Anonymous'} • ${this.formatDate(post.createdAt)}</p>
-                        <span class="post-category">${post.category}</span>
-                    </div>
-                </div>
-                
-                <div class="post-content-full">
-                    ${post.content}
-                </div>
-                
-                <div class="post-actions">
-                    <button class="btn-icon like-btn">
-                        <i class="far fa-heart"></i> Like (${post.likes || 0})
-                    </button>
-                    <button class="btn-icon comment-btn">
-                        <i class="far fa-comment"></i> Comment
-                    </button>
-                </div>
-                
-                <div class="comments-section">
-                    <h3>Comments (${post.comments?.length || 0})</h3>
-                    
-                    <div class="comments-list">
-                        ${this.renderComments(post.comments)}
-                    </div>
-                    
-                    <div class="add-comment">
-                        <textarea placeholder="Write a comment..." rows="3"></textarea>
-                        <button class="btn-primary submit-comment">Post Comment</button>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        modal.classList.add('active');
-        
-        // Add comment handler
-        const submitBtn = details.querySelector('.submit-comment');
-        submitBtn.addEventListener('click', () => {
-            const commentText = details.querySelector('textarea').value;
-            if (commentText.trim()) {
-                this.addComment(post.id, commentText);
-            }
+    // Make posts clickable
+    document.querySelectorAll('.post-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const title = this.querySelector('.post-title')?.textContent || 'Post';
+            alert(`Viewing post: ${title}\n\nFull post content would be displayed here.`);
         });
-    }
+    });
     
-    renderComments(comments) {
-        if (!comments || comments.length === 0) {
-            return '<p class="no-comments">No comments yet. Be the first to comment!</p>';
-        }
-        
-        return comments.map(comment => `
-            <div class="comment">
-                <div class="comment-header">
-                    <strong>${comment.user?.fullName || 'Anonymous'}</strong>
-                    <span>${this.formatDate(comment.createdAt)}</span>
-                </div>
-                <p>${comment.content}</p>
-            </div>
-        `).join('');
-    }
+    // Category filters
+    document.querySelectorAll('.category').forEach(cat => {
+        cat.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
+            alert(`Filtering by: ${this.textContent}`);
+        });
+    });
     
-    async createPost() {
-        const title = document.getElementById('post-title').value;
-        const category = document.getElementById('post-category').value;
-        const content = document.getElementById('post-content').value;
-        const tags = document.getElementById('post-tags').value;
-        
-        if (!title || !content) {
-            auth.showNotification('Please fill in all required fields', 'error');
-            return;
-        }
-        
-        try {
-            const response = await fetch(`${this.baseURL}/community/posts`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                },
-                body: JSON.stringify({
-                    title,
-                    category,
-                    content,
-                    tags: tags.split(',').map(t => t.trim())
-                })
-            });
-            
-            if (response.ok) {
-                auth.showNotification('Post created successfully!', 'success');
-                document.getElementById('create-post-modal').classList.remove('active');
-                document.getElementById('create-post-form').reset();
-                this.loadPosts();
-            } else {
-                auth.showNotification('Failed to create post', 'error');
-            }
-        } catch (error) {
-            console.error('Error creating post:', error);
-            auth.showNotification('Network error', 'error');
-        }
-    }
-    
-    async addComment(postId, comment) {
-        try {
-            const response = await fetch(`${this.baseURL}/community/posts/${postId}/comments`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                },
-                body: JSON.stringify({ content: comment })
-            });
-            
-            if (response.ok) {
-                auth.showNotification('Comment added!', 'success');
-                
-                // Reload post details
-                const postResponse = await fetch(`${this.baseURL}/community/posts/${postId}`);
-                if (postResponse.ok) {
-                    const post = await postResponse.json();
-                    this.showPostDetails(post);
-                }
-            }
-        } catch (error) {
-            console.error('Error adding comment:', error);
-            auth.showNotification('Failed to add comment', 'error');
-        }
-    }
-    
-    filterPosts(category) {
-        // Implement filtering logic
-        if (category === 'All Posts') {
-            this.loadPosts();
-        } else {
-            // Filter posts by category
-        }
-    }
-    
-    getInitials(name) {
-        if (!name) return 'U';
-        return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-    }
-    
-    formatDate(dateString) {
-        if (!dateString) return 'Recently';
-        const date = new Date(dateString);
-        const now = new Date();
-        const diffTime = Math.abs(now - date);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
-        if (diffDays === 0) return 'Today';
-        if (diffDays === 1) return 'Yesterday';
-        if (diffDays < 7) return `${diffDays} days ago`;
-        if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-        return date.toLocaleDateString('en-IN');
-    }
-    
-    truncateText(text, length) {
-        if (text.length <= length) return text;
-        return text.substring(0, length) + '...';
-    }
+    // Tags click
+    document.querySelectorAll('.tag').forEach(tag => {
+        tag.addEventListener('click', function() {
+            alert(`Searching for posts tagged: ${this.textContent}`);
+        });
+    });
+});
+
+function getInitials() {
+    const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || '{}');
+    const firstName = user.firstName || '';
+    const lastName = user.lastName || '';
+    return (firstName[0] || 'U') + (lastName[0] || '');
 }
 
-// Initialize community
-document.addEventListener('DOMContentLoaded', () => {
-    window.community = new Community();
-});
+function handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
+    window.location.href = 'index.html';
+}

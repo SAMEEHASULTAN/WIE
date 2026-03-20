@@ -1,214 +1,101 @@
-// Dashboard JavaScript
-class Dashboard {
-    constructor() {
-        this.baseURL = 'http://localhost:5000/api';
-        this.token = localStorage.getItem('token') || sessionStorage.getItem('token');
-        this.user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user'));
-        
-        if (!this.token || !this.user) {
-            window.location.href = '/';
-            return;
-        }
-        
-        this.init();
-    }
+// dashboard-fix.js - Makes dashboard navigation work
+console.log("✅ dashboard-fix.js loaded");
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Setting up dashboard navigation");
     
-    async init() {
-        this.updateUserInfo();
-        this.setupEventListeners();
-        await this.loadDashboardData();
-    }
-    
-    updateUserInfo() {
-        // Update profile avatar
-        const avatar = document.getElementById('profile-avatar');
-        if (avatar && this.user) {
-            const initials = (this.user.firstName?.[0] || '') + (this.user.lastName?.[0] || '');
-            avatar.textContent = initials || 'U';
-        }
-        
-        // Update welcome message
-        const userName = document.getElementById('user-name');
-        if (userName && this.user) {
-            userName.textContent = this.user.firstName || 'User';
-        }
-    }
-    
-    setupEventListeners() {
-        // Logout
-        document.getElementById('logout-btn')?.addEventListener('click', (e) => {
+    // Make all sidebar navigation links work
+    const navLinks = document.querySelectorAll('.sidebar-nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
             e.preventDefault();
-            auth.logout();
-        });
-        
-        // Mobile menu toggle
-        document.getElementById('menu-toggle')?.addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('active');
-        });
-        
-        // Profile menu
-        document.getElementById('profile-menu')?.addEventListener('click', () => {
-            // Add profile dropdown functionality
-        });
-    }
-    
-    async loadDashboardData() {
-        try {
-            const response = await fetch(`${this.baseURL}/dashboard`, {
-                headers: {
-                    'Authorization': `Bearer ${this.token}`
-                }
-            });
+            const href = this.getAttribute('href');
+            console.log("Navigating to:", href);
             
-            if (!response.ok) {
-                throw new Error('Failed to load dashboard data');
+            // Don't navigate if it's the logout button
+            if (this.id === 'logout-btn') {
+                handleLogout();
+                return;
             }
             
-            const data = await response.json();
-            this.renderMetrics(data.metrics);
-            this.renderCharts(data);
-        } catch (error) {
-            console.error('Error loading dashboard:', error);
-            auth.showNotification('Failed to load dashboard data', 'error');
-        }
+            // Navigate to the page
+            window.location.href = href;
+        });
+    });
+    
+    // Handle logout
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleLogout();
+        });
     }
     
-    renderMetrics(metrics) {
-        const container = document.getElementById('metric-cards');
-        if (!container) return;
-        
-        container.innerHTML = `
-            <div class="metric-card">
-                <div class="metric-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <div class="metric-value">${metrics.skill_progress}%</div>
-                <div class="metric-label">Skill Progress</div>
-                <div class="progress-bar mini">
-                    <div class="progress-fill" style="width: ${metrics.skill_progress}%"></div>
-                </div>
-            </div>
-            
-            <div class="metric-card">
-                <div class="metric-icon">
-                    <i class="fas fa-briefcase"></i>
-                </div>
-                <div class="metric-value">${metrics.job_readiness}%</div>
-                <div class="metric-label">Job Readiness</div>
-                <div class="progress-bar mini">
-                    <div class="progress-fill" style="width: ${metrics.job_readiness}%"></div>
-                </div>
-            </div>
-            
-            <div class="metric-card">
-                <div class="metric-icon">
-                    <i class="fas fa-store"></i>
-                </div>
-                <div class="metric-value">${metrics.business_readiness}%</div>
-                <div class="metric-label">Business Readiness</div>
-                <div class="progress-bar mini">
-                    <div class="progress-fill" style="width: ${metrics.business_readiness}%"></div>
-                </div>
-            </div>
-        `;
-    }
+    // Make action cards clickable
+    const actionCards = document.querySelectorAll('.action-card');
+    actionCards.forEach(card => {
+        card.addEventListener('click', function() {
+            // Try to find where this card should navigate
+            const text = this.querySelector('h3')?.textContent || '';
+            if (text.includes('Restart Career')) {
+                window.location.href = 'career-restart.html';
+            } else if (text.includes('Start Business')) {
+                window.location.href = 'business-generator.html';
+            } else if (text.includes('Learn New Skills')) {
+                window.location.href = 'roadmap.html';
+            } else if (text.includes('Join Community')) {
+                window.location.href = 'community.html';
+            }
+        });
+        card.style.cursor = 'pointer';
+    });
     
-    renderCharts(data) {
-        // Skill Growth Chart (Line)
-        if (document.getElementById('skillGrowthChart')) {
-            new Chart(document.getElementById('skillGrowthChart'), {
-                type: 'line',
-                data: {
-                    labels: data.skill_growth.labels,
-                    datasets: [{
-                        label: 'Skill Progress',
-                        data: data.skill_growth.values,
-                        borderColor: '#7F56D9',
-                        backgroundColor: 'rgba(127, 86, 217, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100
-                        }
-                    }
-                }
-            });
-        }
-        
-        // Skill Distribution Chart (Pie)
-        if (document.getElementById('skillDistributionChart')) {
-            new Chart(document.getElementById('skillDistributionChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(data.skill_distribution),
-                    datasets: [{
-                        data: Object.values(data.skill_distribution),
-                        backgroundColor: [
-                            '#7F56D9',
-                            '#F9A8D4',
-                            '#38BDF8',
-                            '#10B981'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
-        }
-        
-        // Skill Demand Chart (Bar)
-        if (document.getElementById('skillDemandChart')) {
-            new Chart(document.getElementById('skillDemandChart'), {
-                type: 'bar',
-                data: {
-                    labels: data.skill_demand.labels,
-                    datasets: [{
-                        label: 'Demand (%)',
-                        data: data.skill_demand.values,
-                        backgroundColor: '#7F56D9',
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100
-                        }
-                    }
-                }
-            });
-        }
+    // Make metric cards interactive
+    const metricCards = document.querySelectorAll('.metric-card');
+    metricCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const label = this.querySelector('.metric-label')?.textContent || '';
+            if (label.includes('Skill Progress')) {
+                window.location.href = 'skills.html';
+            } else if (label.includes('Job Readiness')) {
+                window.location.href = 'career-restart.html';
+            } else if (label.includes('Business Readiness')) {
+                window.location.href = 'business-generator.html';
+            }
+        });
+        card.style.cursor = 'pointer';
+    });
+    
+    // Make chart containers clickable
+    const charts = document.querySelectorAll('.chart-container');
+    charts.forEach(chart => {
+        chart.addEventListener('click', function() {
+            const title = this.querySelector('h3')?.textContent || '';
+            if (title.includes('Skill Growth') || title.includes('Skill Distribution')) {
+                window.location.href = 'skills.html';
+            } else if (title.includes('In-Demand Skills')) {
+                window.location.href = 'career-restart.html';
+            }
+        });
+        chart.style.cursor = 'pointer';
+    });
+    
+    // Make welcome card clickable
+    const welcomeCard = document.querySelector('.welcome-card');
+    if (welcomeCard) {
+        welcomeCard.addEventListener('click', function() {
+            window.location.href = 'profile.html';
+        });
+        welcomeCard.style.cursor = 'pointer';
     }
-}
-
-// Initialize dashboard
-document.addEventListener('DOMContentLoaded', () => {
-    window.dashboard = new Dashboard();
 });
+
+function handleLogout() {
+    console.log("Logging out");
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
+    window.location.href = 'index.html';
+}

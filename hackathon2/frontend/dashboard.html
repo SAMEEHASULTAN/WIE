@@ -77,7 +77,38 @@
 
                 <!-- Metric Cards -->
                 <div class="metric-cards" id="metric-cards">
-                    <!-- Will be populated by JS -->
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="metric-value">65%</div>
+                        <div class="metric-label">Skill Progress</div>
+                        <div class="progress-bar mini">
+                            <div class="progress-fill" style="width: 65%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="metric-value">45%</div>
+                        <div class="metric-label">Job Readiness</div>
+                        <div class="progress-bar mini">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="metric-value">70%</div>
+                        <div class="metric-label">Business Readiness</div>
+                        <div class="progress-bar mini">
+                            <div class="progress-fill" style="width: 70%"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Line Chart -->
@@ -100,28 +131,28 @@
 
                 <!-- Action Cards -->
                 <div class="action-cards">
-                    <div class="action-card" onclick="window.location.href='career-restart.html'">
+                    <div class="action-card">
                         <div class="action-icon">
                             <i class="fas fa-briefcase"></i>
                         </div>
                         <h3>Restart Career</h3>
                         <p>Find your path back to work</p>
                     </div>
-                    <div class="action-card" onclick="window.location.href='business-generator.html'">
+                    <div class="action-card">
                         <div class="action-icon">
                             <i class="fas fa-store"></i>
                         </div>
                         <h3>Start Business</h3>
                         <p>Launch your micro-business</p>
                     </div>
-                    <div class="action-card" onclick="window.location.href='roadmap.html'">
+                    <div class="action-card">
                         <div class="action-icon">
                             <i class="fas fa-graduation-cap"></i>
                         </div>
                         <h3>Learn New Skills</h3>
                         <p>Upskill with personalized roadmap</p>
                     </div>
-                    <div class="action-card" onclick="window.location.href='community.html'">
+                    <div class="action-card">
                         <div class="action-icon">
                             <i class="fas fa-comments"></i>
                         </div>
@@ -136,5 +167,55 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/dashboard.js"></script>
+    <script src="js/dashboard-fix.js"></script>
+    <script>
+        // Initialize charts with demo data
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('skillGrowthChart')) {
+                new Chart(document.getElementById('skillGrowthChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                        datasets: [{
+                            label: 'Skill Progress',
+                            data: [30, 45, 55, 65],
+                            borderColor: '#7F56D9',
+                            backgroundColor: 'rgba(127, 86, 217, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    }
+                });
+            }
+            
+            if (document.getElementById('skillDistributionChart')) {
+                new Chart(document.getElementById('skillDistributionChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Technical', 'Soft Skills', 'Creative', 'Business'],
+                        datasets: [{
+                            data: [4, 3, 2, 1],
+                            backgroundColor: ['#7F56D9', '#F9A8D4', '#38BDF8', '#10B981']
+                        }]
+                    }
+                });
+            }
+            
+            if (document.getElementById('skillDemandChart')) {
+                new Chart(document.getElementById('skillDemandChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Digital Marketing', 'Data Analysis', 'Content Writing', 'Project Management', 'Web Development'],
+                        datasets: [{
+                            label: 'Demand (%)',
+                            data: [95, 88, 82, 78, 75],
+                            backgroundColor: '#7F56D9',
+                            borderRadius: 8
+                        }]
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

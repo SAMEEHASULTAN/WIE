@@ -121,7 +121,63 @@
             <div class="skills-section">
                 <h2>Your Skills</h2>
                 <div class="skills-grid" id="skills-grid">
-                    <!-- Skills will be populated by JS -->
+                    <!-- Sample skills -->
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <h3>Python</h3>
+                            <span class="skill-level intermediate">Intermediate</span>
+                        </div>
+                        <div class="skill-category">
+                            <i class="fas fa-tag"></i>
+                            <span>Technical</span>
+                        </div>
+                        <div class="skill-actions">
+                            <button class="btn-icon edit-skill" title="Edit Skill">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-icon delete-skill" title="Delete Skill">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <h3>Communication</h3>
+                            <span class="skill-level advanced">Advanced</span>
+                        </div>
+                        <div class="skill-category">
+                            <i class="fas fa-tag"></i>
+                            <span>Soft Skills</span>
+                        </div>
+                        <div class="skill-actions">
+                            <button class="btn-icon edit-skill" title="Edit Skill">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-icon delete-skill" title="Delete Skill">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <h3>Content Writing</h3>
+                            <span class="skill-level beginner">Beginner</span>
+                        </div>
+                        <div class="skill-category">
+                            <i class="fas fa-tag"></i>
+                            <span>Creative</span>
+                        </div>
+                        <div class="skill-actions">
+                            <button class="btn-icon edit-skill" title="Edit Skill">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-icon delete-skill" title="Delete Skill">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -129,7 +185,27 @@
             <div class="categories-section">
                 <h2>Skills by Category</h2>
                 <div class="categories-grid" id="categories-grid">
-                    <!-- Categories will be populated by JS -->
+                    <div class="category-card">
+                        <h3>Technical</h3>
+                        <p class="count">1 skill</p>
+                        <div class="category-skills">
+                            <span class="skill-badge">Python</span>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <h3>Soft Skills</h3>
+                        <p class="count">1 skill</p>
+                        <div class="category-skills">
+                            <span class="skill-badge">Communication</span>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <h3>Creative</h3>
+                        <p class="count">1 skill</p>
+                        <div class="category-skills">
+                            <span class="skill-badge">Content Writing</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -183,5 +259,6 @@
 
     <script src="js/auth.js"></script>
     <script src="js/skills.js"></script>
+    <script src="js/skills-fix.js"></script>
 </body>
 </html>

@@ -257,46 +257,31 @@ class Auth {
         
         this.showNotification('Logging in...', 'info');
         
-        try {
-            const response = await fetch(`${this.baseURL}/auth/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
+        // For demo purposes, just redirect to dashboard
+        setTimeout(() => {
+            // Store demo user data
+            const demoUser = {
+                firstName: email.split('@')[0],
+                lastName: 'User',
+                email: email
+            };
             
-            const data = await response.json();
-            
-            if (response.ok) {
-                this.token = data.access_token;
-                this.user = data.user;
-                
-                if (remember) {
-                    localStorage.setItem('token', this.token);
-                    localStorage.setItem('user', JSON.stringify(this.user));
-                } else {
-                    sessionStorage.setItem('token', this.token);
-                    sessionStorage.setItem('user', JSON.stringify(this.user));
-                }
-                
-                this.showNotification('Login successful!', 'success');
-                this.hideModal('login-modal');
-                
-                // Redirect to dashboard
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1000);
+            if (remember) {
+                localStorage.setItem('token', 'demo-token');
+                localStorage.setItem('user', JSON.stringify(demoUser));
             } else {
-                this.showNotification(data.error || 'Login failed', 'error');
+                sessionStorage.setItem('token', 'demo-token');
+                sessionStorage.setItem('user', JSON.stringify(demoUser));
             }
-        } catch (error) {
-            console.error('Login error:', error);
-            this.showNotification('Network error. Using demo mode.', 'warning');
             
-            // Demo mode - redirect anyway
+            this.showNotification('Login successful! Redirecting...', 'success');
+            this.hideModal('login-modal');
+            
+            // Redirect to dashboard
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
             }, 1000);
-        }
+        }, 500);
     }
     
     async signup() {
@@ -317,49 +302,23 @@ class Auth {
             return;
         }
         
-        if (password.length < 6) {
-            this.showNotification('Password must be at least 6 characters', 'error');
-            return;
-        }
-        
         this.showNotification('Creating account...', 'info');
         
-        try {
-            const response = await fetch(`${this.baseURL}/auth/signup`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ firstName, lastName, email, password })
-            });
+        // For demo purposes
+        setTimeout(() => {
+            // Store user data
+            const user = { firstName, lastName, email };
+            localStorage.setItem('token', 'demo-token');
+            localStorage.setItem('user', JSON.stringify(user));
             
-            const data = await response.json();
-            
-            if (response.ok) {
-                this.token = data.access_token;
-                this.user = data.user;
-                
-                localStorage.setItem('token', this.token);
-                localStorage.setItem('user', JSON.stringify(this.user));
-                
-                this.showNotification('Account created!', 'success');
-                this.hideModal('signup-modal');
-                
-                // Show onboarding
-                setTimeout(() => {
-                    this.showOnboarding();
-                }, 500);
-            } else {
-                this.showNotification(data.error || 'Signup failed', 'error');
-            }
-        } catch (error) {
-            console.error('Signup error:', error);
-            this.showNotification('Network error. Using demo mode.', 'warning');
-            
-            // Demo mode - show onboarding anyway
+            this.showNotification('Account created!', 'success');
             this.hideModal('signup-modal');
+            
+            // Show onboarding
             setTimeout(() => {
                 this.showOnboarding();
             }, 500);
-        }
+        }, 500);
     }
     
     showOnboarding() {
@@ -584,17 +543,3 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("✅ DOM ready, creating Auth instance");
     window.auth = new Auth();
 });
-
-// Add CSS animations
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOut {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
