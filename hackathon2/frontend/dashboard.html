@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ReLaunchHer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-rocket" style="color: var(--primary);"></i>
+                <span>ReLaunchHer</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="career-restart.html">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Career Restart</span>
+                </a>
+                <a href="business-generator.html">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Business Generator</span>
+                </a>
+                <a href="roadmap.html">
+                    <i class="fas fa-road"></i>
+                    <span>Learning Roadmap</span>
+                </a>
+                <a href="skills.html">
+                    <i class="fas fa-code"></i>
+                    <span>Skills</span>
+                </a>
+                <a href="community.html">
+                    <i class="fas fa-users"></i>
+                    <span>Community</span>
+                </a>
+                <a href="#" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search resources, skills...">
+                </div>
+                <div class="profile-menu" id="profile-menu">
+                    <div class="profile-avatar" id="profile-avatar">JD</div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </header>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid" id="dashboard-grid">
+                <!-- Welcome Card -->
+                <div class="welcome-card">
+                    <h2>Welcome back, <span id="user-name">User</span>! 👋</h2>
+                    <p>You're making great progress on your journey. Keep going!</p>
+                </div>
+
+                <!-- Metric Cards -->
+                <div class="metric-cards" id="metric-cards">
+                    <!-- Will be populated by JS -->
+                </div>
+
+                <!-- Line Chart -->
+                <div class="chart-container line-chart">
+                    <h3>Skill Growth</h3>
+                    <canvas id="skillGrowthChart"></canvas>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="chart-container pie-chart">
+                    <h3>Skill Distribution</h3>
+                    <canvas id="skillDistributionChart"></canvas>
+                </div>
+
+                <!-- Bar Chart -->
+                <div class="chart-container bar-chart">
+                    <h3>In-Demand Skills</h3>
+                    <canvas id="skillDemandChart"></canvas>
+                </div>
+
+                <!-- Action Cards -->
+                <div class="action-cards">
+                    <div class="action-card" onclick="window.location.href='career-restart.html'">
+                        <div class="action-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h3>Restart Career</h3>
+                        <p>Find your path back to work</p>
+                    </div>
+                    <div class="action-card" onclick="window.location.href='business-generator.html'">
+                        <div class="action-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3>Start Business</h3>
+                        <p>Launch your micro-business</p>
+                    </div>
+                    <div class="action-card" onclick="window.location.href='roadmap.html'">
+                        <div class="action-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Learn New Skills</h3>
+                        <p>Upskill with personalized roadmap</p>
+                    </div>
+                    <div class="action-card" onclick="window.location.href='community.html'">
+                        <div class="action-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Join Community</h3>
+                        <p>Connect with other women</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

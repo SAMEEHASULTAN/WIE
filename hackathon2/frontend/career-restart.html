@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Restart - ReLaunchHer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-rocket" style="color: var(--primary);"></i>
+                <span>ReLaunchHer</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="career-restart.html" class="active">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Career Restart</span>
+                </a>
+                <a href="business-generator.html">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Business Generator</span>
+                </a>
+                <a href="roadmap.html">
+                    <i class="fas fa-road"></i>
+                    <span>Learning Roadmap</span>
+                </a>
+                <a href="skills.html">
+                    <i class="fas fa-code"></i>
+                    <span>Skills</span>
+                </a>
+                <a href="community.html">
+                    <i class="fas fa-users"></i>
+                    <span>Community</span>
+                </a>
+                <a href="#" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search jobs, skills...">
+                </div>
+                <div class="profile-menu" id="profile-menu">
+                    <div class="profile-avatar" id="profile-avatar">JD</div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </header>
+
+            <!-- Career Restart Content -->
+            <div class="page-header">
+                <h1>Career Restart</h1>
+                <p>Identify skill gaps and find your path back to work</p>
+            </div>
+
+            <!-- Skill Gap Analysis -->
+            <div class="analysis-section">
+                <div class="analysis-card">
+                    <h2>Skill Gap Analysis</h2>
+                    <div class="form-group">
+                        <label>Desired Job Role</label>
+                        <select id="desired-role">
+                            <option value="">Select a role</option>
+                            <option value="Software Developer">Software Developer</option>
+                            <option value="Digital Marketing Manager">Digital Marketing Manager</option>
+                            <option value="Project Manager">Project Manager</option>
+                            <option value="Data Analyst">Data Analyst</option>
+                            <option value="Content Writer">Content Writer</option>
+                            <option value="HR Manager">HR Manager</option>
+                            <option value="Sales Manager">Sales Manager</option>
+                            <option value="Graphic Designer">Graphic Designer</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary" id="analyze-gap">
+                        <i class="fas fa-search"></i>
+                        Analyze Gap
+                    </button>
+                </div>
+
+                <div class="analysis-results" id="analysis-results" style="display: none;">
+                    <div class="results-header">
+                        <h3>Analysis Results</h3>
+                        <div class="readiness-score">
+                            <div class="score-circle" id="readiness-score">75%</div>
+                            <span>Job Readiness</span>
+                        </div>
+                    </div>
+
+                    <div class="skills-comparison">
+                        <div class="skills-section">
+                            <h4>Your Skills</h4>
+                            <div class="skills-list" id="your-skills"></div>
+                        </div>
+                        <div class="skills-section">
+                            <h4>Required Skills</h4>
+                            <div class="skills-list" id="required-skills"></div>
+                        </div>
+                    </div>
+
+                    <div class="gap-section">
+                        <h4>Missing Skills</h4>
+                        <div class="missing-skills" id="missing-skills"></div>
+                    </div>
+
+                    <div class="recommendations">
+                        <h4>Recommended Learning Path</h4>
+                        <div class="recommendation-list" id="recommendations"></div>
+                    </div>
+
+                    <div class="time-estimate">
+                        <i class="fas fa-clock"></i>
+                        <span>Estimated time to become job-ready: <strong id="time-to-ready">3 months</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resume Builder -->
+            <div class="resume-section">
+                <h2>Resume Builder</h2>
+                <div class="resume-builder">
+                    <form id="resume-form">
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label>Full Name</label>
+                                <input type="text" id="resume-name" placeholder="Enter your full name">
+                            </div>
+                            <div class="form-group half">
+                                <label>Email</label>
+                                <input type="email" id="resume-email" placeholder="Enter your email">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label>Phone</label>
+                                <input type="tel" id="resume-phone" placeholder="Enter your phone">
+                            </div>
+                            <div class="form-group half">
+                                <label>Location</label>
+                                <input type="text" id="resume-location" placeholder="City, Country">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Professional Summary</label>
+                            <textarea id="resume-summary" rows="4" placeholder="Brief summary of your experience and goals..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Work Experience</label>
+                            <div id="experience-entries">
+                                <div class="experience-entry">
+                                    <input type="text" placeholder="Job Title">
+                                    <input type="text" placeholder="Company">
+                                    <input type="text" placeholder="Years">
+                                </div>
+                            </div>
+                            <button type="button" class="btn-secondary" id="add-experience">
+                                <i class="fas fa-plus"></i> Add Experience
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Education</label>
+                            <div id="education-entries">
+                                <div class="education-entry">
+                                    <input type="text" placeholder="Degree">
+                                    <input type="text" placeholder="Institution">
+                                    <input type="text" placeholder="Year">
+                                </div>
+                            </div>
+                            <button type="button" class="btn-secondary" id="add-education">
+                                <i class="fas fa-plus"></i> Add Education
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Skills</label>
+                            <div class="skills-chips" id="resume-skills">
+                                <div class="chip" data-skill="Communication">Communication</div>
+                                <div class="chip" data-skill="Leadership">Leadership</div>
+                                <div class="chip" data-skill="Project Management">Project Management</div>
+                                <div class="chip" data-skill="Python">Python</div>
+                                <div class="chip" data-skill="JavaScript">JavaScript</div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-primary" id="generate-resume">
+                            <i class="fas fa-file-pdf"></i>
+                            Generate Resume
+                        </button>
+                    </form>
+
+                    <div class="resume-preview" id="resume-preview">
+                        <!-- Resume preview will be generated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interview Questions -->
+            <div class="interview-section">
+                <h2>Common Interview Questions</h2>
+                <div class="accordion" id="interview-accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Tell me about yourself</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Start with your current situation, then briefly cover your professional background, and end with why you're interested in this role. Keep it professional and relevant to the job.</p>
+                            <div class="sample-answer">
+                                <strong>Sample Answer:</strong>
+                                <p>"I'm a marketing professional with 8 years of experience, currently returning after a 2-year career break during which I upskilled in digital marketing. I'm excited to apply my refreshed skills in this role..."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Why did you take a career break?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Be honest but positive. Focus on what you did during the break and how it made you better prepared for work.</p>
+                            <div class="sample-answer">
+                                <strong>Sample Answer:</strong>
+                                <p>"I took time to focus on family, and during this period, I completed several online courses in [relevant skills]. This break has given me renewed energy and perspective..."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>How do you handle skill gaps?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Show your willingness to learn and give examples of how you've successfully learned new skills in the past.</p>
+                            <div class="sample-answer">
+                                <strong>Sample Answer:</strong>
+                                <p>"I'm a quick learner and have already started updating my skills through online courses. I recently completed [course name] and I'm confident I can quickly master any new requirements..."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/career.js"></script>
+</body>
+</html>

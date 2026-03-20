@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Roadmap - ReLaunchHer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-rocket" style="color: var(--primary);"></i>
+                <span>ReLaunchHer</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="career-restart.html">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Career Restart</span>
+                </a>
+                <a href="business-generator.html">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Business Generator</span>
+                </a>
+                <a href="roadmap.html" class="active">
+                    <i class="fas fa-road"></i>
+                    <span>Learning Roadmap</span>
+                </a>
+                <a href="skills.html">
+                    <i class="fas fa-code"></i>
+                    <span>Skills</span>
+                </a>
+                <a href="community.html">
+                    <i class="fas fa-users"></i>
+                    <span>Community</span>
+                </a>
+                <a href="#" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search learning resources...">
+                </div>
+                <div class="profile-menu" id="profile-menu">
+                    <div class="profile-avatar" id="profile-avatar">JD</div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </header>
+
+            <!-- Roadmap Content -->
+            <div class="page-header">
+                <h1>Your Learning Roadmap</h1>
+                <p>Personalized learning path based on your goals</p>
+            </div>
+
+            <!-- Overall Progress -->
+            <div class="roadmap-progress">
+                <div class="progress-card">
+                    <h3>Overall Progress</h3>
+                    <div class="circular-progress" id="overall-progress">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="progress-bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="progress-bar" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 283;"></circle>
+                        </svg>
+                        <span class="progress-text">0%</span>
+                    </div>
+                </div>
+
+                <div class="stats-card">
+                    <h3>Learning Stats</h3>
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <span class="stat-value" id="completed-count">0</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="in-progress-count">0</span>
+                            <span class="stat-label">In Progress</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="total-steps">0</span>
+                            <span class="stat-label">Total Steps</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="timeline" id="timeline">
+                <!-- Timeline items will be populated by JS -->
+            </div>
+
+            <!-- Resources Modal -->
+            <div id="resource-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div id="resource-details"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/roadmap.js"></script>
+</body>
+</html>
