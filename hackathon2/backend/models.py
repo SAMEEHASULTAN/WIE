@@ -13,7 +13,6 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
-    # Relationships
     onboarding = db.relationship('Onboarding', backref='user', uselist=False)
     skills = db.relationship('Skill', backref='user', lazy=True)
     saved_ideas = db.relationship('BusinessIdea', backref='user', lazy=True)
@@ -43,7 +42,7 @@ class Onboarding(db.Model):
     break_reason = db.Column(db.Text)
     available_hours = db.Column(db.Integer)
     work_type = db.Column(db.String(50))
-    skills = db.Column(db.Text, default='[]')  # JSON array of skills
+    skills = db.Column(db.Text, default='[]')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     def get_skills_list(self):
@@ -73,7 +72,7 @@ class Skill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     name = db.Column(db.String(100), nullable=False)
-    level = db.Column(db.String(20), default='Beginner')  # Beginner, Intermediate, Advanced
+    level = db.Column(db.String(20), default='Beginner')
     category = db.Column(db.String(50), default='Other')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
@@ -96,9 +95,9 @@ class BusinessIdea(db.Model):
     expected_profit = db.Column(db.String(100))
     time_to_start = db.Column(db.String(100))
     target_customers = db.Column(db.Text)
-    execution_plan = db.Column(db.Text, default='[]')  # JSON array
-    required_tools = db.Column(db.Text, default='[]')  # JSON array
-    marketing_strategy = db.Column(db.Text, default='[]')  # JSON array
+    execution_plan = db.Column(db.Text, default='[]')
+    required_tools = db.Column(db.Text, default='[]')
+    marketing_strategy = db.Column(db.Text, default='[]')
     saved_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     def get_execution_plan(self):
@@ -136,7 +135,6 @@ class CommunityPost(db.Model):
     likes = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
-    # Relationships
     comments = db.relationship('Comment', backref='post', lazy=True, cascade='all, delete-orphan')
     
     def to_dict(self):

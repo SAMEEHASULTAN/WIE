@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning Roadmap - ReLaunchHer</title>
+    <title>AI Learning Roadmap - ReLaunchHer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -12,200 +12,47 @@
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Sidebar -->
         <aside class="dashboard-sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <i class="fas fa-rocket" style="color: var(--primary);"></i>
-                <span>ReLaunchHer</span>
-            </div>
+            <div class="sidebar-header"><i class="fas fa-rocket"></i><span>ReLaunchHer</span></div>
             <nav class="sidebar-nav">
-                <a href="dashboard.html">
-                    <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="career-restart.html">
-                    <i class="fas fa-briefcase"></i>
-                    <span>Career Restart</span>
-                </a>
-                <a href="business-generator.html">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>Business Generator</span>
-                </a>
-                <a href="roadmap.html" class="active">
-                    <i class="fas fa-road"></i>
-                    <span>Learning Roadmap</span>
-                </a>
-                <a href="skills.html">
-                    <i class="fas fa-code"></i>
-                    <span>Skills</span>
-                </a>
-                <a href="community.html">
-                    <i class="fas fa-users"></i>
-                    <span>Community</span>
-                </a>
-                <a href="#" id="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
+                <a href="dashboard.html"><i class="fas fa-home"></i><span>Dashboard</span></a>
+                <a href="career-restart.html"><i class="fas fa-briefcase"></i><span>Career Restart</span></a>
+                <a href="business-generator.html"><i class="fas fa-lightbulb"></i><span>Business Generator</span></a>
+                <a href="roadmap.html" class="active"><i class="fas fa-road"></i><span>Learning Roadmap</span></a>
+                <a href="skills.html"><i class="fas fa-code"></i><span>Skills</span></a>
+                <a href="community.html"><i class="fas fa-users"></i><span>Community</span></a>
+                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
             </nav>
         </aside>
 
-        <!-- Main Content -->
         <main class="dashboard-main">
-            <!-- Header with Profile Dropdown -->
             <header class="dashboard-header">
-                <button class="menu-toggle" id="menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search learning resources...">
-                </div>
+                <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Search learning resources..."></div>
                 <div class="profile-menu" id="profile-menu">
                     <div class="profile-avatar" id="profile-avatar">U</div>
                     <i class="fas fa-chevron-down"></i>
                     <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
-                        <div class="dropdown-item" id="profile-name">
-                            <i class="fas fa-user"></i>
-                            <span id="user-fullname">Guest User</span>
-                        </div>
+                        <div class="dropdown-item" id="profile-name"><i class="fas fa-user"></i><span id="user-fullname">Guest User</span></div>
                         <div class="dropdown-divider"></div>
-                        <div class="dropdown-item" id="dropdown-login">
-                            <i class="fas fa-sign-in-alt"></i>
-                            <span>Login</span>
-                        </div>
-                        <div class="dropdown-item" id="dropdown-signup">
-                            <i class="fas fa-user-plus"></i>
-                            <span>Sign Up</span>
-                        </div>
-                        <div class="dropdown-item" id="dropdown-logout" style="display: none;">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </div>
+                        <div class="dropdown-item" id="dropdown-login"><i class="fas fa-sign-in-alt"></i><span>Login</span></div>
+                        <div class="dropdown-item" id="dropdown-signup"><i class="fas fa-user-plus"></i><span>Sign Up</span></div>
+                        <div class="dropdown-item" id="dropdown-logout" style="display: none;"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
                     </div>
                 </div>
             </header>
 
-            <!-- Roadmap Content -->
-            <div class="page-header">
-                <h1>Your Learning Roadmap</h1>
-                <p>Personalized learning path based on your goals</p>
-            </div>
+            <div class="page-header"><h1>AI Learning Roadmap</h1><p>Personalized learning path created by AI based on your goals and skills</p></div>
 
-            <!-- Overall Progress -->
             <div class="roadmap-progress">
-                <div class="progress-card">
-                    <h3>Overall Progress</h3>
-                    <div class="circular-progress" id="overall-progress">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="progress-bg" cx="50" cy="50" r="45"></circle>
-                            <circle class="progress-bar" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 283;"></circle>
-                        </svg>
-                        <span class="progress-text">0%</span>
-                    </div>
-                </div>
-
-                <div class="stats-card">
-                    <h3>Learning Stats</h3>
-                    <div class="stats-grid">
-                        <div class="stat">
-                            <span class="stat-value" id="completed-count">0</span>
-                            <span class="stat-label">Completed</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value" id="in-progress-count">0</span>
-                            <span class="stat-label">In Progress</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value" id="total-steps">0</span>
-                            <span class="stat-label">Total Steps</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="progress-card"><h3>Overall Progress</h3><div class="circular-progress"><svg viewBox="0 0 100 100"><circle class="progress-bg" cx="50" cy="50" r="45"></circle><circle class="progress-bar" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 283;"></circle></svg><span class="progress-text">0%</span></div></div>
+                <div class="stats-card"><h3>Learning Stats</h3><div class="stats-grid"><div class="stat"><span class="stat-value" id="completed-count">0</span><span class="stat-label">Completed</span></div><div class="stat"><span class="stat-value" id="in-progress-count">0</span><span class="stat-label">In Progress</span></div><div class="stat"><span class="stat-value" id="total-steps">0</span><span class="stat-label">Total Steps</span></div></div></div>
             </div>
 
-            <!-- Timeline -->
             <div class="timeline" id="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-marker">1</div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Programming Basics</h3>
-                            <span class="category-badge">Technical</span>
-                        </div>
-                        <p class="duration"><i class="far fa-clock"></i> 1 month</p>
-                        <div class="resources">
-                            <h4>Resources:</h4>
-                            <ul>
-                                <li>Online courses</li>
-                                <li>Coding bootcamps</li>
-                                <li>Practice exercises</li>
-                            </ul>
-                        </div>
-                        <div class="step-actions">
-                            <button class="btn-secondary view-resources">
-                                <i class="fas fa-external-link-alt"></i> View Resources
-                            </button>
-                            <button class="btn-primary mark-complete">
-                                <i class="fas fa-check"></i> Mark Complete
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-marker">2</div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Web Development Fundamentals</h3>
-                            <span class="category-badge">Technical</span>
-                        </div>
-                        <p class="duration"><i class="far fa-clock"></i> 2 months</p>
-                        <div class="resources">
-                            <h4>Resources:</h4>
-                            <ul>
-                                <li>HTML/CSS tutorials</li>
-                                <li>JavaScript basics</li>
-                                <li>Build a simple website</li>
-                            </ul>
-                        </div>
-                        <div class="step-actions">
-                            <button class="btn-secondary view-resources">
-                                <i class="fas fa-external-link-alt"></i> View Resources
-                            </button>
-                            <button class="btn-primary mark-complete">
-                                <i class="fas fa-check"></i> Mark Complete
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-marker">3</div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Communication Skills</h3>
-                            <span class="category-badge">Soft Skills</span>
-                        </div>
-                        <p class="duration"><i class="far fa-clock"></i> 1 month</p>
-                        <div class="resources">
-                            <h4>Resources:</h4>
-                            <ul>
-                                <li>Public speaking course</li>
-                                <li>Business writing</li>
-                                <li>Presentation skills</li>
-                            </ul>
-                        </div>
-                        <div class="step-actions">
-                            <button class="btn-secondary view-resources">
-                                <i class="fas fa-external-link-alt"></i> View Resources
-                            </button>
-                            <button class="btn-primary mark-complete">
-                                <i class="fas fa-check"></i> Mark Complete
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <div class="timeline-item"><div class="timeline-marker">1</div><div class="timeline-content"><div class="timeline-header"><h3>Programming Basics</h3><span class="category-badge">Technical</span></div><p class="duration"><i class="far fa-clock"></i> 1 month</p><div class="resources"><h4>AI-Recommended Resources:</h4><ul><li>Python for Everybody (Coursera)</li><li>Automate the Boring Stuff</li><li>LeetCode practice</li></ul></div><div class="step-actions"><button class="btn-secondary view-resources">View AI Resources</button><button class="btn-primary mark-complete">Mark Complete</button></div></div></div>
+                <div class="timeline-item"><div class="timeline-marker">2</div><div class="timeline-content"><div class="timeline-header"><h3>Web Development</h3><span class="category-badge">Technical</span></div><p class="duration"><i class="far fa-clock"></i> 2 months</p><div class="resources"><h4>AI-Recommended Resources:</h4><ul><li>The Odin Project</li><li>FreeCodeCamp</li><li>Build 3 projects</li></ul></div><div class="step-actions"><button class="btn-secondary view-resources">View AI Resources</button><button class="btn-primary mark-complete">Mark Complete</button></div></div></div>
+                <div class="timeline-item"><div class="timeline-marker">3</div><div class="timeline-content"><div class="timeline-header"><h3>Communication Skills</h3><span class="category-badge">Soft Skills</span></div><p class="duration"><i class="far fa-clock"></i> 1 month</p><div class="resources"><h4>AI-Recommended Resources:</h4><ul><li>Public Speaking Course</li><li>Toastmasters</li><li>Presentation Practice</li></ul></div><div class="step-actions"><button class="btn-secondary view-resources">View AI Resources</button><button class="btn-primary mark-complete">Mark Complete</button></div></div></div>
             </div>
         </main>
     </div>
@@ -214,6 +61,7 @@
     <script src="js/auth.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/profile-menu.js"></script>
+    <script src="js/ai-service.js"></script>
     <script src="js/roadmap.js"></script>
     <script src="js/roadmap-fix.js"></script>
 </body>
