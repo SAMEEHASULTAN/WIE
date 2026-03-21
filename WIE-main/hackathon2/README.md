@@ -3,6 +3,8 @@ RelaunchHer
 Empowering Women to Restart, Rebuild, and Rise
 
 Overview
+<img width="1920" height="843" alt="image" src="https://github.com/user-attachments/assets/aba6e743-5bb9-434c-9f43-1d1a7695c15e" />
+
 
 RelaunchHer is a platform designed to support women in restarting their careers after breaks. It connects users with job opportunities, mentorship, NGOs, and government schemes, helping them transition from career gaps to meaningful comebacks.
 
@@ -35,10 +37,13 @@ Mentorship support
 NGO listings for women support
 Government schemes awareness
 Resume-based skill analysis
+<img width="1915" height="824" alt="image" src="https://github.com/user-attachments/assets/82e16bc2-2188-4605-9132-dc015778bb8d" />
 Simple and accessible user interface
 Future Enhancements
 AI-based resume builder for career gap users
 Mock interview and communication training assistant
+<img width="1913" height="835" alt="image" src="https://github.com/user-attachments/assets/8572d8d5-5fdb-4d74-8917-89d8c91b9a62" />
+
 Financial literacy and micro-funding support
 Location-based opportunity discovery
 Verified and secure community networking platform
@@ -48,6 +53,9 @@ Backend: Python (Flask)
 Database: SQLite (or relevant database)
 APIs: JSearch API
 Installation and Setup
+
+<img width="1920" height="827" alt="image" src="https://github.com/user-attachments/assets/c1465e53-db33-48b0-8a31-a3f430672703" />
+
 
 # Install dependencies
 
